@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Availability, Appointment
+from api.models import db, User, Freelance, Availability, Freelance_Availability,  Appointment
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -204,6 +204,89 @@ def edit_freelance(freelance_id):
         freelance.age = body['password']
     db.session.commit()
     return jsonify({'msg': 'Updated freelance with ID {}'.format(freelance_id)}), 200
+
+# Endpoints para Freelance_Availability
+@app.route('/freelance_availabilities', methods=['GET', 'POST'])
+def handle_freelance_availabilities():
+    if request.method == 'GET':
+        freelance_availabilities = Freelance_Availability.query.all()
+        serialized_freelance_availabilities = list(map(lambda x: x.serialize(), freelance_availabilities))
+        return jsonify(serialized_freelance_availabilities)
+    if request.method == 'POST':
+        body = request.get_json(silent=True)
+        if body is None:
+            return jsonify({'msg':'Body must be filled'}), 400
+        if 'freelance_id' not in body or 'availability_id' not in body:
+            return jsonify({'msg': 'Specify freelance_id and availability_id'}), 400
+        
+        new_freelance_availability = Freelance_Availability(
+            freelance_id=body['freelance_id'],
+            availability_id=body['availability_id']
+        )
+        db.session.add(new_freelance_availability)
+        db.session.commit()
+        return jsonify({'message': 'Freelance Availability successfully added'}), 200
+
+@app.route('/freelance_availabilities/<int:fa_id>', methods=['PUT'])
+def edit_freelance_availability(fa_id):
+    freelance_availability = Freelance_Availability.query.get(fa_id)
+    if freelance_availability is None:
+        return jsonify({'error': 'Freelance Availability not found'}), 400
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'msg': 'Body cannot be empty'}), 400
+    if 'freelance_id' in body:
+        freelance_availability.freelance_id = body['freelance_id']
+    if 'availability_id' in body:
+        freelance_availability.availability_id = body['availability_id']
+    db.session.commit()
+    return jsonify({'msg': 'Updated Freelance Availability with ID {}'.format(fa_id)}), 200
+
+# Endpoints para Appointment
+@app.route('/appointments', methods=['GET', 'POST'])
+def handle_appointments():
+    if request.method == 'GET':
+        appointments = Appointment.query.all()
+        serialized_appointments = list(map(lambda x: x.serialize(), appointments))
+        return jsonify(serialized_appointments)
+    if request.method == 'POST':
+        body = request.get_json(silent=True)
+        if body is None:
+            return jsonify({'msg':'Body must be filled'}), 400
+        if 'user_id' not in body or 'freelance_id' not in body or 'day' not in body or 'time' not in body:
+            return jsonify({'msg': 'Specify user_id, freelance_id, day and time'}), 400
+        
+        new_appointment = Appointment(
+            user_id=body['user_id'],
+            freelance_id=body['freelance_id'],
+            day=body['day'],
+            time=body['time']
+        )
+        db.session.add(new_appointment)
+        db.session.commit()
+        return jsonify({'message': 'Appointment successfully added'}), 200
+
+@app.route('/appointments/<int:appointment_id>', methods=['PUT'])
+def edit_appointment(appointment_id):
+    appointment = Appointment.query.get(appointment_id)
+    if appointment is None:
+        return jsonify({'error': 'Appointment not found'}), 400
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'msg': 'Body cannot be empty'}), 400
+    if 'user_id' in body:
+        appointment.user_id = body['user_id']
+    if 'freelance_id' in body:
+        appointment.freelance_id = body['freelance_id']
+    if 'day' in body:
+        appointment.day = body['day']
+    if 'time' in body:
+        appointment.time = body['time']
+    if 'paid' in body:
+        appointment.paid = body['paid']
+    db.session.commit()
+    return jsonify({'msg': 'Updated Appointment with ID {}'.format(appointment_id)}), 200
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

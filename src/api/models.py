@@ -63,7 +63,8 @@ class Freelance_Availability(db.Model):
     
     def serialize(self):
         return {
-            "user_data": self.user_data.serialize(),
+            "id": self.id,
+            "freelance_data": self.freelance_data.serialize(),
             "availability_data": self.availability_data.serialize()
         }
     
@@ -86,6 +87,6 @@ class Appointment(db.Model):
             "user_data": self.user_data.serialize(),
             "freelance_data": self.freelance_data.serialize(), 
             "day": self.day,
-            "time": self.time, 
+            "time": self.time.strftime('%H:%M:%S'), 
             "paid": self.paid
         }
