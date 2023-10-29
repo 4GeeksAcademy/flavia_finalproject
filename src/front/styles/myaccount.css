@@ -1,0 +1,56 @@
+.loginInstance {
+    height: 100vh;
+}
+.myAccountMain {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.containerMyAccount {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap:wrap;
+}
+.optionMyAccount {
+    width: 30%;
+    height: 15vh;
+    margin-top: 5vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-align:center;
+}
+.optionMyAccount:hover {
+    background:rgb(216, 216, 216);
+}
+.optionMyAccount i {
+    margin-bottom: 1rem;
+}
+.myAccountMain button {
+    background: transparent;
+    border: none;
+    padding: 2rem 4rem;
+}
+.myAccountMain button:hover {
+    background: rgb(92, 84, 112);
+    color: white;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white;
+}
+@media only screen and (max-width: 600px) {
+    .optionMyAccount{
+        width: 100%;
+        margin-top: 5vh;
+    }
+}

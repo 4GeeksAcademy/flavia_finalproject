@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			message: null,
 			users: [],
-			navbar_button: false
+			navbar_button: false,
+			freelances: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -123,7 +124,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			showForm: () => {
 				const store = getStore();
 				setStore({ navbar_button: !store.navbar_button })
+			},
+			allFreelancesActives: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/freelance`);
+					const data = await response.json();
+					setStore({
+						freelances: data
+					});
+				} catch (err) {
+					console.log(err);
+				}
 			}
+			
 		}
 	};
 };
