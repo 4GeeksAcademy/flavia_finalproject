@@ -1,19 +1,12 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			users: [],
+			navbar_button: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -22,14 +15,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getMessage: async () => {
-				try{
+				try {
 					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
@@ -46,6 +39,90 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			registerUser: async (newUser) => {
+				try {
+					const options = {
+						method: 'POST',
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(newUser)
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/signup`, options)
+					const data = await response.json()
+					if (response.ok) {
+						console.log(data.msg)
+						return true
+					} else {
+						toast.error(`${data.msg}`, {
+							position: "bottom-center",
+							autoClose: 2000,
+							hideProgressBar: true,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							progress: undefined,
+							theme: "colored",
+							style: {
+								backgroundColor: "rgb(205, 92, 8)",
+							},
+						});
+						return false
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			logInUser: async (user) => {
+				try {
+					const options = {
+						method: 'POST',
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(user)
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/login`, options)
+					const data = await response.json()
+					if (response.ok) {
+						console.log(data.access_token)
+						sessionStorage.setItem('accessToken', data.access_token);
+						return true
+					} else {
+						toast.error(`Try again! ${data.msg}`, {
+							position: "bottom-center",
+							autoClose: 2000,
+							hideProgressBar: true,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							progress: undefined,
+							theme: "colored",
+							style: {
+								backgroundColor: "rgb(205, 92, 8)",
+							},
+						});
+						return false
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			myAccount: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-account`, options)
+					const data = await response.json()
+					if (response.ok) {
+						return data
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			showForm: () => {
+				const store = getStore();
+				setStore({ navbar_button: !store.navbar_button })
 			}
 		}
 	};
