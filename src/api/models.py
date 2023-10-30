@@ -35,7 +35,7 @@ class Freelance(db.Model):
     availability = db.Column(db.JSON, nullable=True)
 
     def __repr__(self):
-        return 'Freelance {}'.format(self.email)
+        return 'Freelance {}'.format(self.full_name)
 
     def serialize(self):
         return {
@@ -61,7 +61,6 @@ class Appointment(db.Model):
     freelance_data = db.relationship(Freelance)
     day = db.Column(db.String(10), nullable=False) 
     time = db.Column(db.Time, nullable=False)
-    paid = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return 'Appointment {}'.format(self.id)
@@ -72,6 +71,5 @@ class Appointment(db.Model):
             "user_data": self.user_data.serialize(),
             "freelance_data": self.freelance_data.serialize(), 
             "day": self.day,
-            "time": self.time.strftime('%H:%M:%S'), 
-            "paid": self.paid
+            "time": self.time.strftime('%H:%M:%S')
         }

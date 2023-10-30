@@ -76,6 +76,11 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+@app.route('/users', methods=['GET'])
+def handle_all_users():
+    users = User.query.all()
+    serialized_users = [user.serialize() for user in users]
+    return jsonify(serialized_users)
 # LOGIN ENDPOINTS
 @app.route('/signup', methods=['POST'])
 def handle_new_user():
@@ -163,21 +168,25 @@ def edit_freelance(freelance_id):
     return jsonify({'msg': 'Updated freelance with ID {}'.format(freelance_id)}), 200
 
 # Endpoints para Appointment
-@app.route('/appointments', methods=['GET', 'POST'])
+@app.route('/appointment', methods=['GET', 'POST'])
+@jwt_required()
 def handle_appointments():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
     if request.method == 'GET':
-        appointments = Appointment.query.all()
-        serialized_appointments = list(map(lambda x: x.serialize(), appointments))
-        return jsonify(serialized_appointments)
+        if user:
+            return jsonify({'msg': 'ok'}), 200
+        else:
+            return jsonify({'error': 'User not found'}), 404
     if request.method == 'POST':
         body = request.get_json(silent=True)
         if body is None:
             return jsonify({'msg':'Body must be filled'}), 400
-        if 'user_id' not in body or 'freelance_id' not in body or 'day' not in body or 'time' not in body:
-            return jsonify({'msg': 'Specify user_id, freelance_id, day and time'}), 400
+        if 'freelance_id' not in body or 'day' not in body or 'time' not in body:
+            return jsonify({'msg': 'Specify freelance_id, day and time'}), 400
         
         new_appointment = Appointment(
-            user_id=body['user_id'],
+            user_id=user.id,
             freelance_id=body['freelance_id'],
             day=body['day'],
             time=body['time']

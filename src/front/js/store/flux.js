@@ -135,8 +135,65 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (err) {
 					console.log(err);
 				}
-			}
-			
+			},
+			scheduleAppointment: async (appointment) => {
+				try {
+					const accessToken = sessionStorage.getItem('accessToken');
+					const options = {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
+						body: JSON.stringify(appointment)
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/appointment`, options)
+					const data = await response.json()
+					if (response.ok) {
+						toast.success(`Great! ${data.message}`, {
+							position: "bottom-center",
+							autoClose: 2000,
+							hideProgressBar: true,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							progress: undefined,
+							theme: "colored",
+							style: {
+								backgroundColor: "rgb(122, 157, 84)",
+							},
+						});
+					} else {
+						toast.error(`Try again! ${data.msg}`, {
+							position: "bottom-center",
+							autoClose: 2000,
+							hideProgressBar: true,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							progress: undefined,
+							theme: "colored",
+							style: {
+								backgroundColor: "rgb(205, 92, 8)",
+							},
+						});
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			myAppointment: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/appointment`, options)
+					const data = await response.json()
+					if (response.ok) {
+						return data
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
 		}
 	};
 };

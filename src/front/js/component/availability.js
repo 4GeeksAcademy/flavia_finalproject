@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from "../store/appContext";
 
-export const Availability = ({ availability }) => {
+export const Availability = ({ availability, freelanceId }) => {
+    const { store, actions } = useContext(Context);
+
     const generateHourRange = (start, end) => {
         const hours = [];
         for (let i = start; i <= end; i++) {
-            hours.push(`${i}:00 -${i + 1}:00`);
+            hours.push(`${i}:00`);
         }
         return hours;
+    }
+
+    const handle_schedule_appointment = (day, hour) => {
+        const appointmentInfo = {
+            freelance_id: freelanceId,
+            day: day,
+            time: hour
+        };
+        actions.scheduleAppointment(appointmentInfo);
     }
 
     return (
@@ -20,7 +32,7 @@ export const Availability = ({ availability }) => {
                         <h2>{day}</h2>
                         <div>
                             {generateHourRange(startHour, endHour).map(hour => (
-                                <button key={hour}>{hour}</button>
+                                <button key={hour} onClick={() => handle_schedule_appointment(day, hour)}>{hour}</button>
                             ))}
                         </div>
                     </div>

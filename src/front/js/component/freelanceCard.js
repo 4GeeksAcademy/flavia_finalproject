@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/freelanceCard.css"
 import { Availability } from "./availability";
 
-export const FreelanceCard = ({ index, URLphoto, full_name, professional_registration_number, years_of_experience, expertise, education, aboutme, availability }) => {
+export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_registration_number, years_of_experience, expertise, education, aboutme, availability }) => {
     const [wantAppointment, setWantAppointment] = useState(false)
     const handle_want_appointment = () => {
         setWantAppointment(!wantAppointment)
@@ -18,7 +18,7 @@ export const FreelanceCard = ({ index, URLphoto, full_name, professional_registr
                 </div>
                 <div className='appointmentButton'>
                     <button onClick={handle_want_appointment}>Pedir cita</button>
-                    {wantAppointment ? <Availability availability={availability} /> : ""}
+                    {wantAppointment ? <Availability availability={availability} freelanceId={freelanceId}/> : ""}
                 </div>
             </section>
         </>
