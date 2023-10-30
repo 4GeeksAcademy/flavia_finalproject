@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Availability, Freelance_Availability,  Appointment
+from api.models import db, User, Freelance, Appointment
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -122,49 +122,6 @@ def my_account():
     return jsonify(user=email), 200
 
 # APPOINTMENTS ENDPOINTS
-# Obtener todas las disponibilidades y Agregar una nueva disponibilidad
-@app.route('/availabilities', methods=['GET', 'POST'])
-def handle_availabilities():
-    if request.method == 'GET':
-        availabilities = Availability.query.all()
-        availabilities_serialized = list(map(lambda x: x.serialize(), availabilities))
-        return jsonify(availabilities_serialized)
-    if request.method == 'POST':
-        body = request.get_json(silent=True)
-        if body is None:
-            return jsonify({'msg':'Body must be filled'}), 400
-        if 'day' not in body  or body['day'] is None or body['day'] == '':
-            return jsonify({'msg': 'Specify day'}), 400
-        if 'start_time' not in body or body['start_time'] is None or body['start_time'] == '': 
-            return jsonify({'msg': 'Specify start_time'}), 400
-        if 'end_time' not in body or body['end_time'] is None or body['end_time'] == '': 
-            return jsonify({'msg': 'Specify end_time'}), 400
-        new_availability = Availability() 
-        new_availability.day = body['day'],
-        new_availability.start_time = body['start_time'],
-        new_availability.end_time = body['end_time']
-        db.session.add(new_availability)
-        db.session.commit()
-        return jsonify({'message': 'Availability successfully added'}), 200
-    
-# Editar una disponibilidad
-@app.route('/availabilities/<int:availability_id>', methods=['PUT'])
-def edit_availability(availability_id):
-    availability = Availability.query.get(availability_id)
-    if availability is None:
-        return jsonify({'error': 'Availability not found'}), 400
-    body = request.get_json(silent=True)
-    if body is None:
-        return jsonify({'msg': 'Body cannot be empty'}), 400
-    if 'day' in body:
-        availability.day = body['day']
-    if 'start_time' in body:
-        availability.start_time = body['start_time']
-    if 'end_time' in body:
-        availability.end_time = body['end_time']
-    db.session.commit()
-    return jsonify({'msg': 'Updated availability with ID {}'.format(availability_id)}), 200
-
 # Obtener todos los freelances disponibles y Agregar un nuevo freelance
 @app.route('/freelance', methods=['GET', 'POST'])
 def handle_freelance():
@@ -204,43 +161,6 @@ def edit_freelance(freelance_id):
         freelance.age = body['password']
     db.session.commit()
     return jsonify({'msg': 'Updated freelance with ID {}'.format(freelance_id)}), 200
-
-# Endpoints para Freelance_Availability
-@app.route('/freelance_availabilities', methods=['GET', 'POST'])
-def handle_freelance_availabilities():
-    if request.method == 'GET':
-        freelance_availabilities = Freelance_Availability.query.all()
-        serialized_freelance_availabilities = list(map(lambda x: x.serialize(), freelance_availabilities))
-        return jsonify(serialized_freelance_availabilities)
-    if request.method == 'POST':
-        body = request.get_json(silent=True)
-        if body is None:
-            return jsonify({'msg':'Body must be filled'}), 400
-        if 'freelance_id' not in body or 'availability_id' not in body:
-            return jsonify({'msg': 'Specify freelance_id and availability_id'}), 400
-        
-        new_freelance_availability = Freelance_Availability(
-            freelance_id=body['freelance_id'],
-            availability_id=body['availability_id']
-        )
-        db.session.add(new_freelance_availability)
-        db.session.commit()
-        return jsonify({'message': 'Freelance Availability successfully added'}), 200
-
-@app.route('/freelance_availabilities/<int:fa_id>', methods=['PUT'])
-def edit_freelance_availability(fa_id):
-    freelance_availability = Freelance_Availability.query.get(fa_id)
-    if freelance_availability is None:
-        return jsonify({'error': 'Freelance Availability not found'}), 400
-    body = request.get_json(silent=True)
-    if body is None:
-        return jsonify({'msg': 'Body cannot be empty'}), 400
-    if 'freelance_id' in body:
-        freelance_availability.freelance_id = body['freelance_id']
-    if 'availability_id' in body:
-        freelance_availability.availability_id = body['availability_id']
-    db.session.commit()
-    return jsonify({'msg': 'Updated Freelance Availability with ID {}'.format(fa_id)}), 200
 
 # Endpoints para Appointment
 @app.route('/appointments', methods=['GET', 'POST'])

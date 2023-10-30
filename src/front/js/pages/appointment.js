@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "../../styles/appointment.css";
 import { Context } from "../store/appContext";
+import { FreelanceCard } from '../component/freelanceCard';
 
 export const Appointment = () => {
     const { store, actions } = useContext(Context)
@@ -17,11 +18,9 @@ export const Appointment = () => {
         <>
             {
                 store.freelances.map((item, index) => (
-                    <section key={index}>
-                        <div><div><img src={item.URLphoto} /></div><h5>{item.full_name}</h5> <p>Nº colegiado: {item.professional_registration_number}</p><p>Años de experiencia: {item.years_of_experience}</p></div>
-                        <div><h6>Áreas de expertise:</h6><p>{item.expertise}</p></div>
-                        <div><h6>Formación:</h6> <p>{item.education}</p></div>
-                    </section>
+                    <>
+                        <FreelanceCard URLphoto={item.URLphoto} full_name={item.full_name} professional_registration_number={item.professional_registration_number} years_of_experience={item.years_of_experience} expertise={item.expertise} education={item.education} aboutme={item.aboutme} availability={item.availability} />
+                    </>
                 ))
             }
         </>
