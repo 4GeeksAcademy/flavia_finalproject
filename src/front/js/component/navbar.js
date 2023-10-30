@@ -11,20 +11,20 @@ export const Navbar = () => {
 	}
 
 	return (
-		<nav className="navbar navbar-light bg-black">
+		<nav className="navbar navbar-light bg-white">
 			<div className="container">
 				<Link to="/">
-					<span className="navbar-brand mb-0 h1 text-white">
+					<span className="navbar-brand mb-0 h1">
 						<img
 							className="icon"
-							src="https://images.squarespace-cdn.com/content/v1/56ef803d2b8dde509ab4f8af/1559872104470-JAEIUP8Z1J0IWAK7I1H1/FLAVIA+Logo+2.png"
+							src="https://ifeelonline.com/wp-content/uploads/2021/07/Logo-tagline-pos.svg"
 						/>
 					</span>
 				</Link>
 				<div>
 					<Link to="/appointment">
 						<button className="appointment_btn">
-						Schedule Appointment
+							Schedule Appointment
 						</button>
 					</Link>
 				</div>

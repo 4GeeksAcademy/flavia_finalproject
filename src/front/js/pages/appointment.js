@@ -19,7 +19,7 @@ export const Appointment = () => {
             {
                 store.freelances.map((item, index) => (
                     <>
-                        <FreelanceCard URLphoto={item.URLphoto} full_name={item.full_name} professional_registration_number={item.professional_registration_number} years_of_experience={item.years_of_experience} expertise={item.expertise} education={item.education} aboutme={item.aboutme} availability={item.availability} />
+                        <FreelanceCard freelanceId={item.id} URLphoto={item.URLphoto} full_name={item.full_name} professional_registration_number={item.professional_registration_number} years_of_experience={item.years_of_experience} expertise={item.expertise} education={item.education} aboutme={item.aboutme} availability={item.availability} />
                     </>
                 ))
             }
