@@ -31,6 +31,7 @@ class Freelance(db.Model):
     years_of_experience = db.Column(db.Integer, unique=False)
     education = db.Column(db.String(120), unique=False)
     expertise = db.Column(db.String(200), unique=False)
+    aboutme = db.Column(db.String(300), unique=False, nullable=True)
 
     def __repr__(self):
         return 'Freelance {}'.format(self.email)
@@ -45,7 +46,8 @@ class Freelance(db.Model):
             "years_of_experience": self.years_of_experience,
             "education": self.education,
             "expertise": self.expertise, 
-            "URLphoto": self.URLphoto
+            "URLphoto": self.URLphoto,
+            "aboutme": self.aboutme
             # do not serialize the password, its a security breach
         }
 class Availability(db.Model):
