@@ -73,3 +73,10 @@ class Appointment(db.Model):
             "day": self.day,
             "time": self.time.strftime('%H:%M:%S')
         }
+
+# Definimos el modelo de la orden
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.String(50), nullable=False)
+
+

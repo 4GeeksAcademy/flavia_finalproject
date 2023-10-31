@@ -2,12 +2,15 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, redirect, url_for, send_from_directory
+from paypalrestsdk import Payment
+import requests
+
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Appointment
+from api.models import db, User, Freelance, Appointment, Order
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -18,6 +21,8 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+
+
 #from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -216,6 +221,89 @@ def edit_appointment(appointment_id):
     db.session.commit()
     return jsonify({'msg': 'Updated Appointment with ID {}'.format(appointment_id)}), 200
 
+# Configuramos las credenciales de PayPal
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
+
+# Generamos un token de acceso para autenticarnos con PayPal
+def generate_access_token():
+    try:
+        auth = f"{PAYPAL_CLIENT_ID}:{PAYPAL_CLIENT_SECRET}"
+        headers = {'Authorization': f'Basic {auth}'}
+        payload = {'grant_type': 'client_credentials'}
+        response = requests.post('https://api-m.sandbox.paypal.com/v1/oauth2/token', headers=headers, data=payload)
+        data = response.json()
+        return data['access_token']
+    except Exception as e:
+        print(f"Failed to generate Access Token: {e}")
+        return None
+
+# Creamos una orden para iniciar la transacción
+def create_order():
+    access_token = generate_access_token()
+    if access_token:
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {access_token}'
+        }
+        payload = {
+            'intent': 'CAPTURE',
+            'purchase_units': [
+                {
+                    'amount': {
+                        'currency_code': 'EUR',
+                        'value': '5.00'
+                    }
+                }
+            ]
+        }
+        response = requests.post('https://api-m.sandbox.paypal.com/v2/checkout/orders', headers=headers, json=payload)
+        return handle_response(response)
+    return None
+
+# Capturamos el pago para completar la transacción
+def capture_order(order_id):
+    access_token = generate_access_token()
+    if access_token:
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {access_token}'
+        }
+        response = requests.post(f'https://api-m.sandbox.paypal.com/v2/checkout/orders/{order_id}/capture', headers=headers)
+        return handle_response(response)
+    return None
+
+# Manejamos la respuesta de PayPal
+def handle_response(response):
+    try:
+        jsonResponse = response.json()
+        return jsonResponse, response.status_code
+    except Exception as e:
+        errorMessage = response.text
+        raise Exception(errorMessage)
+
+# Definimos las rutas y controladores
+@app.route('/api/orders', methods=['POST'])
+def create_order_route():
+    try:
+        cart = request.json['cart']
+        jsonResponse, httpStatusCode = create_order()
+        order = Order(order_id=jsonResponse['id'])
+        db.session.add(order)
+        db.session.commit()
+        return jsonify(jsonResponse), httpStatusCode
+    except Exception as e:
+        print(f"Failed to create order: {e}")
+        return jsonify({'error': 'Failed to create order.'}), 500
+
+@app.route('/api/orders/<order_id>/capture', methods=['POST'])
+def capture_order_route(order_id):
+    try:
+        jsonResponse, httpStatusCode = capture_order(order_id)
+        return jsonify(jsonResponse), httpStatusCode
+    except Exception as e:
+        print(f"Failed to capture order: {e}")
+        return jsonify({'error': 'Failed to capture order.'}), 500
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

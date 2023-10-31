@@ -1,4 +1,4 @@
-.appointmentSection {
+.freelanceCardSection {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -9,32 +9,32 @@
     margin-right: auto;
     padding-top: 10vh;
 }
-.appointmentNamePhotoNumber {
+.freelanceCardNamePhotoNumber {
     display:flex;
     flex-direction: column;
     width: 30%;
 }
-.appointmentFreelancePhoto {
+.freelanceCardPhoto {
     width: 70%;
 }
-.appointmentFreelancePhoto img {
+.freelanceCardPhoto img {
     object-fit: contain;
     width: 100%;
     border-radius: 50%;
 }
-.appointmentFreelanceData{
+.freelanceCardData{
     display: flex;
     flex-direction: row;
     width: 70%;
     flex-wrap: wrap;
 }
-.appointmentExpertise {
+.freelanceCardExpertise {
     width: 70%;
 }
-.appointmentEducation {
+.freelanceCardEducation {
     width: 30%;
 }
-.appointmentAboutMe {
+.freelanceCardAboutMe {
     width: 100%;
 }
 .appointmentButton {
