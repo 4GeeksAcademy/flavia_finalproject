@@ -6,7 +6,7 @@ import { Payment } from './payment';
 export const Confirmation = ({ selectedDay, selectedHour }) => {
     console.log('selectedDay', selectedDay, 'selectedHour', selectedHour)
     const navigate = useNavigate();
-    const handle_x = () => {
+    const handle_toPaymentNavigation = () => {
         navigate("/payment");
     }
     useEffect(() => {
@@ -31,7 +31,7 @@ export const Confirmation = ({ selectedDay, selectedHour }) => {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => handle_x()}>Aceptar</button>
+                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => handle_toPaymentNavigation()}>Aceptar</button>
                     </div>
                 </div>
             </div>
