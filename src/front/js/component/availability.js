@@ -1,8 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from "../store/appContext";
+import { Confirmation } from './confirmation';
 
 export const Availability = ({ availability, freelanceId }) => {
     const { store, actions } = useContext(Context);
+    const [confirmationOpen, setConfirmationOpen] = useState(false);
+    const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedHour, setSelectedHour] = useState(null);
 
     const generateHourRange = (start, end) => {
         const hours = [];
@@ -13,12 +17,10 @@ export const Availability = ({ availability, freelanceId }) => {
     }
 
     const handle_schedule_appointment = (day, hour) => {
-        const appointmentInfo = {
-            freelance_id: freelanceId,
-            day: day,
-            time: hour
-        };
-        actions.scheduleAppointment(appointmentInfo);
+        console.log('hour', hour)
+        setConfirmationOpen(true);
+        setSelectedDay(day);
+        setSelectedHour(hour);
     }
 
     return (
@@ -32,9 +34,14 @@ export const Availability = ({ availability, freelanceId }) => {
                         <h2>{day}</h2>
                         <div>
                             {generateHourRange(startHour, endHour).map(hour => (
-                                <button key={hour} onClick={() => handle_schedule_appointment(day, hour)}>{hour}</button>
+                                <button key={hour} onClick={() => handle_schedule_appointment(day, hour)} type="button"
+                                    className="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                >{hour}</button>
                             ))}
                         </div>
+                        {confirmationOpen ? <Confirmation selectedDay={selectedDay} selectedHour={selectedHour} /> : ""}
                     </div>
                 )
             })}

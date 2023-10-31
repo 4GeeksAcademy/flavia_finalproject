@@ -1,12 +1,11 @@
-
 .nav_btn {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.781);
+    color: grey;
 }
 
 .nav_btn:hover .fa-user {
-    text-shadow: 0 0 5px white;
+    text-shadow: 0 0 5px #2C3D91;
 }
 
 .icon {
@@ -16,11 +15,11 @@
 .appointment_btn {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.781);
+    color: grey;
     padding: 1rem 2rem;
     border-radius: 10px;
 }
 .appointment_btn:hover {
-    background-color: white;
-    color: black;
+    background-color: #2C3D91;
+    color: white;
 }

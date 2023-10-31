@@ -7,6 +7,7 @@ import { Home } from "./pages/home";
 import { LogIn } from "./pages/login";
 import { MyAccount } from "./pages/myaccount";
 import { Appointment } from "./pages/appointment";
+import { Payment } from "./component/payment";
 
 import injectContext from "./store/appContext";
 
@@ -34,6 +35,7 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<MyAccount />} path="/my-account" />
                         <Route element={<Appointment />} path="/appointment" />
+                        <Route element={<Payment />} path="/payment" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
