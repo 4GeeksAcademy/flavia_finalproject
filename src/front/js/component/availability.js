@@ -21,6 +21,7 @@ export const Availability = ({ availability, freelanceId }) => {
         setConfirmationOpen(true);
         setSelectedDay(day);
         setSelectedHour(hour);
+        actions.confirmedAppointment(freelanceId, day, hour)
     }
 
     return (

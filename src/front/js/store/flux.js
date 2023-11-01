@@ -7,7 +7,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			users: [],
 			navbar_button: false,
-			freelances: []
+			freelances: [],
+			appointment: {}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -194,6 +195,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err)
 				}
 			},
+			confirmedAppointment: (freelanceId, day, hour) => {
+				setStore({appointment: {
+					"freelance_id": freelanceId,
+					"day": day,
+					"time": hour
+				}})
+			}
 		}
 	};
 };

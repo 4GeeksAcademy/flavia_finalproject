@@ -6,6 +6,9 @@ from flask import Flask, request, jsonify, redirect, url_for, send_from_director
 from paypalrestsdk import Payment
 import requests
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -198,6 +201,8 @@ def handle_appointments():
         )
         db.session.add(new_appointment)
         db.session.commit()
+        email = user.email
+        send_confirmation_email(email)
         return jsonify({'message': 'Appointment successfully added'}), 200
 
 @app.route('/appointments/<int:appointment_id>', methods=['PUT'])
@@ -304,6 +309,24 @@ def capture_order_route(order_id):
     except Exception as e:
         print(f"Failed to capture order: {e}")
         return jsonify({'error': 'Failed to capture order.'}), 500
+
+
+def send_confirmation_email(email):
+    message = Mail(
+        from_email='palante.4geeks@gmail.com',
+        to_emails=email,
+        subject='Compra Exitosa',
+        html_content='<strong>¡Gracias por tu compra!</strong>'
+    )
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
