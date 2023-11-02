@@ -3,7 +3,7 @@ import "../../styles/confirmation.css";
 import { useNavigate } from "react-router-dom";
 import { Payment } from './payment';
 
-export const Confirmation = ({ selectedDay, selectedHour }) => {
+export const Confirmation = ({ selectedDay, selectedHour, selectedDate }) => {
     console.log('selectedDay', selectedDay, 'selectedHour', selectedHour)
     const navigate = useNavigate();
     const handle_toPaymentNavigation = () => {
@@ -26,8 +26,7 @@ export const Confirmation = ({ selectedDay, selectedHour }) => {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        Día: {selectedDay}
-                        Hora: {selectedHour}
+                        On {selectedDay}, {selectedDate}, at {selectedHour}
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
