@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Context } from "../store/appContext";
 import { Confirmation } from './confirmation';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-export const Availability = ({ availability, freelanceId }) => {
+export const Availability = () => {
     const { store, actions } = useContext(Context);
     const [confirmationOpen, setConfirmationOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
@@ -28,10 +28,18 @@ export const Availability = ({ availability, freelanceId }) => {
             </div>
         );
     };
+    useEffect(() => {
+        setSelectedDay(null);
+        setSelectedHour(null);
+        setSelectedAvailability([]);
+        setConfirmationOpen(false);
+    }, [store.availability, confirmationOpen]);
 
     const handleHourClick = (hour) => {
         setConfirmationOpen(true);
-        setSelectedHour(hour); // Si deseas hacer algo con la hora seleccionada
+        setSelectedHour(hour);
+        console.log('selectedday', selectedDay)
+        console.log('selectedhour', selectedHour)
     }
 
 
@@ -43,7 +51,7 @@ export const Availability = ({ availability, freelanceId }) => {
         return hours;
     }
 
-    const availableDays = Object.keys(availability)
+    const availableDays = Object.keys(store.availability)
 
     return (
         <div>
@@ -57,14 +65,15 @@ export const Availability = ({ availability, freelanceId }) => {
                 }}
                 onClickDay={(date) => {
                     const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
-                    const horario = availability[dayOfWeek];
+                    const horario = store.availability[dayOfWeek];
                     if (horario) {
                         const [start, end] = horario.split(' - ');
                         const startHour = Number(start.split(':')[0]);
                         const endHour = Number(end.split(':')[0]);
                         const hours = generateHourRange(startHour, endHour);
                         setSelectedDay(date);
-                        setSelectedAvailability(hours); // Cambiado de objeto a array
+                        setConfirmationOpen(false);
+                        setSelectedAvailability(hours);
                     } else {
                         alert(`No hay disponibilidad para ${dayOfWeek}`);
                     }
