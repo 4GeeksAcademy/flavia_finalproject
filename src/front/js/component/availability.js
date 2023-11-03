@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Confirmation } from './confirmation';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { HourButtons } from './hourbuttons';
 
 export const Availability = () => {
     const { store, actions } = useContext(Context);
@@ -11,29 +12,13 @@ export const Availability = () => {
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedAvailability, setSelectedAvailability] = useState([]);
 
-    const HourButtons = ({ hours, handleHourClick }) => {
-        const formattedDay = selectedDay ? selectedDay.toLocaleDateString('en-US', { weekday: 'long' }) : '';
-        const formattedDate = selectedDay ? selectedDay.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
-        const formattedHour = selectedHour ? selectedHour.toString() : '';
-        return (
-            <div>
-                {Array.isArray(hours) && hours.length > 0 && hours.map((hour, index) => (
-                    <button key={index} onClick={() => handleHourClick(hour)}>
-                        {hour}
-                    </button>
-                ))}
-                {confirmationOpen && <Confirmation selectedDay={formattedDay}
-                    selectedDate={formattedDate}
-                    selectedHour={formattedHour} />}
-            </div>
-        );
-    };
+
     useEffect(() => {
         setSelectedDay(null);
         setSelectedHour(null);
         setSelectedAvailability([]);
         setConfirmationOpen(false);
-    }, [store.availability, confirmationOpen]);
+    }, [store.availability]);
 
     const handleHourClick = (hour) => {
         setConfirmationOpen(true);
@@ -80,7 +65,7 @@ export const Availability = () => {
                 }}
             />
             {Object.keys(selectedAvailability).length > 0 && (
-                <HourButtons hours={selectedAvailability} handleHourClick={handleHourClick} />
+                <HourButtons hours={selectedAvailability} handleHourClick={handleHourClick} selectedDay={selectedDay} selectedHour={selectedHour} confirmationOpen={confirmationOpen} />
             )}
         </div>
     );
