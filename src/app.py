@@ -185,7 +185,7 @@ def send_confirmation_email(email):
             subject='HOLAAAAAAA',
             html_content='<strong>¡Gracias por tu compra!</strong>'
         )
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
         response = sg.send(message)
         print(response.status_code)
         print(response.body)

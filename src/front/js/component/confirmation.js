@@ -6,16 +6,12 @@ import { Payment } from './payment';
 
 export const Confirmation = ({ freelanceId, selectedDay, selectedHour, selectedDate, numericDate }) => {
     const { store, actions } = useContext(Context)
-    console.log('selectedDay', selectedDay, 'selectedHour', selectedHour, 'selectedDate', selectedDate)
+    
     const navigate = useNavigate();
+    
     const handle_toPaymentNavigation = () => {
         navigate("/payment");
-        console.log('holaaaaaaaaaaa')
         actions.confirmedAppointment(freelanceId, numericDate, selectedHour)
-        actions.appointment_data({
-            selectedHour: selectedHour,
-            selectedDate: numericDate
-        })
     }
 
     return (
