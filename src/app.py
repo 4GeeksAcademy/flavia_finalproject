@@ -136,8 +136,8 @@ def my_account():
     email = get_jwt_identity()
     return jsonify(user=email), 200
 
-# APPOINTMENTS ENDPOINTS --------------------------------------------------------------------------------------------------------------------
-# Obtener todos los freelances disponibles y Agregar un nuevo freelance
+#  ------------------------------------------------------------------------------------------------------------------------------------------
+# Obtener todos los freelances disponibles y Agregar un nuevo freelance (la hice por las dudas que la necesitara pero no la utilizo)
 @app.route('/freelance', methods=['GET', 'POST'])
 def handle_freelance():
     if request.method == 'GET':
@@ -161,7 +161,7 @@ def handle_freelance():
         db.session.commit()
         return jsonify({'message': 'Freelance successfully added'}), 200
     
-# Editar la información de un freelance
+# Editar la información de un freelance (la hice por las dudas que la necesitara pero no la utilizo)
 @app.route('/freelance/<int:freelance_id>', methods=['PUT'])
 def edit_freelance(freelance_id):
     freelance = Freelance.query.get(freelance_id)
@@ -177,6 +177,8 @@ def edit_freelance(freelance_id):
     db.session.commit()
     return jsonify({'msg': 'Updated freelance with ID {}'.format(freelance_id)}), 200
 
+# APPOINTMENTS ENDPOINTS -------------------------------------------------------------------------------------------------------------------
+# Función que utiliza la key de sendgrid para enviar el correo de confirmación
 def send_confirmation_email(email):
     try:
         message = Mail(
@@ -193,7 +195,7 @@ def send_confirmation_email(email):
     except Exception as e:
         print(f"Error al enviar el correo: {e}")
 
-# Endpoints para Appointment
+# Obtiene las citas de un freelance en concreto
 @app.route('/appointment/<int:freelance_id>', methods=['GET'])
 def handle_freelancesappointmentes(freelance_id):
     appointments = Appointment.query.filter_by(freelance_id=freelance_id).all()
@@ -205,6 +207,7 @@ def handle_freelancesappointmentes(freelance_id):
 
     return jsonify(appointments_data), 200
 
+# Agrega un appointment
 @app.route('/appointment', methods=['POST'])
 @jwt_required()
 def handle_appointments():
@@ -242,6 +245,7 @@ def handle_appointments():
     send_confirmation_email(email)
     return jsonify({'message': 'Appointment successfully added'}), 200
 
+# Actualiza los datos de un appointment (la hice pero aún no la he utilizado)
 @app.route('/appointments/<int:appointment_id>', methods=['PUT'])
 def edit_appointment(appointment_id):
     appointment = Appointment.query.get(appointment_id)
