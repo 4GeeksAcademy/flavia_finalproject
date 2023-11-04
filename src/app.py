@@ -9,6 +9,8 @@ import requests
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+from datetime import datetime
+
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -134,7 +136,7 @@ def my_account():
     email = get_jwt_identity()
     return jsonify(user=email), 200
 
-# APPOINTMENTS ENDPOINTS
+# APPOINTMENTS ENDPOINTS --------------------------------------------------------------------------------------------------------------------
 # Obtener todos los freelances disponibles y Agregar un nuevo freelance
 @app.route('/freelance', methods=['GET', 'POST'])
 def handle_freelance():
@@ -175,35 +177,66 @@ def edit_freelance(freelance_id):
     db.session.commit()
     return jsonify({'msg': 'Updated freelance with ID {}'.format(freelance_id)}), 200
 
+def send_confirmation_email(email):
+    try:
+        message = Mail(
+            from_email='palante.4geeks@gmail.com',
+            to_emails=email,
+            subject='HOLAAAAAAA',
+            html_content='<strong>¡Gracias por tu compra!</strong>'
+        )
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(f"Error al enviar el correo: {e}")
+
 # Endpoints para Appointment
-@app.route('/appointment', methods=['GET', 'POST'])
+@app.route('/appointment/<int:freelance_id>', methods=['GET'])
+def handle_freelancesappointmentes(freelance_id):
+    appointments = Appointment.query.filter_by(freelance_id=freelance_id).all()
+    appointments_data = []
+
+    for appointment in appointments:
+        appointment_data = appointment.serialize()
+        appointments_data.append(appointment_data)
+
+    return jsonify(appointments_data), 200
+
+@app.route('/appointment', methods=['POST'])
 @jwt_required()
 def handle_appointments():
     email = get_jwt_identity()
     user = User.query.filter_by(email=email).first()
-    if request.method == 'GET':
-        if user:
-            return jsonify({'msg': 'ok'}), 200
-        else:
-            return jsonify({'error': 'User not found'}), 404
-    if request.method == 'POST':
-        body = request.get_json(silent=True)
-        if body is None:
-            return jsonify({'msg':'Body must be filled'}), 400
-        if 'freelance_id' not in body or 'day' not in body or 'time' not in body:
-            return jsonify({'msg': 'Specify freelance_id, day and time'}), 400
-        
-        new_appointment = Appointment(
-            user_id=user.id,
-            freelance_id=body['freelance_id'],
-            day=body['day'],
-            time=body['time']
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'msg':'Body must be filled'}), 400
+    if 'freelance_id' not in body or 'day' not in body or 'time' not in body:
+        return jsonify({'msg': 'Specify freelance_id, day and time'}), 400
+
+    date_obj = datetime.strptime(body['day'], "%B %d, %Y")
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+
+    time_obj = datetime.strptime(body['time'], "%H:%M")
+    formatted_time = time_obj.strftime("%H:%M:%S")
+
+    # Combinar la fecha y la hora
+    formatted_datetime = f"{formatted_date} {formatted_time}"
+
+    new_appointment = Appointment(
+        user_id=user.id,
+        freelance_id=body['freelance_id'],
+        day=formatted_date,
+        time=formatted_time,
+        full_date=formatted_datetime
         )
-        db.session.add(new_appointment)
-        db.session.commit()
-        email = user.email
-        send_confirmation_email(email)
-        return jsonify({'message': 'Appointment successfully added'}), 200
+    db.session.add(new_appointment)
+    db.session.commit()
+    email = user.email
+    send_confirmation_email(email)
+    return jsonify({'message': 'Appointment successfully added'}), 200
 
 @app.route('/appointments/<int:appointment_id>', methods=['PUT'])
 def edit_appointment(appointment_id):
@@ -309,23 +342,6 @@ def capture_order_route(order_id):
     except Exception as e:
         print(f"Failed to capture order: {e}")
         return jsonify({'error': 'Failed to capture order.'}), 500
-
-
-def send_confirmation_email(email):
-    message = Mail(
-        from_email='palante.4geeks@gmail.com',
-        to_emails=email,
-        subject='Compra Exitosa',
-        html_content='<strong>¡Gracias por tu compra!</strong>'
-    )
-    try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
-    except Exception as e:
-        print(e)
 
 
 # this only runs if `$ python src/main.py` is executed

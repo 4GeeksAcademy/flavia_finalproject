@@ -10,7 +10,7 @@ export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_r
         setWantAppointment(!wantAppointment)
         actions.availability(availability)
     }
-    
+
     return (
         <>
             <section className='freelanceCardSection'>
@@ -22,7 +22,7 @@ export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_r
                 </div>
                 <div className='appointmentButton'>
                     <button onClick={handle_want_appointment}>Pedir cita</button>
-                    {wantAppointment && <Availability />}
+                    {wantAppointment && <Availability freelanceId={freelanceId} />}
                 </div>
             </section>
         </>

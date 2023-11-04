@@ -10,7 +10,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			freelances: [],
 			appointment: {},
 			availability: {},
-			
+			appointment_data: {},
+			freelance_appointments: []
+
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -208,7 +210,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			availability: (availability) => {
 				setStore({ availability: availability })
-			}
+			},
+			appointment_data: (data) => {
+				setStore({ appointment_data: data })
+			},
+			freelance_appointments: async (freelance_id) => {
+				try {
+					const options = {
+						method: 'GET',
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/appointment/${freelance_id}`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ freelance_appointments: data })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
 		}
 	};
 };

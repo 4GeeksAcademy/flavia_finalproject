@@ -5,13 +5,12 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { HourButtons } from './hourbuttons';
 
-export const Availability = () => {
+export const Availability = ({ freelanceId }) => {
     const { store, actions } = useContext(Context);
     const [confirmationOpen, setConfirmationOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedAvailability, setSelectedAvailability] = useState([]);
-
 
     useEffect(() => {
         setSelectedDay(null);
@@ -22,9 +21,9 @@ export const Availability = () => {
 
     const handleHourClick = (hour) => {
         setConfirmationOpen(true);
-        setSelectedHour(hour);
-        console.log('selectedday', selectedDay)
-        console.log('selectedhour', selectedHour)
+        const formattedHour = hour.padStart(5, '0');
+        setSelectedHour(formattedHour);
+        actions.freelance_appointments(freelanceId)
     }
 
 
@@ -65,7 +64,7 @@ export const Availability = () => {
                 }}
             />
             {Object.keys(selectedAvailability).length > 0 && (
-                <HourButtons hours={selectedAvailability} handleHourClick={handleHourClick} selectedDay={selectedDay} selectedHour={selectedHour} confirmationOpen={confirmationOpen} />
+                <HourButtons freelanceId={freelanceId} hours={selectedAvailability} handleHourClick={handleHourClick} selectedDay={selectedDay} selectedHour={selectedHour} confirmationOpen={confirmationOpen} />
             )}
         </div>
     );

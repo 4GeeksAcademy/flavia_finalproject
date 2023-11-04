@@ -61,20 +61,22 @@ class Appointment(db.Model):
     freelance_data = db.relationship(Freelance)
     day = db.Column(db.String(10), nullable=False) 
     time = db.Column(db.Time, nullable=False)
-
+    full_date = db.Column(db.DateTime, nullable=True)
+    
     def __repr__(self):
         return 'Appointment {}'.format(self.id)
     
     def serialize(self):
         return {
             "id": self.id,
-            "user_data": self.user_data.serialize(),
-            "freelance_data": self.freelance_data.serialize(), 
+            "user_id": self.user_id,
+            "freelance_id": self.freelance_id, 
             "day": self.day,
-            "time": self.time.strftime('%H:%M:%S')
+            "time": self.time.strftime('%H:%M:%S'),
+            "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None
         }
 
-# Definimos el modelo de la orden
+
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.String(50), nullable=False)
