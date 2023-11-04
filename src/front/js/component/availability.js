@@ -12,7 +12,8 @@ export const Availability = ({ freelanceId }) => {
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedAvailability, setSelectedAvailability] = useState([]);
     const [numericDate, setNumericDate] = useState(null)
-    console.log('selectedavailability', selectedAvailability)
+   
+
     useEffect(() => {
         setSelectedDay(null);
         setSelectedHour(null);

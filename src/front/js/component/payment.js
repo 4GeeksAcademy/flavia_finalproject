@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 import { Notification } from './notification';
 

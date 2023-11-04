@@ -216,20 +216,14 @@ def handle_appointments():
     if 'freelance_id' not in body or 'day' not in body or 'time' not in body:
         return jsonify({'msg': 'Specify freelance_id, day and time'}), 400
 
-    date_obj = datetime.strptime(body['day'], "%B %d, %Y")
-    formatted_date = date_obj.strftime("%Y-%m-%d")
-
-    time_obj = datetime.strptime(body['time'], "%H:%M")
-    formatted_time = time_obj.strftime("%H:%M:%S")
-
     # Combinar la fecha y la hora
-    formatted_datetime = f"{formatted_date} {formatted_time}"
+    formatted_datetime = f"{body['day']} {body['time']}"
 
     # Verificar si ya existe una cita con el mismo freelance_id, día y hora
     existing_appointment = Appointment.query.filter_by(
         freelance_id=body['freelance_id'],
-        day=formatted_date,
-        time=formatted_time
+        day=body['day'],
+        time=body['time']
     ).first()
 
     if existing_appointment:
@@ -238,8 +232,8 @@ def handle_appointments():
     new_appointment = Appointment(
         user_id=user.id,
         freelance_id=body['freelance_id'],
-        day=formatted_date,
-        time=formatted_time,
+        day=body['day'],
+        time=body['time'],
         full_date=formatted_datetime
         )
     db.session.add(new_appointment)
