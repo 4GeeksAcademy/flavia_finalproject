@@ -5,10 +5,15 @@ import { Context } from "../store/appContext";
 export const HourButtons = ({ numericDate, freelanceId, hours, handleHourClick, selectedDay, selectedHour, confirmationOpen }) => {
     const { store, actions } = useContext(Context);
 
+    // Obtiene el nombre del día de la semana (por ejemplo, "lunes", "martes", etc.)
     const formattedDay = selectedDay ? selectedDay.toLocaleDateString('en-US', { weekday: 'long' }) : '';
+    
+    // Formatea la fecha seleccionada en el calendario en el formato de día (número), mes (nombre completo) y año (número)
     const formattedDate = selectedDay ? selectedDay.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
 
+    // Verifica si un botón de hora debe estar deshabilitado
     const isButtonDisabled = (time) => {
+         // Comprueba si existe alguna cita programada en la hora específica
         return store.freelance_appointments.some(appointment => appointment.time === time);
     }
 

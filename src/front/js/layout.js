@@ -7,7 +7,7 @@ import { Home } from "./pages/home";
 import { LogIn } from "./pages/login";
 import { MyAccount } from "./pages/myaccount";
 import { Appointment } from "./pages/appointment";
-import { Payment } from "./component/payment";
+import { Payment } from "./pages/payment";
 
 import injectContext from "./store/appContext";
 

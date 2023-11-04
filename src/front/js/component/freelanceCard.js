@@ -5,7 +5,11 @@ import { Availability } from "./availability";
 
 export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_registration_number, years_of_experience, expertise, education, aboutme, availability }) => {
     const { store, actions } = useContext(Context);
+
+    // Estado local para controlar si el usuario quiere una cita
     const [wantAppointment, setWantAppointment] = useState(false)
+
+    // Función para manejar el botón de "Pedir cita"
     const handle_want_appointment = () => {
         setWantAppointment(!wantAppointment)
         actions.availability(availability)

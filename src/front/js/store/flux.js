@@ -130,6 +130,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				setStore({ navbar_button: !store.navbar_button })
 			},
+			// Este método hace una solicitud a la API para obtener una lista de freelances activos. Luego, actualiza el estado freelances en la store con la información recibida.
 			allFreelancesActives: async () => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/freelance`);
@@ -141,6 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err);
 				}
 			},
+			//  Este método se utiliza para programar una cita con un profesional. Realiza una solicitud POST a la API con los detalles de la cita y el token de acceso para autenticación. Dependiendo de la respuesta de la API, muestra una notificación de éxito o error utilizando la biblioteca react-toastify.
 			scheduleAppointment: async (appointment) => {
 				try {
 					const accessToken = sessionStorage.getItem('accessToken');
@@ -184,21 +186,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err)
 				}
 			},
-			myAppointment: async (token) => {
-				try {
-					const options = {
-						method: 'GET',
-						headers: { 'Authorization': `Bearer ${token}` }
-					}
-					const response = await fetch(`${process.env.BACKEND_URL}/appointment`, options)
-					const data = await response.json()
-					if (response.ok) {
-						return data
-					}
-				} catch (err) {
-					console.log(err)
-				}
-			},
 			confirmedAppointment: (freelanceId, day, hour) => {
 				setStore({
 					appointment: {
@@ -211,9 +198,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			availability: (availability) => {
 				setStore({ availability: availability })
 			},
-			appointment_data: (data) => {
-				setStore({ appointment_data: data })
-			},
+			// Este método obtiene las citas asociadas a un profesional específico en un día dado. Realiza una solicitud GET a la API y filtra las citas por el día especificado. Luego actualiza el estado freelance_appointments en la store con la información de las citas filtradas.
 			freelance_appointments: async (freelance_id, day) => {
 				try {
 					const options = {
