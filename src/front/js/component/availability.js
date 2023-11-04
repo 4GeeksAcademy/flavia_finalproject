@@ -11,7 +11,8 @@ export const Availability = ({ freelanceId }) => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedAvailability, setSelectedAvailability] = useState([]);
-
+    const [numericDate, setNumericDate] = useState(null)
+    console.log('selectedavailability', selectedAvailability)
     useEffect(() => {
         setSelectedDay(null);
         setSelectedHour(null);
@@ -23,14 +24,15 @@ export const Availability = ({ freelanceId }) => {
         setConfirmationOpen(true);
         const formattedHour = hour.padStart(5, '0');
         setSelectedHour(formattedHour);
-        actions.freelance_appointments(freelanceId)
+        console.log('selectedhour en availability', selectedHour)
     }
 
 
     const generateHourRange = (start, end) => {
         const hours = [];
         for (let i = start; i <= end; i++) {
-            hours.push(`${i}:00`);
+            const formattedHour = i.toString().padStart(2, '0') + ':00';
+            hours.push(formattedHour);
         }
         return hours;
     }
@@ -55,16 +57,20 @@ export const Availability = ({ freelanceId }) => {
                         const startHour = Number(start.split(':')[0]);
                         const endHour = Number(end.split(':')[0]);
                         const hours = generateHourRange(startHour, endHour);
-                        setSelectedDay(date);
+                        const numericDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                        setNumericDate(numericDate);
+                        setSelectedDay(date)
+                        console.log('numericDate en availability', numericDate)
                         setConfirmationOpen(false);
                         setSelectedAvailability(hours);
+                        actions.freelance_appointments(freelanceId, numericDate)
                     } else {
                         alert(`No hay disponibilidad para ${dayOfWeek}`);
                     }
                 }}
             />
             {Object.keys(selectedAvailability).length > 0 && (
-                <HourButtons freelanceId={freelanceId} hours={selectedAvailability} handleHourClick={handleHourClick} selectedDay={selectedDay} selectedHour={selectedHour} confirmationOpen={confirmationOpen} />
+                <HourButtons numericDate={numericDate} freelanceId={freelanceId} hours={selectedAvailability} handleHourClick={handleHourClick} selectedDay={selectedDay} selectedHour={selectedHour} confirmationOpen={confirmationOpen} />
             )}
         </div>
     );

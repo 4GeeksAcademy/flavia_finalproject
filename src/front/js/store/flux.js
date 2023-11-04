@@ -214,7 +214,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			appointment_data: (data) => {
 				setStore({ appointment_data: data })
 			},
-			freelance_appointments: async (freelance_id) => {
+			freelance_appointments: async (freelance_id, day) => {
 				try {
 					const options = {
 						method: 'GET',
@@ -222,7 +222,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/appointment/${freelance_id}`, options)
 					const data = await response.json()
 					if (response.ok) {
-						setStore({ freelance_appointments: data })
+						// Filtrar las citas por el día especificado
+						const filteredAppointments = data.filter(appointment => appointment.day === day);
+						setStore({ freelance_appointments: filteredAppointments })
 					}
 				} catch (err) {
 					console.log(err)

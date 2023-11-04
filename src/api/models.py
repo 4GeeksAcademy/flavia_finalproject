@@ -72,7 +72,7 @@ class Appointment(db.Model):
             "user_id": self.user_id,
             "freelance_id": self.freelance_id, 
             "day": self.day,
-            "time": self.time.strftime('%H:%M:%S'),
+            "time": self.time.strftime('%H:%M'),
             "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None
         }
 

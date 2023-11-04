@@ -225,6 +225,16 @@ def handle_appointments():
     # Combinar la fecha y la hora
     formatted_datetime = f"{formatted_date} {formatted_time}"
 
+    # Verificar si ya existe una cita con el mismo freelance_id, día y hora
+    existing_appointment = Appointment.query.filter_by(
+        freelance_id=body['freelance_id'],
+        day=formatted_date,
+        time=formatted_time
+    ).first()
+
+    if existing_appointment:
+        return jsonify({'msg': 'Appointment already exists for this day and time'}), 400
+
     new_appointment = Appointment(
         user_id=user.id,
         freelance_id=body['freelance_id'],
