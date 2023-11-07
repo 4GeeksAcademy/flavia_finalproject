@@ -11,7 +11,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			appointment: {},
 			availability: {},
 			appointment_data: {},
-			freelance_appointments: []
+			freelance_appointments: [],
+			user_appointments: []
 
 		},
 		actions: {
@@ -210,6 +211,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// Filtrar las citas por el día especificado
 						const filteredAppointments = data.filter(appointment => appointment.day === day);
 						setStore({ freelance_appointments: filteredAppointments })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			userAllAppointments: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-appointments`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ user_appointments: data })
 					}
 				} catch (err) {
 					console.log(err)
