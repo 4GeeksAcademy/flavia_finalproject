@@ -121,14 +121,27 @@ def login():
         return jsonify({'msg': 'Specify email'}), 400
     if 'password' not in body or body['password'] is None or body['password'] == '': 
         return jsonify({'msg': 'Specify password'}), 400
-    user = User.query.filter_by(email = body['email']).first()
-    if not user:
-        return jsonify({"msg": "Bad username or password"}), 400
-    if not bcrypt.check_password_hash(user.password, body['password']):
-        return jsonify({"msg": "Bad username or password"}), 400
     
-    access_token = create_access_token(identity=user.email)
+    # Intenta buscar el usuario en la tabla User
+    user = User.query.filter_by(email=body['email']).first()
+    
+    if not user:
+        # Si no se encuentra en User, intenta buscarlo en la tabla Freelancer
+        freelancer = Freelance.query.filter_by(email=body['email']).first()
+        if not freelancer:
+            return jsonify({"msg": "Bad username or password"}), 400
+        elif freelancer.password != body['password']:
+            return jsonify({"msg": "Bad username or password"}), 400
+        else:
+            access_token = create_access_token(identity=freelancer.email)
+    else:
+        if not bcrypt.check_password_hash(user.password, body['password']):
+            return jsonify({"msg": "Bad username or password"}), 400
+        else:
+            access_token = create_access_token(identity=user.email)
+    
     return jsonify(access_token=access_token)
+
 
 @app.route('/my-account', methods=['GET'])
 @jwt_required()
@@ -206,6 +219,26 @@ def handle_freelancesappointmentes(freelance_id):
         appointments_data.append(appointment_data)
 
     return jsonify(appointments_data), 200
+
+# Obtener todas las citas de un usuario o freelance desde el token
+@app.route('/my-appointments', methods=['GET'])
+@jwt_required()
+def handle_individual_appointments():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    if user is not None:
+        user_appointments = Appointment.query.filter_by(user_id=user.id).all()
+        user_type = "User"
+    else:
+        freelancer = Freelance.query.filter_by(email=email).first()
+        if freelancer is not None:
+            user_appointments = Appointment.query.filter_by(freelance_id=freelancer.id).all()
+            user_type = "Freelance"
+        else:
+            return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    serialized_user_appointments = [appointment.serialize() for appointment in user_appointments]
+    return jsonify({"user_type": user_type, "appointments": serialized_user_appointments})
 
 # Agrega un appointment
 @app.route('/appointment', methods=['POST'])

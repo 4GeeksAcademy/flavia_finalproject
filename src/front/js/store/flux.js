@@ -12,7 +12,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			availability: {},
 			appointment_data: {},
 			freelance_appointments: [],
-			user_appointments: []
+			individual_appointments: [],
+			user_type: null
+
 
 		},
 		actions: {
@@ -216,7 +218,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err)
 				}
 			},
-			userAllAppointments: async (token) => {
+			individualAllAppointments: async (token) => {
 				try {
 					const options = {
 						method: 'GET',
@@ -225,7 +227,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/my-appointments`, options)
 					const data = await response.json()
 					if (response.ok) {
-						setStore({ user_appointments: data })
+						setStore({ individual_appointments: data.appointments, user_type: data.user_type })
 					}
 				} catch (err) {
 					console.log(err)

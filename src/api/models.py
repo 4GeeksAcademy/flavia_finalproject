@@ -69,8 +69,8 @@ class Appointment(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "user_id": self.user_id,
-            "freelance_id": self.freelance_id, 
+            "user_data": self.user_data.serialize(),
+            "freelance_data": self.freelance_data.serialize(),
             "day": self.day,
             "time": self.time.strftime('%H:%M'),
             "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None
