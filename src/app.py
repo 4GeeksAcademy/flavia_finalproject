@@ -11,6 +11,8 @@ from sendgrid.helpers.mail import Mail
 
 from datetime import datetime
 
+import re
+
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -265,12 +267,24 @@ def handle_appointments():
     if existing_appointment:
         return jsonify({'msg': 'Appointment already exists for this day and time'}), 400
 
+    day = body['day']
+    time = body['time']
+    freelance_id = str(body['freelance_id'])
+
+    # Reemplazar los caracteres que no sean alfanuméricos o guiones bajos con nada
+    jitsi_room_id = re.sub(r'[^\w]', '', day + time + freelance_id)
+
+    formatted_day = day.replace('-', '')
+    formatted_time = time.replace(':', '')
+    jitsi_room_id = f"{formatted_day}{formatted_time}{freelance_id}"
+
     new_appointment = Appointment(
         user_id=user.id,
         freelance_id=body['freelance_id'],
         day=body['day'],
         time=body['time'],
-        full_date=formatted_datetime
+        full_date=formatted_datetime,
+        jitsi_room_id=jitsi_room_id 
         )
     db.session.add(new_appointment)
     db.session.commit()

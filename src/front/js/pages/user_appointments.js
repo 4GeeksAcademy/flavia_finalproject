@@ -8,17 +8,12 @@ export const UserAppointments = () => {
     const accessToken = sessionStorage.getItem('accessToken');
     useEffect(() => {
         actions.individualAllAppointments(accessToken);
-
-        // Accede a store.user_type después de que individualAllAppointments haya terminado
-        const user_type = store.user_type;
-        console.log(user_type);
-    }, [store.user_type]);
+    }, [accessToken]);
     return (
         <>
             {
                 store.individual_appointments.map((item, index) => (
-                    < UserAppointmentsCard user_type={store.user_type} freelance_full_name={item.freelance_data.full_name} user_email={item.user_data.email} professional_registration_number={item.freelance_data.
-                        professional_registration_number} email={item.freelance_data.email} full_date={item.full_date} />
+                    < UserAppointmentsCard jitsiRoomId={item.jitsi_room_id} user_type={store.user_type} freelance_full_name={item.freelance_data.full_name} user_full_name={item.user_data.full_name} user_email={item.user_data.email} freelance_email={item.freelance_data.email} full_date={item.full_date} />
                 ))
             }
         </>

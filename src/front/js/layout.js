@@ -39,8 +39,8 @@ const Layout = () => {
                         <Route element={<Appointment />} path="/appointment" />
                         <Route element={<Payment />} path="/payment" />
                         <Route element={<UserAppointments />} path="/user-appointments" />
-                        <Route element={<Videocall />} path="/videocall" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<Videocall />} path="/videocall/:jitsiRoomId" />
+                        <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

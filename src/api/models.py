@@ -5,6 +5,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(60), unique=False, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
@@ -15,6 +16,7 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "full_name": self.full_name,
             "email": self.email,
             # do not serialize the password, its a security breach
         }
@@ -62,6 +64,8 @@ class Appointment(db.Model):
     day = db.Column(db.String(10), nullable=False) 
     time = db.Column(db.Time, nullable=False)
     full_date = db.Column(db.DateTime, nullable=True)
+    jitsi_room_id = db.Column(db.String(50), unique=True, nullable=True)
+    freelancer_has_joined = db.Column(db.Boolean, default=False, nullable=True)
     
     def __repr__(self):
         return 'Appointment {}'.format(self.id)
@@ -73,7 +77,9 @@ class Appointment(db.Model):
             "freelance_data": self.freelance_data.serialize(),
             "day": self.day,
             "time": self.time.strftime('%H:%M'),
-            "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None
+            "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None,
+            "jitsi_room_id": self.jitsi_room_id,
+            "freelancer_has_joined":self.freelancer_has_joined
         }
 
 
