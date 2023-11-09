@@ -65,7 +65,6 @@ class Appointment(db.Model):
     time = db.Column(db.Time, nullable=False)
     full_date = db.Column(db.DateTime, nullable=True)
     jitsi_room_id = db.Column(db.String(50), unique=True, nullable=True)
-    freelancer_has_joined = db.Column(db.Boolean, default=False, nullable=True)
     
     def __repr__(self):
         return 'Appointment {}'.format(self.id)
@@ -78,8 +77,7 @@ class Appointment(db.Model):
             "day": self.day,
             "time": self.time.strftime('%H:%M'),
             "full_date": self.full_date.strftime('%Y-%m-%d %H:%M:%S') if self.full_date else None,
-            "jitsi_room_id": self.jitsi_room_id,
-            "freelancer_has_joined":self.freelancer_has_joined
+            "jitsi_room_id": self.jitsi_room_id
         }
 
 

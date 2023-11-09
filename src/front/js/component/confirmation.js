@@ -8,12 +8,27 @@ export const Confirmation = ({ freelanceId, selectedDay, selectedHour, selectedD
     const { store, actions } = useContext(Context)
 
     const navigate = useNavigate();
+    const accessToken = sessionStorage.getItem('accessToken');
 
     // Función que maneja la navegación a la página de pago
     const handle_toPaymentNavigation = () => {
-        navigate("/payment");
-        actions.confirmedAppointment(freelanceId, numericDate, selectedHour) // La función actualiza store.appointment con el freelance en la fecha y hora seleccionadas por el usuario
-    }
+        const accessToken = sessionStorage.getItem('accessToken');
+        if (!accessToken) {
+            // Si no hay token de acceso, redirigir al login
+            navigate("/login");
+        } else {
+            actions.myAccount(accessToken)
+                .then(data => {
+                    if (data) {
+                        navigate("/payment");
+                        actions.confirmedAppointment(freelanceId, numericDate, selectedHour)}
+                    })
+                .catch(err => {
+                    console.error("Error during account verification:", err);
+                    navigate("/login");
+                });
+        }
+    };
 
     return (
         <div>

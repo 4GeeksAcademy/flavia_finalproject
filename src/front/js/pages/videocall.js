@@ -17,8 +17,8 @@ export const Videocall = () => {
     }, [api, store.user_type]);
 
     const displayName = store.user_type === "Freelancer"
-        ? store.individual_appointments.find(appointment => appointment.jitsi_room_id === jitsiRoomId)?.user_data.full_name
-        : store.individual_appointments.find(appointment => appointment.jitsi_room_id === jitsiRoomId)?.freelance_data.full_name;
+        ? store.individual_appointments.find(appointment => appointment.jitsi_room_id === jitsiRoomId)?.freelance_data.full_name
+        : store.individual_appointments.find(appointment => appointment.jitsi_room_id === jitsiRoomId)?.user_data.full_name;
     return (
         <JitsiMeeting
             domain="meet.jit.si"
