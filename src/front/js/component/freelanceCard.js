@@ -25,7 +25,7 @@ export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_r
                     <div className='freelanceCardAboutMe'><h6>Sobre mi:</h6><p>{aboutme}</p></div>
                 </div>
                 <div className='appointmentButton'>
-                    <button onClick={handle_want_appointment}>Pedir cita</button>
+                    <button className='appbtn' onClick={handle_want_appointment}>Pedir cita</button>
                     {wantAppointment && <Availability freelanceId={freelanceId} />}
                 </div>
             </section>

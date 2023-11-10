@@ -38,6 +38,25 @@
     width: 100%;
 }
 .appointmentButton {
+    padding-top: 3vh;
+    padding-bottom: 8vh;
     width: 100%;
     text-align: center;
+}
+.freelanceCardSection h5, 
+.freelanceCardSection h6 {
+    color: #397FDB;
+}
+.freelanceCardSection p {
+    color: #51607E;
+}
+.appbtn {
+    border: none;
+    border-radius: 10px;
+    background-color: #263F73;
+    color: white;
+    padding: 0.5rem 2rem;
+}
+.appbtn:hover {
+    background-color: #225CC2;
 }
