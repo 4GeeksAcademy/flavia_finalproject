@@ -32,6 +32,11 @@ export const Navbar = () => {
 							My appointments
 						</button>
 					</Link>
+					<Link to="/searchfood">
+						<button className="appointment_btn">
+							Food Database
+						</button>
+					</Link>
 				</div>
 				<div className="ml-auto">
 					<button type="button" className="nav_btn" onClick={handleShowForm}>

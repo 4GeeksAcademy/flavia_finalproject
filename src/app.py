@@ -399,6 +399,24 @@ def capture_order_route(order_id):
         return jsonify({'error': 'Failed to capture order.'}), 500
 
 
+# Usando la API Edaman -------------------------------------------------------------------------------------
+@app.route('/search_food/<string:query>', methods=['GET'])
+def search_food(query):
+    app_id = os.getenv('FOODDATABASE_ID')
+    app_key = os.getenv('FOODDATABASE_KEY') 
+
+    # URL para la búsqueda de alimentos en la API de Edamam
+    url = f"https://api.edamam.com/api/food-database/v2/parser?app_id=09cc3190&app_key=568fda9faccf161c80abac95d7d00df4&ingr={query}&nutrition-type=cooking"
+    print(url)
+    # Realizar la solicitud a la API de Edamam
+    try:
+        response = requests.get(url)
+        return jsonify(response.json())
+    except requests.RequestException as e:
+        print(f"Error al realizar la solicitud a la API de Edamam: {e}")
+        return jsonify({'error': 'Error al realizar la solicitud a la API'}), 500
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))

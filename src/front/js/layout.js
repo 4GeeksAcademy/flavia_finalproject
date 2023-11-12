@@ -10,6 +10,7 @@ import { Appointment } from "./pages/appointment";
 import { Payment } from "./pages/payment";
 import { UserAppointments } from "./pages/user_appointments";
 import { Videocall } from "./pages/videocall";
+import { SearchFood } from "./pages/searchfood";
 
 import injectContext from "./store/appContext";
 
@@ -41,6 +42,7 @@ const Layout = () => {
                         <Route element={<Payment />} path="/payment" />
                         <Route element={<UserAppointments />} path="/user-appointments" />
                         <Route element={<Videocall />} path="/videocall/:jitsiRoomId" />
+                        <Route element={<SearchFood />} path="/searchfood" />
                         <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

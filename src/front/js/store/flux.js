@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			appointment_data: {},
 			freelance_appointments: [],
 			individual_appointments: [],
-			user_type: null
+			user_type: null,
+			food_database: []
 
 
 		},
@@ -228,6 +229,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json()
 					if (response.ok) {
 						setStore({ individual_appointments: data.appointments, user_type: data.user_type })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			foodDatabase: async (searchTerm) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/search_food/${searchTerm}`);
+        			const data = await response.json();
+					if (response.ok) {
+						setStore({food_database: data})
+					}
+					else {
+						console.log(response)
 					}
 				} catch (err) {
 					console.log(err)

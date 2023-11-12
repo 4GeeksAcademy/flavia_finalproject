@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from "../store/appContext";
 
 export function SearchFood() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState([]);
-
+    const { store, actions } = useContext(Context)
+    
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
-    const handleSearchSubmit = async () => {
-        // Llama al backend para obtener los resultados
-        const response = await fetch(`/search_food?query=${encodeURIComponent(searchTerm)}`);
-        const data = await response.json();
-        setResults(data);
+    const handleSearchSubmit = () => {
+        actions.foodDatabase(searchTerm)
     };
 
     return (
@@ -20,7 +18,7 @@ export function SearchFood() {
             <input type="text" value={searchTerm} onChange={handleSearchChange} />
             <button onClick={handleSearchSubmit}>Buscar</button>
             <div>
-                {results.map((item, index) => (
+                {store.food_database.map((item, index) => (
                     <div key={index}>
                         {/* Muestra la información relevante de cada resultado */}
                         {item.food.label} - {item.food.nutrients.ENERC_KCAL} Kcal
