@@ -12,7 +12,7 @@ export function SearchFood() {
     const handleSearchSubmit = () => {
         actions.foodDatabase(searchTerm)
     };
-
+    console.log('store.food_database', store.food_database)
     return (
         <div>
             <input type="text" value={searchTerm} onChange={handleSearchChange} />

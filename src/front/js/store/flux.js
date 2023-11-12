@@ -239,7 +239,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/search_food/${searchTerm}`);
         			const data = await response.json();
 					if (response.ok) {
-						setStore({food_database: data})
+						setStore({food_database: data.hints})
 					}
 					else {
 						console.log(response)

@@ -406,7 +406,7 @@ def search_food(query):
     app_key = os.getenv('FOODDATABASE_KEY') 
 
     # URL para la búsqueda de alimentos en la API de Edamam
-    url = f"https://api.edamam.com/api/food-database/v2/parser?app_id=09cc3190&app_key=568fda9faccf161c80abac95d7d00df4&ingr={query}&nutrition-type=cooking"
+    url = f"https://api.edamam.com/api/food-database/v2/parser?app_id={app_id}&app_key={app_key}&ingr={query}&nutrition-type=cooking"
     print(url)
     # Realizar la solicitud a la API de Edamam
     try:
