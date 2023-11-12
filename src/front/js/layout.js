@@ -4,12 +4,22 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
+import { LogIn } from "./pages/login";
+import { MyAccount } from "./pages/myaccount";
+import { Appointment } from "./pages/appointment";
+import { Payment } from "./pages/payment";
+import { UserAppointments } from "./pages/user_appointments";
+import { Videocall } from "./pages/videocall";
+import { SearchFood } from "./pages/searchfood";
+import { FoodInfo } from "./pages/foodInfo";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //create your first component
 const Layout = () => {
@@ -17,18 +27,25 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
+                    <ToastContainer />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<MyAccount />} path="/my-account" />
+                        <Route element={<LogIn />} path="/login" />
+                        <Route element={<Appointment />} path="/appointment" />
+                        <Route element={<Payment />} path="/payment" />
+                        <Route element={<UserAppointments />} path="/user-appointments" />
+                        <Route element={<Videocall />} path="/videocall/:jitsiRoomId" />
+                        <Route element={<SearchFood />} path="/searchfood" />
+                        <Route element={<FoodInfo />} path="/get-nutrients" />
+                        <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

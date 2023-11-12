@@ -1,0 +1,62 @@
+.freelanceCardSection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10vh;
+}
+.freelanceCardNamePhotoNumber {
+    display:flex;
+    flex-direction: column;
+    width: 30%;
+}
+.freelanceCardPhoto {
+    width: 70%;
+}
+.freelanceCardPhoto img {
+    object-fit: contain;
+    width: 100%;
+    border-radius: 50%;
+}
+.freelanceCardData{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    flex-wrap: wrap;
+}
+.freelanceCardExpertise {
+    width: 70%;
+}
+.freelanceCardEducation {
+    width: 30%;
+}
+.freelanceCardAboutMe {
+    width: 100%;
+}
+.appointmentButton {
+    padding-top: 3vh;
+    padding-bottom: 8vh;
+    width: 100%;
+    text-align: center;
+}
+.freelanceCardSection h5, 
+.freelanceCardSection h6 {
+    color: #397FDB;
+}
+.freelanceCardSection p {
+    color: #51607E;
+}
+.appbtn {
+    border: none;
+    border-radius: 10px;
+    background-color: #263F73;
+    color: white;
+    padding: 0.5rem 2rem;
+}
+.appbtn:hover {
+    background-color: #225CC2;
+}

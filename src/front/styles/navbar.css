@@ -1,0 +1,25 @@
+.nav_btn {
+    background: transparent;
+    border: none;
+    color: grey;
+}
+
+.nav_btn:hover .fa-user {
+    text-shadow: 0 0 5px #2C3D91;
+}
+
+.icon {
+    width: 10rem;
+    padding: 0;
+}
+.appointment_btn {
+    background: transparent;
+    border: none;
+    color: grey;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+}
+.appointment_btn:hover {
+    background-color: #2C3D91;
+    color: white;
+}
