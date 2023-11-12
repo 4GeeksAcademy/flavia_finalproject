@@ -399,12 +399,12 @@ def capture_order_route(order_id):
         return jsonify({'error': 'Failed to capture order.'}), 500
 
 
-# Usando la API Edaman -------------------------------------------------------------------------------------
+# Usando la API Edaman ---------------------------------------------------------------------------------------------------------
+app_id = os.getenv('FOODDATABASE_ID')
+app_key = os.getenv('FOODDATABASE_KEY') 
+
 @app.route('/search_food/<string:query>', methods=['GET'])
 def search_food(query):
-    app_id = os.getenv('FOODDATABASE_ID')
-    app_key = os.getenv('FOODDATABASE_KEY') 
-
     # URL para la búsqueda de alimentos en la API de Edamam
     url = f"https://api.edamam.com/api/food-database/v2/parser?app_id={app_id}&app_key={app_key}&ingr={query}&nutrition-type=cooking"
     print(url)
@@ -415,6 +415,33 @@ def search_food(query):
     except requests.RequestException as e:
         print(f"Error al realizar la solicitud a la API de Edamam: {e}")
         return jsonify({'error': 'Error al realizar la solicitud a la API'}), 500
+
+
+@app.route('/get-nutrients', methods=['POST'])
+def get_nutrients():
+    body = request.get_json(silent=True)
+    food_id = body['foodId']
+    measure_uri = body['measureURI']
+ 
+    url = f'https://api.edamam.com/api/food-database/v2/nutrients?app_id={app_id}&app_key={app_key}'
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+    'ingredients': [
+            {
+                'quantity': 100,
+                'measureURI': measure_uri,
+                'foodId': food_id
+            }
+        ]
+    }
+
+
+    response = requests.post(url, headers=headers, json=payload)
+    if response.ok:
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'Request failed'}), response.status_code
+
 
 
 # this only runs if `$ python src/main.py` is executed

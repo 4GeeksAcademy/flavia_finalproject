@@ -8,7 +8,7 @@ export const FoodCard = ({ label, ENERC_KCAL, foodId, measureURI }) => {
     const navigate = useNavigate();
 
     const handleGetNutrients = () => {
-        actions.foodInfo(foodId, measureURI)
+        actions.foodInfo(measureURI, foodId)
         navigate("/get-nutrients")
     }
 

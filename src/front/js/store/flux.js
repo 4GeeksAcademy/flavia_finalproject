@@ -250,21 +250,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			foodInfo: async (measureURI, foodId) => {
+				console.log('measureURI', measureURI, 'foodId', foodId)
 				try {
 					const options = {
 						method: 'POST',
-						body: {
-							"ingredients": [
-								{
-									"quantity": 100,
-									"measureURI": measureURI,
-									"foodId": foodId
-								}
-							]
-						}
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							"measureURI": measureURI,
+							"foodId": foodId
+						})
 					}
 					const response = await fetch(`${process.env.BACKEND_URL}/get-nutrients`, options)
-					const data = response.json()
+					const data = await response.json()
 					if (response.ok) {
 						setStore({ food_info: data })
 					} else {
