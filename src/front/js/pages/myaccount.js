@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { LogIn } from "./login.js";
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import "../../styles/myaccount.css";
 
@@ -46,7 +47,7 @@ export const MyAccount = () => {
                         <div className="containerMyAccount">
                             <div className="optionMyAccount"><i className="fa-solid fa-circle-user"></i>Your personal data</div>
                             <div className="optionMyAccount"><i className="fa-solid fa-location-dot"></i>Addresses</div>
-                            <div className="optionMyAccount"><i className="fa-regular fa-file-lines"></i>Order history</div>
+                            <div className="optionMyAccount"><i className="fa-regular fa-file-lines"></i><Link to="/user-appointments">My appointments</Link></div>
                             <div className="optionMyAccount"><i className="fa-solid fa-receipt"></i>Order returns</div>
                             <div className="optionMyAccount"><i className="fa-solid fa-envelope-open"></i>My alerts</div>
                             <div className="optionMyAccount"><i className="fa-solid fa-user-shield"></i>Data protection</div>

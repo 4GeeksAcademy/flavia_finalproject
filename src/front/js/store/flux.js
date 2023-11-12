@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			freelance_appointments: [],
 			individual_appointments: [],
 			user_type: null,
-			food_database: []
+			food_database: [],
+			food_info: []
 
 
 		},
@@ -237,11 +238,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 			foodDatabase: async (searchTerm) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/search_food/${searchTerm}`);
-        			const data = await response.json();
+					const data = await response.json();
 					if (response.ok) {
-						setStore({food_database: data.hints})
+						setStore({ food_database: data.hints })
 					}
 					else {
+						console.log(response)
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			foodInfo: async (measureURI, foodId) => {
+				try {
+					const options = {
+						method: 'POST',
+						body: {
+							"ingredients": [
+								{
+									"quantity": 100,
+									"measureURI": measureURI,
+									"foodId": foodId
+								}
+							]
+						}
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/get-nutrients`, options)
+					const data = response.json()
+					if (response.ok) {
+						setStore({ food_info: data })
+					} else {
 						console.log(response)
 					}
 				} catch (err) {
