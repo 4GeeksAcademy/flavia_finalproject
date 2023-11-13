@@ -17,7 +17,7 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">
 						<img
 							className="icon"
-							src="https://ifeelonline.com/wp-content/uploads/2021/07/Logo-tagline-pos.svg"
+							src="https://cdn1.iconfinder.com/data/icons/minimal-fruit/128/apple-512.png"
 						/>
 					</span>
 				</Link>
