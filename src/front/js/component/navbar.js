@@ -29,12 +29,17 @@ export const Navbar = () => {
 					</Link>
 					<Link to="/searchfood">
 						<button className="appointment_btn">
-						Food Database
+							Food Database
+						</button>
+					</Link>
+					<Link to="/chatbot">
+						<button className="appointment_btn">
+							Chatbot
 						</button>
 					</Link>
 					<Link to="/my-account">
 						<button className="appointment_btn">
-							My account 
+							My account
 						</button>
 					</Link>
 				</div>
