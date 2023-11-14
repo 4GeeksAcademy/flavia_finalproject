@@ -13,6 +13,8 @@ from datetime import datetime
 
 import re
 
+import openai
+
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -56,7 +58,7 @@ MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 
 # Allow CORS requests to this API
-CORS(app)
+CORS(app, supports_credentials=True)
 
 # add the admin
 setup_admin(app)
@@ -435,7 +437,6 @@ def get_nutrients():
         ]
     }
 
-
     response = requests.post(url, headers=headers, json=payload)
     if response.ok:
         return jsonify(response.json())
@@ -443,6 +444,55 @@ def get_nutrients():
         return jsonify({'error': 'Request failed'}), response.status_code
 
 
+# Usando la API de OpenAI ---------------------------------------------------------------------------
+@app.route('/chat', methods=['POST'])
+def chat():
+    openai.api_key = os.getenv("OPENAI_KEY")  # Usa el nombre exacto de tu variable de entorno que contiene la clave de la API
+    body = request.get_json(silent=True)
+    user_input = body['message']
+    
+    response = openai.Completion.create(
+    model="gpt-3.5-turbo",  
+    prompt=user_input,  
+    max_tokens=150  
+    )
+
+    return jsonify(response)
+
+# Usando la api de NewsAPI ----------------------------------------------------------------------
+
+NEWSAPI_KEY = '3e48591d6e3848ce948e50321b591a68'
+
+@app.route('/api/everything', methods=['GET'])
+def get_everything():
+    query = request.args.get('q')
+    from_date = request.args.get('from')
+    to_date = request.args.get('to')
+    sort_by = request.args.get('sortBy', 'publishedAt')  # Default: 'publishedAt'
+    
+    url = 'https://newsapi.org/v2/everything'
+    params = {
+        'q': query,
+        'from': from_date,
+        'to': to_date,
+        'sortBy': sort_by,
+        'apiKey': NEWSAPI_KEY
+    }
+    response = requests.get(url, params=params)
+    return jsonify(response.json())
+
+# Usando la API de RapidAPI -----------------------------------------------------------------------------
+@app.route('/search_youtube', methods=['GET'])
+def search_youtube():
+    query = request.args.get('query')
+    url = "https://youtube-search-results.p.rapidapi.com/youtube-search/"
+    headers = {
+        "X-RapidAPI-Key": "317200501cmsh183d8eaa69b9762p1765b4jsnf7ae0e404afc", 
+        "X-RapidAPI-Host": "youtube-search-results.p.rapidapi.com"
+    }
+    querystring = {"q": query}
+    response = requests.get(url, headers=headers, params=querystring)
+    return jsonify(response.json())
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

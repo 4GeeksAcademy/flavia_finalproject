@@ -42,6 +42,11 @@ export const Navbar = () => {
 							Blog
 						</button>
 					</Link>
+					<Link to="/exercises">
+						<button className="appointment_btn">
+							Exercises
+						</button>
+					</Link>
 					<Link to="/my-account">
 						<button className="appointment_btn">
 							My account

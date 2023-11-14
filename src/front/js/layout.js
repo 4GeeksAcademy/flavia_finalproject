@@ -14,6 +14,7 @@ import { SearchFood } from "./pages/searchfood";
 import { FoodInfo } from "./pages/foodInfo";
 import { ChatBot } from "./pages/chatbot";
 import { NewsSearch } from "./pages/newsSearch";
+import { Exercises } from "./pages/exercises";
 
 import injectContext from "./store/appContext";
 
@@ -49,6 +50,7 @@ const Layout = () => {
                         <Route element={<FoodInfo />} path="/get-nutrients" />
                         <Route element={<ChatBot />} path="/chatbot" />
                         <Route element={<NewsSearch />} path="/blog" />
+                        <Route element={<Exercises />} path="/exercises" />
                         <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
