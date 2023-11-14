@@ -13,6 +13,7 @@ import { Videocall } from "./pages/videocall";
 import { SearchFood } from "./pages/searchfood";
 import { FoodInfo } from "./pages/foodInfo";
 import { ChatBot } from "./pages/chatbot";
+import { NewsSearch } from "./pages/newsSearch";
 
 import injectContext from "./store/appContext";
 
@@ -47,6 +48,7 @@ const Layout = () => {
                         <Route element={<SearchFood />} path="/searchfood" />
                         <Route element={<FoodInfo />} path="/get-nutrients" />
                         <Route element={<ChatBot />} path="/chatbot" />
+                        <Route element={<NewsSearch />} path="/blog" />
                         <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

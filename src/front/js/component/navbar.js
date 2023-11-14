@@ -37,6 +37,11 @@ export const Navbar = () => {
 							Chatbot
 						</button>
 					</Link>
+					<Link to="/blog">
+						<button className="appointment_btn">
+							Blog
+						</button>
+					</Link>
 					<Link to="/my-account">
 						<button className="appointment_btn">
 							My account
