@@ -24,14 +24,12 @@ class User(db.Model):
 class Freelance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(80), unique=True, nullable=False)
-    age = db.Column(db.Integer, unique=False, nullable=False)
-    URLphoto = db.Column(db.String(200), unique=False, nullable=True, default='https://www.eloccidental.com.mx/incoming/gvhext-richard-burlton-htpmedsyzag-unsplash.jpg/ALTERNATES/LANDSCAPE_768/richard-burlton-HTpmedSyZag-unsplash.jpg')
+    URLphoto = db.Column(db.String(200), unique=False, nullable=True, default='https://images.griddo.universitatcarlemany.com/c/contain/q/65/w/754/h/503/f/jpeg/la-importancia-de-la-nutricion-en-la-salud-1')
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    professional_registration_number = db.Column(db.Integer, unique=True)
-    years_of_experience = db.Column(db.Integer, unique=False)
-    education = db.Column(db.String(120), unique=False)
+    professional_registration_number = db.Column(db.String(20), unique=True)
+    education = db.Column(db.String(250), unique=False)
     expertise = db.Column(db.String(200), unique=False)
     aboutme = db.Column(db.String(300), unique=False, nullable=True)
     availability = db.Column(db.JSON, nullable=True)
@@ -43,10 +41,8 @@ class Freelance(db.Model):
         return {
             "id": self.id,
             "full_name": self.full_name,
-            "age": self.age,
             "email": self.email,
             "professional_registration_number": self.professional_registration_number,
-            "years_of_experience": self.years_of_experience,
             "education": self.education,
             "expertise": self.expertise, 
             "URLphoto": self.URLphoto,
