@@ -47,16 +47,21 @@ export const Navbar = () => {
 							Exercises
 						</button>
 					</Link>
-					<Link to="/my-account">
-						<button className="appointment_btn">
-							My account
-						</button>
-					</Link>
 				</div>
 				<div className="ml-auto">
-					<button type="button" className="nav_btn" onClick={handleShowForm}>
-						<i className="fa-regular fa-user"></i> Sign in
-					</button>
+					{store.validated === true ? (
+						// Si el usuario está autenticado, mostrar "My Account"
+						<Link to="/my-account">
+							<button className="nav_btn">
+								<i className="fa-regular fa-user"></i> My Account
+							</button>
+						</Link>
+					) : (
+						// Si no, mostrar "Sign in"
+						<button type="button" className="nav_btn" onClick={handleShowForm}>
+							<i className="fa-regular fa-user"></i> Sign in
+						</button>
+					)}
 				</div>
 			</div>
 		</nav>

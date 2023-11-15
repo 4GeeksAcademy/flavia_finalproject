@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
+			validated: false,
 			users: [],
 			navbar_button: false,
 			freelances: [],
@@ -15,7 +16,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			individual_appointments: [],
 			user_type: null,
 			food_database: [],
-			food_info: []
+			food_info: [],
+			articles: [],
+			videos: [],
 
 
 		},
@@ -93,6 +96,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/login`, options)
 					const data = await response.json()
 					if (response.ok) {
+						setStore({ validated: true })
 						console.log(data.access_token)
 						sessionStorage.setItem('accessToken', data.access_token);
 						return true
@@ -115,6 +119,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (err) {
 					console.log(err)
 				}
+			},
+			logOut: () => {
+				setStore({ validated: false })
 			},
 			myAccount: async (token) => {
 				try {
@@ -270,6 +277,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (err) {
 					console.log(err)
 				}
+			},
+			fetchArticles: async (fromDate, toDate, sortBy) => {
+				try {
+					const query = 'healthy recipes';
+					const response = await fetch(`${process.env.BACKEND_URL}/api/everything?q=${query}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`);
+					const data = await response.json();
+					setStore({ articles: data.articles });
+				} catch (err) {
+					console.log(err);
+				}
+			},
+			searchVideos: async (category) => {
+				const query = 'exercises';
+				const response = await fetch(`${process.env.BACKEND_URL}/search_youtube?query=${query}+${category}`);
+				const data = await response.json();
+				setStore({ videos: data.videos })
 			},
 		}
 	};

@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react'
 
-const API_KEY = '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';
+const API_KEY = process.env.OPENAI_KEY;
 
 export const ChatBot = () => {
     const { store, actions } = useContext(Context);

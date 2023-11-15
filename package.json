@@ -73,9 +73,13 @@
 		]
 	},
 	"dependencies": {
+		"@chatscope/chat-ui-kit-react": "^1.10.1",
+		"@jitsi/react-sdk": "^1.4.0",
+		"@react-oauth/google": "^0.11.1",
 		"@stripe/react-stripe-js": "^2.3.1",
 		"@stripe/stripe-js": "^2.1.10",
 		"date-fns": "^2.30.0",
+		"jwt-decode": "^4.0.0",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-calendar": "^4.6.1",
