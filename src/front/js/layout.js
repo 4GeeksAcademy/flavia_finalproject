@@ -24,6 +24,8 @@ import { Footer } from "./component/footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -32,28 +34,31 @@ const Layout = () => {
 
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
+    const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
     return (
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
-                    <ToastContainer />
-                    <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<MyAccount />} path="/my-account" />
-                        <Route element={<LogIn />} path="/login" />
-                        <Route element={<Appointment />} path="/appointment" />
-                        <Route element={<Payment />} path="/payment" />
-                        <Route element={<UserAppointments />} path="/user-appointments" />
-                        <Route element={<Videocall />} path="/videocall/:jitsiRoomId" />
-                        <Route element={<SearchFood />} path="/searchfood" />
-                        <Route element={<FoodInfo />} path="/get-nutrients" />
-                        <Route element={<ChatBot />} path="/chatbot" />
-                        <Route element={<NewsSearch />} path="/blog" />
-                        <Route element={<Exercises />} path="/exercises" />
-                        <Route path="*" element={<h1>Not found!</h1>} />
-                    </Routes>
-                    <Footer />
+                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                        <Navbar />
+                        <ToastContainer />
+                        <Routes>
+                            <Route element={<Home />} path="/" />
+                            <Route element={<MyAccount />} path="/my-account" />
+                            <Route element={<LogIn />} path="/login" />
+                            <Route element={<Appointment />} path="/appointment" />
+                            <Route element={<Payment />} path="/payment" />
+                            <Route element={<UserAppointments />} path="/user-appointments" />
+                            <Route element={<Videocall />} path="/videocall/:jitsiRoomId" />
+                            <Route element={<SearchFood />} path="/searchfood" />
+                            <Route element={<FoodInfo />} path="/get-nutrients" />
+                            <Route element={<ChatBot />} path="/chatbot" />
+                            <Route element={<NewsSearch />} path="/blog" />
+                            <Route element={<Exercises />} path="/exercises" />
+                            <Route path="*" element={<h1>Not found!</h1>} />
+                        </Routes>
+                        <Footer />
+                    </GoogleOAuthProvider>
                 </ScrollToTop>
             </BrowserRouter>
         </div>

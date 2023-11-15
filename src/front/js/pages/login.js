@@ -5,6 +5,8 @@ import { SignUp } from "./signup.js";
 import "../../styles/login.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 export const LogIn = () => {
 	const { store, actions } = useContext(Context)
@@ -76,6 +78,15 @@ export const LogIn = () => {
 							<span></span>
 							Log in
 						</button>
+						<GoogleLogin
+							onSuccess={credentialResponse => {
+								let credentialResponseDecoded = jwtDecode(credentialResponse.credential)
+								console.log(credentialResponseDecoded)
+							}}
+							onError={() => {
+								console.log('Login Failed');
+							}}
+						/>
 					</form>
 					<p>Don't have an account? <a className="a2" onClick={handleButtonSignUpThen}>Sign up!</a></p>
 				</div>
