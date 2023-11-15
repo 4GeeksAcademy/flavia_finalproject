@@ -11,6 +11,7 @@ export const SignUp = () => {
 	const navigate = useNavigate();
 
 	const [newUser, setNewUser] = useState({
+		full_name: '',
 		email: '',
 		password: '',
 	});
@@ -33,6 +34,7 @@ export const SignUp = () => {
 		console.log('Formulario enviado:', newUser);
 		const isSigned = await actions.registerUser(newUser)
 		setNewUser({
+			full_name: '',
 			email: '',
 			password: '',
 		});
@@ -63,6 +65,10 @@ export const SignUp = () => {
 						<p id="p"> Create an account</p>
 					</div>
 					<form onSubmit={handleSignUp}>
+						<div className="user-box">
+							<input required="" name="full_name" type="text" value={newUser.full_name} onChange={handleRegister} />
+							<label>Full name</label>
+						</div>
 						<div className="user-box">
 							<input required="" name="email" type="text" value={newUser.email} onChange={handleRegister} />
 							<label>Email</label>

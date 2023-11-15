@@ -22,6 +22,7 @@ export const MyAccount = () => {
     };
 
     const handleLogOut = () => {
+        actions.logOut();
         sessionStorage.removeItem('accessToken');
         toast('You are logged out. Come back soon!', {
             position: "bottom-center",

@@ -101,6 +101,8 @@ def handle_new_user():
     body = request.get_json(silent=True)
     if body is None:
         return jsonify({'msg':'Body must be filled'}), 400
+    if 'full_name' not in body or body['full_name'] is None or body['full_name'] == '':
+        return jsonify({'msg': 'Specify full name'}), 400
     if 'email' not in body or body['email'] is None or body['email'] == '':
         return jsonify({'msg': 'Specify email'}), 400
     if User.query.filter_by(email= body['email']).first():
@@ -109,6 +111,7 @@ def handle_new_user():
         return jsonify({'msg': 'Specify password'}), 400
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     new_user = User()
+    new_user.full_name = body['full_name']
     new_user.email = body['email']
     new_user.password = pw_hash
     new_user.is_active = True

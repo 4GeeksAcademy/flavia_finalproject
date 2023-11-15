@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
+			validated: false,
 			users: [],
 			navbar_button: false,
 			freelances: [],
@@ -95,6 +96,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${process.env.BACKEND_URL}/login`, options)
 					const data = await response.json()
 					if (response.ok) {
+						setStore({validated: true})
 						console.log(data.access_token)
 						sessionStorage.setItem('accessToken', data.access_token);
 						return true
@@ -117,6 +119,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (err) {
 					console.log(err)
 				}
+			},
+			logOut: () => {
+				setStore({validated: false})
 			},
 			myAccount: async (token) => {
 				try {
