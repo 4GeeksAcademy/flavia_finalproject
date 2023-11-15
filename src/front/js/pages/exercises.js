@@ -1,36 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Context } from "../store/appContext";
 
 export const Exercises = () => {
-    const [query, setQuery] = useState('exercises');
+    const { store, actions } = useContext(Context)
     const [category, setCategory] = useState('full-body');
-    const [results, setResults] = useState([]);
-
     const categories = ['full-body', 'upper-body', 'lower-body', 'arms', 'abs', 'legs'];
 
-    const search = async () => {
-        const response = await fetch(`${process.env.BACKEND_URL}/search_youtube?query=${query}+${category}`);
-        const data = await response.json();
-        setResults(data.videos);
-    };
-
-    useEffect(() => { search() }, [])
+    const handle_searchVideos = () => {
+        actions.searchVideos(category)
+    }
 
     return (
         <div>
-            <input
-                type="text"
-                value={query}
-                placeholder="Busca un ejercicio específico o selecciona una categoría"
-                onChange={e => setQuery(e.target.value)}
-            />
             <select onChange={(e) => setCategory(e.target.value)} value={category}>
                 {categories.map(cat => (
                     <option key={cat} value={cat}>{cat.replace('-', ' ')}</option>
                 ))}
             </select>
-            <button onClick={search}>Buscar</button>
+            <button onClick={handle_searchVideos}>Buscar</button>
             <div className="video-container">
-                {results.map(video => (
+                {store.videos.map(video => (
                     <div key={video.id} className="video">
                         <iframe
                             src={`https://www.youtube.com/embed/${video.id}`}

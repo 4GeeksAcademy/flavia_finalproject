@@ -16,7 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user_type: null,
 			food_database: [],
 			food_info: [],
-			articles: []
+			articles: [],
+			videos: [],
 
 
 		},
@@ -281,6 +282,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (err) {
 					console.log(err);
 				}
+			},
+			searchVideos: async (category) => {
+				const query= 'exercises';
+				const response = await fetch(`${process.env.BACKEND_URL}/search_youtube?query=${query}+${category}`);
+				const data = await response.json();
+				setStore({videos: data.videos})
 			},
 		}
 	};
