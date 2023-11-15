@@ -444,24 +444,9 @@ def get_nutrients():
         return jsonify({'error': 'Request failed'}), response.status_code
 
 
-# Usando la API de OpenAI ---------------------------------------------------------------------------
-@app.route('/chat', methods=['POST'])
-def chat():
-    openai.api_key = os.getenv("OPENAI_KEY")  # Usa el nombre exacto de tu variable de entorno que contiene la clave de la API
-    body = request.get_json(silent=True)
-    user_input = body['message']
-    
-    response = openai.Completion.create(
-    model="gpt-3.5-turbo",  
-    prompt=user_input,  
-    max_tokens=150  
-    )
-
-    return jsonify(response)
-
 # Usando la api de NewsAPI ----------------------------------------------------------------------
 
-NEWSAPI_KEY = '3e48591d6e3848ce948e50321b591a68'
+NEWSAPI_KEY = os.getenv('NEWSAPI_KEY')
 
 @app.route('/api/everything', methods=['GET'])
 def get_everything():
@@ -482,12 +467,13 @@ def get_everything():
     return jsonify(response.json())
 
 # Usando la API de RapidAPI -----------------------------------------------------------------------------
+RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')
 @app.route('/search_youtube', methods=['GET'])
 def search_youtube():
     query = request.args.get('query')
     url = "https://youtube-search-results.p.rapidapi.com/youtube-search/"
     headers = {
-        "X-RapidAPI-Key": "317200501cmsh183d8eaa69b9762p1765b4jsnf7ae0e404afc", 
+        "X-RapidAPI-Key": RAPIDAPI_KEY, 
         "X-RapidAPI-Host": "youtube-search-results.p.rapidapi.com"
     }
     querystring = {"q": query}

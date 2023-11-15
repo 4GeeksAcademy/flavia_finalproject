@@ -15,7 +15,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			individual_appointments: [],
 			user_type: null,
 			food_database: [],
-			food_info: []
+			food_info: [],
+			articles: []
 
 
 		},
@@ -269,6 +270,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (err) {
 					console.log(err)
+				}
+			},
+			fetchArticles: async (fromDate, toDate, sortBy) => {
+				try {
+					const query = 'healthy recipes';
+					const response = await fetch(`${process.env.BACKEND_URL}/api/everything?q=${query}&from=${fromDate}&to=${toDate}&sortBy=${sortBy}`);
+					const data = await response.json();
+					setStore({articles: data.articles});
+				} catch (err) {
+					console.log(err);
 				}
 			},
 		}
