@@ -19,8 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			food_info: [],
 			articles: [],
 			videos: [],
-
-
+			loading: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -289,10 +288,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			searchVideos: async (category) => {
+				setStore({ loading: true });
 				const query = 'exercises';
 				const response = await fetch(`${process.env.BACKEND_URL}/search_youtube?query=${query}+${category}`);
-				const data = await response.json();
-				setStore({ videos: data.videos })
+				if (response.ok) {
+					const data = await response.json();
+					setStore({ videos: data.videos, loading: false }); // Actualiza videos y desactiva el estado de carga
+				} else {
+					// Aquí deberías manejar el caso de que la respuesta no sea 'ok'
+					setStore({ loading: false }); // Desactiva el estado de carga incluso si hay un error
+				}
 			},
 		}
 	};

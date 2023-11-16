@@ -1,5 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from "../store/appContext";
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 export const Exercises = () => {
     const { store, actions } = useContext(Context);
@@ -16,6 +18,7 @@ export const Exercises = () => {
         setVisibleVideos(prev => prev + 4); // Añade 4 videos más a la visualización
     };
 
+
     return (
         <div>
             <select onChange={(e) => setCategory(e.target.value)} value={category}>
@@ -25,22 +28,24 @@ export const Exercises = () => {
             </select>
             <button onClick={handle_searchVideos}>Buscar</button>
             <div className="video-container">
-                {store.videos && store.videos.slice(0, visibleVideos).map(video => (
-                    <div key={video.id} className="video">
-                        <iframe
-                            src={`https://www.youtube.com/embed/${video.id}`}
-                            title={video.title}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="video-frame"
-                        ></iframe>
-                        <p>{video.title}</p>
-                    </div>
-                ))}
+                {store.loading ? (
+                    <p>Cargando...</p> // Muestra el mensaje de carga
+                ) : (
+                    store.videos && store.videos.slice(0, visibleVideos).map(video => (
+                        <div key={video.id} className="video">
+                            <LiteYouTubeEmbed
+                                id={video.id}
+                                title={video.title}
+                            />
+                            <p>{video.title}</p>
+                        </div>
+                    ))
+                )}
+                {!store.loading && store.videos && visibleVideos < store.videos.length && (
+                    <button onClick={handleLoadMore}>Cargar más</button>
+                )}
             </div>
-            {store.videos && visibleVideos < store.videos.length && (
-                <button onClick={handleLoadMore}>Cargar más</button>
-            )}
+
         </div>
     );
 }
