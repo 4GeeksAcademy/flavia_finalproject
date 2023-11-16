@@ -6,7 +6,6 @@ import "../../styles/login.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
 
 export const LogIn = () => {
 	const { store, actions } = useContext(Context)
@@ -54,6 +53,29 @@ export const LogIn = () => {
 		}
 	};
 
+	const handleGoogleSuccess = async (credentialResponse) => {
+		const googleUser = {
+			id_token: credentialResponse.credential
+		};
+		const isLogged = await actions.logInUser(googleUser)
+		if (isLogged) {
+			toast.success('You are successfully logged in!', {
+				position: "bottom-center",
+				autoClose: 2000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+				style: {
+					backgroundColor: "rgb(122, 157, 84)",
+				},
+			});
+			navigate('/my-account');
+		}
+	};
+
 	return (
 		<>
 			{
@@ -80,8 +102,7 @@ export const LogIn = () => {
 						</button>
 						<GoogleLogin
 							onSuccess={credentialResponse => {
-								let credentialResponseDecoded = jwtDecode(credentialResponse.credential)
-								console.log(credentialResponseDecoded)
+								handleGoogleSuccess(credentialResponse)
 							}}
 							onError={() => {
 								console.log('Login Failed');

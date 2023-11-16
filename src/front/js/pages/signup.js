@@ -5,6 +5,7 @@ import { LogIn } from "./login.js";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../../styles/login.css";
+import { GoogleLogin } from '@react-oauth/google';
 
 export const SignUp = () => {
 	const { store, actions } = useContext(Context)
@@ -56,6 +57,29 @@ export const SignUp = () => {
 		};
 	};
 
+	const handleGoogleSuccess = async (credentialResponse) => {
+		const googleUser = {
+			id_token: credentialResponse.credential
+		};
+		const isSigned = await actions.registerUser(googleUser)
+		if (isSigned) {
+			toast.success('You have created your account. Now log in!', {
+				position: "bottom-center",
+				autoClose: 2000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+				style: {
+					backgroundColor: "rgb(122, 157, 84)",
+				},
+			});
+			navigate('/my-account')
+		};
+	};
+
 	return (
 		<>
 			{
@@ -85,6 +109,14 @@ export const SignUp = () => {
 							Register
 						</button>
 					</form>
+					<GoogleLogin
+						onSuccess={credentialResponse => {
+							handleGoogleSuccess(credentialResponse)
+						}}
+						onError={() => {
+							console.log('Login Failed');
+						}}
+					/>
 					<p>Already have an account? <a className="a2" onClick={handleAlreadyButton}>Log in!</a></p>
 				</div>
 			}

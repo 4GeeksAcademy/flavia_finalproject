@@ -13,7 +13,7 @@ from datetime import datetime
 
 import re
 
-import openai
+from sqlalchemy.exc import IntegrityError
 
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -99,55 +99,89 @@ def handle_all_users():
 @app.route('/signup', methods=['POST'])
 def handle_new_user():
     body = request.get_json(silent=True)
+
     if body is None:
         return jsonify({'msg':'Body must be filled'}), 400
-    if 'full_name' not in body or body['full_name'] is None or body['full_name'] == '':
-        return jsonify({'msg': 'Specify full name'}), 400
-    if 'email' not in body or body['email'] is None or body['email'] == '':
-        return jsonify({'msg': 'Specify email'}), 400
-    if User.query.filter_by(email= body['email']).first():
-        return jsonify({'msg': 'There is already an account associated with that email'}), 400
-    if 'password' not in body or body['password'] is None or body['password'] == '':
-        return jsonify({'msg': 'Specify password'}), 400
-    pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
-    new_user = User()
-    new_user.full_name = body['full_name']
-    new_user.email = body['email']
-    new_user.password = pw_hash
-    new_user.is_active = True
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'msg': 'User successfully registered '}), 200
+
+    # Registro regular
+    if 'password' in body:
+        # Validaciones para registro regular
+        required_fields = ['full_name', 'email', 'password']
+        for field in required_fields:
+            if field not in body or not body[field]:
+                return jsonify({'msg': f'Missing field {field}'}), 400
+
+        if User.query.filter_by(email=body['email']).first():
+            return jsonify({'msg': 'There is already an account associated with that email'}), 400
+
+        pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+
+        new_user = User()
+        new_user.full_name = body['full_name']
+        new_user.email = body['email']
+        new_user.password = pw_hash
+        new_user.is_active = True
+
+    # Registro con Google
+    elif 'id_token' in body:
+        # Verificar el token de Google
+        response = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={body["id_token"]}')
+        if not response.ok:
+            return jsonify({'msg': 'Invalid Google token'}), 400
+
+        google_info = response.json()
+
+        # Comprobar si el usuario ya existe
+        if User.query.filter_by(email=google_info['email']).first():
+            return jsonify({'msg': 'There is already an account associated with that email'}), 400
+
+        # Crear un nuevo usuario con la información de Google
+        new_user = User()
+        new_user.full_name = google_info.get('name')  # Puedes ajustar esto según tu modelo
+        new_user.email = google_info['email']
+        new_user.google_id = google_info['sub']  # 'sub' es el identificador único del usuario en Google
+        new_user.is_active = True
+
+    else:
+        return jsonify({'msg': 'Invalid registration data'}), 400
+
+    # Intenta agregar el usuario a la base de datos
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({'msg': 'User successfully registered '}), 200
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'msg': 'Error registering user'}), 500
 
 @app.route('/login', methods=['POST'])
 def login():
     body = request.get_json(silent=True)
     if body is None:
         return jsonify({'msg':'Body must be filled'}), 400
-    if 'email' not in body  or body['email'] is None or body['email'] == '':
-        return jsonify({'msg': 'Specify email'}), 400
-    if 'password' not in body or body['password'] is None or body['password'] == '': 
-        return jsonify({'msg': 'Specify password'}), 400
-    
-    # Intenta buscar el usuario en la tabla User
-    user = User.query.filter_by(email=body['email']).first()
-    
-    if not user:
-        # Si no se encuentra en User, intenta buscarlo en la tabla Freelancer
-        freelancer = Freelance.query.filter_by(email=body['email']).first()
-        if not freelancer:
+
+    # Inicio de sesión regular
+    if 'email' in body and 'password' in body:
+        user = User.query.filter_by(email=body['email']).first()
+        if not user or not bcrypt.check_password_hash(user.password, body['password']):
             return jsonify({"msg": "Bad username or password"}), 400
-        elif freelancer.password != body['password']:
-            return jsonify({"msg": "Bad username or password"}), 400
-        else:
-            access_token = create_access_token(identity=freelancer.email)
+        access_token = create_access_token(identity=user.email)
+
+    # Inicio de sesión con Google
+    elif 'id_token' in body:
+        response = requests.get(f'https://oauth2.googleapis.com/tokeninfo?id_token={body["id_token"]}')
+        if not response.ok:
+            return jsonify({'msg': 'Invalid Google token'}), 400
+        google_info = response.json()
+
+        user = User.query.filter_by(email=google_info['email']).first()
+        if not user:
+            return jsonify({"msg": "Google user not found"}), 400
+        access_token = create_access_token(identity=user.email)
     else:
-        if not bcrypt.check_password_hash(user.password, body['password']):
-            return jsonify({"msg": "Bad username or password"}), 400
-        else:
-            access_token = create_access_token(identity=user.email)
-    
-    return jsonify(access_token=access_token)
+        return jsonify({'msg': 'Invalid login data'}), 400
+
+    return jsonify(access_token=access_token), 200
 
 
 @app.route('/my-account', methods=['GET'])
