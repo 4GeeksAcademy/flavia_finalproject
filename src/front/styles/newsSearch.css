@@ -1,0 +1,48 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.input-field input[type="date"],
+.custom-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select {
+    background-color: black;
+    color: white;
+}
+
+option:hover {
+    background-color: white;
+    color: black;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: black;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .form-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
