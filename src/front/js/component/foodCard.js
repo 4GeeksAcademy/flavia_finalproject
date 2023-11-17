@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
+import "../../styles/foodCard.css"
 
 export const FoodCard = ({ label, ENERC_KCAL, foodId, measureURI }) => {
     console.log('foodId', foodId, 'measureURI', measureURI)
@@ -13,12 +14,13 @@ export const FoodCard = ({ label, ENERC_KCAL, foodId, measureURI }) => {
     }
 
     return (
-        <section>
-            <div>
-                {label} - {ENERC_KCAL} Kcal
+        <div className="food-card">
+            <div className="food-card-details">
+                <p className="food-card-title">{label}</p>
+                <p className="food-card-body">{ENERC_KCAL} Kcal</p>
             </div>
-            <button onClick={handleGetNutrients} >See more</button>
-        </section>
+            <button className="food-card-button" onClick={handleGetNutrients}>More info</button>
+        </div>
 
     )
 }

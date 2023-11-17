@@ -9,7 +9,7 @@ export const ChatBot = () => {
     const { store, actions } = useContext(Context);
     const [typing, setTyping] = useState(false)
     const [messages, setMessages] = useState([{
-        message: "Hey there! I'm here to help with nutrition advice. Feel free to ask me anything :)",
+        message: "Hey there! I'm here to help with nutrition advice. Feel free to ask me anything :) Be Specific. Provide Context. Ask Step by Step.",
         sender: "ChatGPT"
     }]);
     const [inputMessage, setInputMessage] = useState('');
