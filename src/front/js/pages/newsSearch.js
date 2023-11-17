@@ -12,10 +12,6 @@ export const NewsSearch = () => {
         actions.fetchArticles(fromDate, toDate, sortBy)
     }
 
-    useEffect(() => {
-        actions.fetchArticles(fromDate, toDate, sortBy)
-    }, []);
-
     return (
         <div>
             <input
@@ -34,9 +30,9 @@ export const NewsSearch = () => {
                 <option value="relevancy">Relevancy</option>
             </select>
             <button onClick={handle_fetchArticles}>Search</button>
-            <div>
+            <div className="cards-row">
                 {store.articles.map((article, index) => (
-                    <SearchCard title={article.title} url={article.url} author={article.author} />
+                    <SearchCard key={article.title} title={article.title} url={article.url} author={article.author} />
                 ))}
             </div>
         </div>
