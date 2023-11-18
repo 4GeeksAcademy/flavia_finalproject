@@ -1,0 +1,98 @@
+.food-info {
+    font-family: 'Arial', sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.food-info h2 {
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.calories,
+.health-labels {
+    padding: 10px 0;
+}
+
+.health-labels {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.health-labels h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.health-labels p {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.health-labels span:not(:last-child)::after {
+    content: '•';
+    color: #999;
+    font-size: 24px;
+    padding: 0 8px;
+    line-height: 1;
+}
+
+.nutrition-facts {
+    background: #fff;
+    width: 488px;
+    padding: 20px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.nutrition-facts h1 {
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.nutrition-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.nutrition-label {
+    font-size: 16px;
+}
+
+.nutrition-value {
+    font-size: 16px;
+    text-align: right;
+    flex: 1;
+}
+
+.bold .nutrition-label {
+    font-weight: bold;
+}
+
+.separator {
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+.footer {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+}
