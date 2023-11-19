@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Context } from "../store/appContext";
 import "../../styles/foodInfo.css"
+import { MacroTable } from '../component/macroTable';
 
 export const FoodInfo = () => {
     const { store } = useContext(Context);
@@ -14,6 +15,13 @@ export const FoodInfo = () => {
     const formatLabel = (label) => {
         // Reemplaza guiones bajos por espacios y convierte a mayúsculas la primera letra
         return label.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    };
+
+    const getNutrientQuantity = (nutrient) => {
+        const quantity = nutrient?.quantity || 0;
+        // Verificar si quantity es un número y redondear a dos decimales.
+        // El '+' al inicio convierte el string resultante de nuevo a un número.
+        return typeof quantity === 'number' ? +quantity.toFixed(2) : 0;
     };
 
     return (
@@ -32,81 +40,24 @@ export const FoodInfo = () => {
             </div>
             <div className="nutrition-facts">
                 <h1>Nutrition Facts</h1>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Serving Size</span>
-                    <span className="nutrition-value">100g</span>
-                </div>
-                <div className="separator"></div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label bold">Calories</span>
-                    <span className="nutrition-value">71</span>
-                </div>
-                <div className="separator"></div>
-                <div className="nutrition-row bold">
-                    <span className="nutrition-label">Total Fat</span>
-                    <span className="nutrition-value">1.52g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Saturated Fat</span>
-                    <span className="nutrition-value">0.31g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Trans Fat</span>
-                    <span className="nutrition-value">0g</span>
-                </div>
-                <div className="nutrition-row bold">
-                    <span className="nutrition-label">Cholesterol</span>
-                    <span className="nutrition-value">0mg</span>
-                </div>
-                <div className="nutrition-row bold">
-                    <span className="nutrition-label">Sodium</span>
-                    <span className="nutrition-value">4mg</span>
-                </div>
-                <div className="separator"></div>
-                <div className="nutrition-row bold">
-                    <span className="nutrition-label">Total Carbohydrate</span>
-                    <span className="nutrition-value">12g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Dietary Fiber</span>
-                    <span className="nutrition-value">1.7g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Total Sugars</span>
-                    <span className="nutrition-value">0.27g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Includes</span>
-                    <span className="nutrition-value">0g Added Sugars</span>
-                </div>
-                <div className="separator"></div>
-                <div className="nutrition-row bold">
-                    <span className="nutrition-label">Protein</span>
-                    <span className="nutrition-value">2.54g</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Vitamin D</span>
-                    <span className="nutrition-value">0µg</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Calcium</span>
-                    <span className="nutrition-value">9mg</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Iron</span>
-                    <span className="nutrition-value">0.9mg</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Potassium</span>
-                    <span className="nutrition-value">70mg</span>
-                </div>
-                <div className="nutrition-row">
-                    <span className="nutrition-label">Vitamin C</span>
-                    <span className="nutrition-value">0mg</span>
-                </div>
-                <div className="footer">
-                    * Percent Daily Values are based on a 2000 calorie diet.
-                </div>
+                {nutrients ? <MacroTable
+                    calories={getNutrientQuantity(nutrients.ENERC_KCAL)}
+                    totalFat={getNutrientQuantity(nutrients.FAT)}
+                    saturatedFat={getNutrientQuantity(nutrients.FASAT)}
+                    transFat={getNutrientQuantity(nutrients.FATRN)}
+                    cholesterol={getNutrientQuantity(nutrients.CHOLE)}
+                    sodium={getNutrientQuantity(nutrients.NA)}
+                    totalCarbs={getNutrientQuantity(nutrients.CHOCDF)}
+                    dietaryFiber={getNutrientQuantity(nutrients.FIBTG)}
+                    totalSugars={getNutrientQuantity(nutrients.SUGAR)}
+                    protein={getNutrientQuantity(nutrients.PROCNT)}
+                    vitaminD={getNutrientQuantity(nutrients.VITD)}
+                    calcium={getNutrientQuantity(nutrients.CA)}
+                    iron={getNutrientQuantity(nutrients.FE)}
+                    potassium={getNutrientQuantity(nutrients.K)}
+                    vitaminC={getNutrientQuantity(nutrients.VITC)}
+                    sugarAdded={nutrients['SUGAR.added'] ? getNutrientQuantity(nutrients['SUGAR.added']) : 0}
+                /> : "No nutrition facts"}
             </div>
         </div>
     );
