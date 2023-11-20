@@ -1,17 +1,41 @@
-.food-info {
-    font-family: 'Arial', sans-serif;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.food-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.food-info h2 {
+.left-content,
+.right-content {
+    max-width: 600px;
+}
+
+.chart-container,
+.nutrition-facts {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+
+    .left-content,
+    .right-content {
+        max-width: 100%;
+        /* En pantalla pequeña, cada sección ocupa el 100% */
+    }
+}
+
+
+.food-info-container h2 {
     color: #333;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+    text-transform: capitalize;
 }
 
 .calories,
@@ -29,6 +53,7 @@
 .health-labels h3 {
     font-size: 24px;
     margin-bottom: 10px;
+    margin-top: 50px;
 }
 
 .health-labels p {
@@ -50,7 +75,6 @@
 
 .nutrition-facts {
     background: #fff;
-    width: 488px;
     padding: 20px;
     margin: 20px auto;
     border: 1px solid #ccc;
@@ -66,3 +90,77 @@
     margin-bottom: 12px;
 }
 
+.chart-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+}
+
+.circle-chart {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 3vh;
+    margin-top: 4vh;
+    align-self: center;
+}
+
+.circle-chart div {
+    background-color: white;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+
+.circle-chart div span {
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.nutrition-info {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nutrition-info li {
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+.fat {
+    background-color: #FF6347;
+}
+
+.carbs {
+    background-color: #FFD700;
+}
+
+.protein {
+    background-color: #90EE90;
+}

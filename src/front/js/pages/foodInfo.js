@@ -5,59 +5,106 @@ import { MacroTable } from '../component/macroTable';
 
 export const FoodInfo = () => {
     const { store } = useContext(Context);
-    const { food_info } = store;
+    const food_info = store.food_info || {};
 
-    // Destructuramos la información necesaria de food_info
     const ingredient = food_info.ingredients?.[0]?.parsed?.[0];
-    const nutrients = food_info.totalNutrients;
-    const healthLabels = food_info.healthLabels;
-    console.log(nutrients)
+    const nutrients = food_info.totalNutrients || {};
+    const healthLabels = food_info.healthLabels || [];
+
     const formatLabel = (label) => {
-        // Reemplaza guiones bajos por espacios y convierte a mayúsculas la primera letra
         return label.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
     };
 
     const getNutrientQuantity = (nutrient) => {
         const quantity = nutrient?.quantity || 0;
-        // Verificar si quantity es un número y redondear a dos decimales.
-        // El '+' al inicio convierte el string resultante de nuevo a un número.
         return typeof quantity === 'number' ? +quantity.toFixed(2) : 0;
     };
 
+
+    const calculateRoundedPercentage = (nutrientGrams, nutrientKcalPerGram) => {
+        const totalCalories = food_info.calories > 0 ? food_info.calories : 1;
+        return Math.floor((nutrientGrams * nutrientKcalPerGram) / totalCalories * 100);
+    };
+
+    let fatPercentage = calculateRoundedPercentage(getNutrientQuantity(nutrients.FAT), 9);
+    let carbsPercentage = calculateRoundedPercentage(getNutrientQuantity(nutrients.CHOCDF), 4);
+    let proteinPercentage = calculateRoundedPercentage(getNutrientQuantity(nutrients.PROCNT), 4);
+
+    const totalRoundedPercentage = fatPercentage + carbsPercentage + proteinPercentage;
+    const remainder = 100 - totalRoundedPercentage;
+
+    if (remainder > 0) {
+        const fatResidue = getNutrientQuantity(nutrients.FAT) * 9 % 1;
+        const carbsResidue = getNutrientQuantity(nutrients.CHOCDF) * 4 % 1;
+        const proteinResidue = getNutrientQuantity(nutrients.PROCNT) * 4 % 1;
+        const maxResidue = Math.max(fatResidue, carbsResidue, proteinResidue);
+
+        if (maxResidue === fatResidue) {
+            fatPercentage += remainder;
+        } else if (maxResidue === carbsResidue) {
+            carbsPercentage += remainder;
+        } else {
+            proteinPercentage += remainder;
+        }
+    }
+
+    const carbsStart = fatPercentage;
+    const proteinStart = carbsStart + carbsPercentage;
+
+
     return (
-        <div className="food-info">
-            <h2>{ingredient ? ingredient.food : 'No food found'}</h2>
-            <div className="calories">
-                <p>Calories: {food_info.calories}</p>
+        <div className="food-info-container">
+            <div className="left-content">
+                <h2>{ingredient ? ingredient.food : 'No food found'}</h2>
+                <div className="chart-container">
+                    <div className="circle-chart" style={{
+                        background: `conic-gradient(
+                        #FF6347 0% ${fatPercentage}%,
+                        #FFD700 ${carbsStart}% ${proteinStart}%,
+                        #90EE90 ${proteinStart}% 100%
+                    )`
+                    }}>
+                        <div>
+                            <span>{food_info.calories}<br />Calories</span>
+                        </div>
+                    </div>
+                    <ul className="nutrition-info">
+                        <li><span className="dot fat"></span>{getNutrientQuantity(nutrients.FAT)}g Fat</li>
+                        <li><span className="dot carbs"></span>{getNutrientQuantity(nutrients.CHOCDF)}g Carbs</li>
+                        <li><span className="dot protein"></span>{getNutrientQuantity(nutrients.PROCNT)}g Protein</li>
+                    </ul>
+                </div>
+                <div className="health-labels">
+                    <h3>Nutrition claims</h3>
+                    <p>
+                        {healthLabels?.map((label, index) => (
+                            <span key={index}>{formatLabel(label)}</span>
+                        )) || 'No health labels'}
+                    </p>
+                </div>
             </div>
-            <div className="health-labels">
-                <h3>Nutrition claims</h3>
-                <p>
-                    {healthLabels?.map((label, index) => (
-                        <span key={index}>{formatLabel(label)}</span>
-                    )) || 'No health labels'}
-                </p>
-            </div>
-            <div className="nutrition-facts">
-                <h1>Nutrition Facts</h1>
-                {nutrients ? <MacroTable
-                    calories={getNutrientQuantity(nutrients.ENERC_KCAL)}
-                    totalFat={getNutrientQuantity(nutrients.FAT)}
-                    saturatedFat={getNutrientQuantity(nutrients.FASAT)}
-                    transFat={getNutrientQuantity(nutrients.FATRN)}
-                    cholesterol={getNutrientQuantity(nutrients.CHOLE)}
-                    sodium={getNutrientQuantity(nutrients.NA)}
-                    totalCarbs={getNutrientQuantity(nutrients.CHOCDF)}
-                    dietaryFiber={getNutrientQuantity(nutrients.FIBTG)}
-                    totalSugars={getNutrientQuantity(nutrients.SUGAR)}
-                    protein={getNutrientQuantity(nutrients.PROCNT)}
-                    vitaminD={getNutrientQuantity(nutrients.VITD)}
-                    calcium={getNutrientQuantity(nutrients.CA)}
-                    iron={getNutrientQuantity(nutrients.FE)}
-                    potassium={getNutrientQuantity(nutrients.K)}
-                    vitaminC={getNutrientQuantity(nutrients.VITC)}
-                    sugarAdded={nutrients['SUGAR.added'] ? getNutrientQuantity(nutrients['SUGAR.added']) : 0}
-                /> : "No nutrition facts"}
+            <div className="right-content">
+                <div className="nutrition-facts">
+                    <h1>Nutrition Facts</h1>
+                    {nutrients ? <MacroTable
+                        calories={getNutrientQuantity(nutrients.ENERC_KCAL)}
+                        totalFat={getNutrientQuantity(nutrients.FAT)}
+                        saturatedFat={getNutrientQuantity(nutrients.FASAT)}
+                        transFat={getNutrientQuantity(nutrients.FATRN)}
+                        cholesterol={getNutrientQuantity(nutrients.CHOLE)}
+                        sodium={getNutrientQuantity(nutrients.NA)}
+                        totalCarbs={getNutrientQuantity(nutrients.CHOCDF)}
+                        dietaryFiber={getNutrientQuantity(nutrients.FIBTG)}
+                        totalSugars={getNutrientQuantity(nutrients.SUGAR)}
+                        protein={getNutrientQuantity(nutrients.PROCNT)}
+                        vitaminD={getNutrientQuantity(nutrients.VITD)}
+                        calcium={getNutrientQuantity(nutrients.CA)}
+                        iron={getNutrientQuantity(nutrients.FE)}
+                        potassium={getNutrientQuantity(nutrients.K)}
+                        vitaminC={getNutrientQuantity(nutrients.VITC)}
+                        sugarAdded={nutrients['SUGAR.added'] ? getNutrientQuantity(nutrients['SUGAR.added']) : 0}
+                    /> : "No nutrition facts"}
+                </div>
             </div>
         </div>
     );

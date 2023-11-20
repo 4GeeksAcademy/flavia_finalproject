@@ -7,7 +7,7 @@
 
 #search-box {
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: 1px solid black;
     margin-right: 10px;
     outline: none;
@@ -19,9 +19,17 @@
     box-sizing: border-box;
 }
 
+#search-box:-webkit-autofill,
+#search-box:-webkit-autofill:hover,
+#search-box:-webkit-autofill:focus,
+#search-box:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+
 #search-button {
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: none;
     background-color: black;
     color: white;
@@ -62,13 +70,13 @@
 /* Estilos para pantallas medianas y pequeñas, dos columnas */
 @media only screen and (max-width: 1024px) {
     .food-cards-container {
-        grid-template-columns: repeat(2, minmax(0, 1fr)); 
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 /* Estilos para pantallas muy pequeñas, una columna */
-@media only screen and (max-width: 600px) { 
+@media only screen and (max-width: 600px) {
     .food-cards-container {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
 }

@@ -1,64 +1,50 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import "../../styles/navbar.css"
-import { Context } from "../store/appContext";
-
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Context } from '../store/appContext';
+import '../../styles/navbar.css';
+import { FaBars } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
 
 export const Navbar = () => {
-	const { store, actions } = useContext(Context)
-	const handleShowForm = () => {
-		actions.showForm()
-	}
+	const { store, actions } = useContext(Context);
+	const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+	const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
 	return (
-		<nav className="navbar navbar-light bg-white">
+		<nav className="navbar navbar-expand-lg navbar-light bg-white">
 			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">
-						<img
-							className="icon"
-							src="https://cdn1.iconfinder.com/data/icons/minimal-fruit/128/apple-512.png"
-						/>
-					</span>
+				<Link to="/" className="navbar-brand mb-0 h1">
+					BETTER TOGETHER
 				</Link>
-				<div>
-					<Link to="/appointment">
-						<button className="appointment_btn">
-							Schedule Appointment
-						</button>
+				<button className="navbar-toggler" type="button" onClick={handleNavCollapse}>
+					<FaBars />
+				</button>
+
+				<div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
+					<Link to="/appointment" className="btn btn2 nav-link">
+						<span className="spn2">Appointment</span>
 					</Link>
-					<Link to="/searchfood">
-						<button className="appointment_btn">
-							Food Database
-						</button>
+					<Link to="/searchfood" className="btn btn2 nav-link">
+						<span className="spn2">Food Database</span>
 					</Link>
-					<Link to="/chatbot">
-						<button className="appointment_btn">
-							Chatbot
-						</button>
+					<Link to="/chatbot" className="btn btn2 nav-link">
+						<span className="spn2">Consultancy</span>
 					</Link>
-					<Link to="/blog">
-						<button className="appointment_btn">
-							Blog
-						</button>
+					<Link to="/blog" className="btn btn2 nav-link">
+						<span className="spn2">Blog</span>
 					</Link>
-					<Link to="/exercises">
-						<button className="appointment_btn">
-							Exercises
-						</button>
+					<Link to="/exercises" className="btn btn2 nav-link">
+						<span className="spn2">Exercises</span>
 					</Link>
 				</div>
+
 				<div className="ml-auto">
 					{store.validated === true ? (
-						// Si el usuario está autenticado, mostrar "My Account"
-						<Link to="/my-account">
-							<button className="nav_btn">
-								<i className="fa-regular fa-user"></i> My Account
-							</button>
+						<Link to="/my-account" className="nav_btn nav-link">
+							<i className="fa-regular fa-user"></i> My Account
 						</Link>
 					) : (
-						// Si no, mostrar "Sign in"
-						<button type="button" className="nav_btn" onClick={handleShowForm}>
+						<button type="button" className="nav_btn" onClick={actions.showForm}>
 							<i className="fa-regular fa-user"></i> Sign in
 						</button>
 					)}
