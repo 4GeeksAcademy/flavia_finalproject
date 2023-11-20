@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Context } from "../store/appContext";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import "../../styles/exercices.css"
 
 export const Exercises = () => {
     const { store, actions } = useContext(Context);
@@ -21,31 +22,40 @@ export const Exercises = () => {
 
     return (
         <div>
-            <select onChange={(e) => setCategory(e.target.value)} value={category}>
-                {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat.replace('-', ' ')}</option>
-                ))}
-            </select>
-            <button onClick={handle_searchVideos}>Buscar</button>
-            <div className="video-container">
-                {store.loading ? (
-                    <p>Cargando...</p> // Muestra el mensaje de carga
-                ) : (
-                    store.videos && store.videos.slice(0, visibleVideos).map(video => (
-                        <div key={video.id} className="video">
-                            <LiteYouTubeEmbed
-                                id={video.id}
-                                title={video.title}
-                            />
-                            <p>{video.title}</p>
-                        </div>
-                    ))
-                )}
-                {!store.loading && store.videos && visibleVideos < store.videos.length && (
-                    <button onClick={handleLoadMore}>Cargar más</button>
-                )}
+            <div className="video-search-container">
+                <select className="video-category-selector" onChange={(e) => setCategory(e.target.value)} value={category}>
+                    {categories.map(cat => (
+                        <option key={cat} value={cat}>{cat.replace('-', ' ')}</option>
+                    ))}
+                </select>
+                <button className="video-search-button" onClick={handle_searchVideos}>Search</button>
             </div>
-
+            {store.loading ? (
+                <p>Loading...</p> // Muestra el mensaje de carga
+            ) : (
+                <div className="videos-container">
+                    {store.videos && store.videos.slice(0, visibleVideos).map(video => (
+                        <div className="video-card">
+                            <div key={video.id} className="video-card-image">
+                                <LiteYouTubeEmbed
+                                    id={video.id}
+                                    title={video.title}
+                                />
+                            </div>
+                            <p className="video-card-title">{video.title}</p>
+                            <p className="video-card-body">
+                                {video.description}
+                            </p>
+                            <p className="video-footer">Done by <span className="by-name">{video.channel.handle}</span></p>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {!store.loading && store.videos && visibleVideos < store.videos.length && (
+                 <div className="load-more-container">
+                 <button className="video-load-more" onClick={handleLoadMore}>Cargar más</button>
+             </div>
+            )}
         </div>
     );
 }
