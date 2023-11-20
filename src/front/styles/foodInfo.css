@@ -31,10 +31,11 @@
 }
 
 
-.food-info h2 {
+.food-info-container h2 {
     color: #333;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+    text-transform: capitalize;
 }
 
 .calories,
