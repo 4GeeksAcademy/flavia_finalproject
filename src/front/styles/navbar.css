@@ -1,25 +1,126 @@
+.navbar {
+    padding-bottom: 10vh;
+}
+
 .nav_btn {
     background: transparent;
     border: none;
-    color: grey;
+    color: black;
+    margin-left: 1.5vw;
+    font-weight: 600;
 }
 
 .nav_btn:hover .fa-user {
-    text-shadow: 0 0 5px #2C3D91;
+    color: rgb(80, 141, 105)
 }
 
-.icon {
-    width: 10rem;
-    padding: 0;
+a {
+    text-decoration: none;
 }
-.appointment_btn {
+
+.navbar-brand {
+    font-family: 'Vina Sans', sans-serif;
+    font-size: 30px;
+}
+
+
+.btn2 {
+    position: relative;
+    padding: 15px 20px;
+    border: 2px solid black;
+    text-transform: uppercase;
+    color: black;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 1.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn2::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% - -2px);
+    background-color: white;
+    transition: 0.3s ease-out;
+    transform: scaleY(1);
+}
+
+.btn2::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% - 50px);
+    background-color: white;
+    transition: 0.3s ease-out;
+    transform: scaleY(1);
+}
+
+.btn2:hover::before {
+    transform: translateY(-25px);
+    height: 0;
+}
+
+.btn2:hover::after {
+    transform: scaleX(0);
+    transition-delay: 0.15s;
+}
+
+.btn2:hover {
+    border: 2px solid black;
+}
+
+.btn2 span {
+    position: relative;
+    z-index: 3;
+}
+
+button {
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+}
+
+.navbar-toggler {
     background: transparent;
     border: none;
-    color: grey;
-    padding: 1rem 2rem;
-    border-radius: 10px;
+    outline: none;
 }
-.appointment_btn:hover {
-    background-color: #2C3D91;
-    color: white;
+
+.navbar-toggler-icon {
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* Media queries para manejar la visibilidad del menú colapsable */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        border-top: 1px solid #ddd;
+        margin-top: 1rem;
+    }
+
+    .btn2 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border-radius: 0;
+        justify-content: end;
+    }
+
+    .btn2:hover::before,
+    .btn2:hover::after {
+        display: none;
+    }
 }
