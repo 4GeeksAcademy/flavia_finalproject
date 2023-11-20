@@ -7,7 +7,7 @@
 
 #search-box {
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: 1px solid black;
     margin-right: 10px;
     outline: none;
@@ -29,7 +29,7 @@
 
 #search-button {
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: none;
     background-color: black;
     color: white;
