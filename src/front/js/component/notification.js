@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from "../store/appContext";
 import { format } from 'date-fns';
+import "../../styles/notification.css"
 
 export const Notification = ({ message }) => {
     const { store, actions } = useContext(Context);
@@ -40,11 +41,13 @@ export const Notification = ({ message }) => {
 
     return (
         <div className="notification">
-            <h1>hello world from notification</h1>
+            <h2>Appointment successfully scheduled</h2>
             {message}
-            <button onClick={handleAddToGoogleCalendar}>agregar a google calendar</button>
-            <button onClick={handleAddToMicrosoftCalendar}>Agregar a Microsoft Calendar</button>
-            <button onClick={handleAddToiOSCalendar}>Agregar a iOS Calendar</button>
+            <div className='notification-card'>
+                <button className='button Explore' onClick={handleAddToGoogleCalendar}>Add to google calendar</button>
+                <button className='button Post' onClick={handleAddToMicrosoftCalendar}>Add to Microsoft Calendar</button>
+                <button className='button Chat' onClick={handleAddToiOSCalendar}>Add to iOS Calendar</button>
+            </div>
         </div>
     );
 }

@@ -1,0 +1,15 @@
+.payment-container {
+    text-align: center;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.payment-title {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}

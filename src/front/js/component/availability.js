@@ -4,6 +4,7 @@ import { Confirmation } from './confirmation';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { HourButtons } from './hourbuttons';
+import "../../styles/availability.css"
 
 export const Availability = ({ freelanceId }) => {
     const { store, actions } = useContext(Context);
@@ -12,7 +13,7 @@ export const Availability = ({ freelanceId }) => {
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedAvailability, setSelectedAvailability] = useState([]);
     const [numericDate, setNumericDate] = useState(null)
-   
+
 
     useEffect(() => {
         // Resetea el estado cuando la disponibilidad cambia
@@ -44,7 +45,7 @@ export const Availability = ({ freelanceId }) => {
     const availableDays = Object.keys(store.availability)
 
     return (
-        <div>
+        <div className="availability-container">
             <Calendar
                 tileDisabled={({ activeStartDate, date, view }) => {
                     if (view === 'month') {
@@ -73,8 +74,8 @@ export const Availability = ({ freelanceId }) => {
 
                         // Obtiene la fecha en formato numérico (por ejemplo, "2023-11-04")
                         const numericDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-                        
-                         // Actualiza el estado local con la fecha seleccionada y las horas disponibles
+
+                        // Actualiza el estado local con la fecha seleccionada y las horas disponibles
                         setNumericDate(numericDate);
                         setSelectedDay(date)
                         console.log('numericDate en availability', numericDate)
