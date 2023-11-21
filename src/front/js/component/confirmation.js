@@ -21,8 +21,9 @@ export const Confirmation = ({ freelanceId, selectedDay, selectedHour, selectedD
                 .then(data => {
                     if (data) {
                         navigate("/payment");
-                        actions.confirmedAppointment(freelanceId, numericDate, selectedHour)}
-                    })
+                        actions.confirmedAppointment(freelanceId, numericDate, selectedHour)
+                    }
+                })
                 .catch(err => {
                     console.error("Error during account verification:", err);
                     navigate("/login");
@@ -31,9 +32,9 @@ export const Confirmation = ({ freelanceId, selectedDay, selectedHour, selectedD
     };
 
     return (
-        <div>
-            <h1>On {selectedDay}, {selectedDate}, at {selectedHour}</h1>
-            <button onClick={() => handle_toPaymentNavigation()}>Aceptar</button>
+        <div className="confirmation-container">
+            <p className="confirmation-title">On {selectedDay}, {selectedDate}, at {selectedHour}</p>
+            <button className="confirmation-button" onClick={() => handle_toPaymentNavigation()}><span>Confirm</span></button>
         </div>
 
     )

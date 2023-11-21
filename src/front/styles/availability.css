@@ -3,8 +3,20 @@
     color: #333;
     padding: 20px;
     background-color: #f8f8f8;
-    border-radius: 8px;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
+}
+
+.react-calendar {
+    border-radius: 5px;
+    height: fit-content;
+}
+
+@media screen and (max-width: 900px) {
+    .availability-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Confirmation } from './confirmation';
 import { Context } from "../store/appContext";
+import "../../styles/hourbuttons.css"
 
 export const HourButtons = ({ numericDate, freelanceId, hours, handleHourClick, selectedDay, selectedHour, confirmationOpen }) => {
     const { store, actions } = useContext(Context);
@@ -18,9 +19,9 @@ export const HourButtons = ({ numericDate, freelanceId, hours, handleHourClick, 
     }
 
     return (
-        <div>
+        <div className="hour-buttons-container">
             {Array.isArray(hours) && hours.length > 0 && hours.map((hour, index) => (
-                <button key={index} onClick={() => handleHourClick(hour)} disabled={isButtonDisabled(hour)}>
+                <button key={index} className="hour-button" onClick={() => handleHourClick(hour)} disabled={isButtonDisabled(hour)}>
                     {hour}
                 </button>
 
