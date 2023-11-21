@@ -18,16 +18,16 @@ export const FreelanceCard = ({ freelanceId, URLphoto, full_name, professional_r
     return (
         <>
             <section className='freelanceCardSection'>
-                <div className='freelanceCardNamePhotoNumber'><div className='freelanceCardPhoto'><img src={URLphoto} /></div><h5>{full_name}</h5> <p>Nº colegiado: {professional_registration_number}</p></div>
+                <div className='freelanceCardNamePhotoNumber'><div className='freelanceCardPhoto'><img src={URLphoto} /></div><h5>{full_name}</h5> <p>College No. {professional_registration_number}</p></div>
                 <div className='freelanceCardData'>
-                    <div className='freelanceCardExpertise'><h6>Formación:</h6> <p>{education}</p></div>
-                    <div className='freelanceCardEducation'><h6>Áreas de expertise:</h6><p>{expertise}</p></div>
-                    <div className='freelanceCardAboutMe'><h6>Sobre mi:</h6><p>{aboutme}</p></div>
+                    <div className='freelanceCardExpertise'><h6>Training:</h6> <p>{education}</p></div>
+                    <div className='freelanceCardEducation'><h6>Areas of expertise:</h6><p>{expertise}</p></div>
+                    <div className='freelanceCardAboutMe'><h6>About me:</h6><p>{aboutme}</p></div>
+                    <div className='appointmentButton'>
+                        <button className='appbtn' onClick={handle_want_appointment}><span>Let's go</span></button>
+                    </div>
                 </div>
-                <div className='appointmentButton'>
-                    <button className='appbtn' onClick={handle_want_appointment}>Pedir cita</button>
-                    {wantAppointment && <Availability freelanceId={freelanceId} />}
-                </div>
+                {wantAppointment && <Availability freelanceId={freelanceId} />}
             </section>
         </>
     )

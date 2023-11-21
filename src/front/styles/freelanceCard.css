@@ -7,56 +7,153 @@
     width: 70%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 10vh;
+    padding: 10vh;
+    margin-bottom: 10vh;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    max-width: 1040px;
 }
+
 .freelanceCardNamePhotoNumber {
-    display:flex;
+    display: flex;
     flex-direction: column;
     width: 30%;
 }
+
 .freelanceCardPhoto {
     width: 70%;
+
 }
+
 .freelanceCardPhoto img {
     object-fit: contain;
     width: 100%;
     border-radius: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-.freelanceCardData{
+
+.freelanceCardData {
     display: flex;
     flex-direction: row;
     width: 70%;
     flex-wrap: wrap;
 }
+
 .freelanceCardExpertise {
     width: 70%;
 }
+
 .freelanceCardEducation {
     width: 30%;
 }
+
 .freelanceCardAboutMe {
-    width: 100%;
+    width: 70%;
 }
+
 .appointmentButton {
     padding-top: 3vh;
-    padding-bottom: 8vh;
-    width: 100%;
     text-align: center;
+    width: 30%;
 }
-.freelanceCardSection h5, 
+
+.freelanceCardSection h5,
 .freelanceCardSection h6 {
-    color: #397FDB;
+    color: black;
 }
+
 .freelanceCardSection p {
     color: #51607E;
 }
+
 .appbtn {
-    border: none;
-    border-radius: 10px;
-    background-color: #263F73;
-    color: white;
-    padding: 0.5rem 2rem;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 1em 2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0 black;
 }
+
 .appbtn:hover {
-    background-color: #225CC2;
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 2px 5px 0 0 black;
+}
+
+;
+
+.appbtn:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+}
+
+/* Móviles */
+@media screen and (max-width: 600px) {
+    .freelanceCardSection {
+        flex-direction: column;
+        width: 100%;
+        padding: 5vh;
+    }
+
+    .freelanceCardNamePhotoNumber,
+    .freelanceCardData {
+        width: 100%;
+    }
+
+    .freelanceCardNamePhotoNumber {
+        width: 60%;
+    }
+
+    .freelanceCardPhoto {
+        width: 80%;
+    }
+
+    .freelanceCardExpertise,
+    .freelanceCardEducation,
+    .freelanceCardAboutMe {
+        width: 100%;
+    }
+
+    .appointmentButton {
+        width: 100%;
+        padding-bottom: 5vh;
+    }
+}
+
+/* Tablets  */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .freelanceCardSection {
+        width: 100%;
+    }
+
+    .freelanceCardNamePhotoNumber {
+        width: 30%;
+    }
+
+    .freelanceCardData {
+        width: 60%;
+    }
+
+    .freelanceCardPhoto {
+        width: 90%;
+    }
+
+    .freelanceCardExpertise,
+    .freelanceCardEducation {
+        width: 50%;
+    }
+
+    .freelanceCardAboutMe {
+        width: 100%;
+    }
+
+    .appointmentButton {
+        width: 50%;
+    }
 }
