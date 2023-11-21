@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 import { Notification } from '../component/notification';
+import "../../styles/payment.css"
 
 export const Payment = () => {
   // Estado para almacenar el mensaje de éxito después de realizar el pago
@@ -25,9 +26,9 @@ export const Payment = () => {
   };
 
   return (
-    <div>
+    <div className='payment-container'>
       {successMessage ? <Notification message={successMessage} /> : <div>
-        <h1>Pago con PayPal</h1>
+        <h1 className='payment-title'>Pago con PayPal</h1>
         <PayPalButton
           amount="5.00"
           onSuccess={onSuccess}
