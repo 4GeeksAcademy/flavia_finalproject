@@ -85,8 +85,8 @@ export const SignUp = () => {
 			{
 				alreadyHave ? <LogIn /> : <div className="login-box">
 					<div className="logTitle">
-						<h5 >Hello!</h5>
-						<p id="p"> Create an account</p>
+						<h5>Hello!</h5>
+						<p id="p" style={{ marginBottom: '2.5rem' }}> Create an account</p>
 					</div>
 					<form onSubmit={handleSignUp}>
 						<div className="user-box">
