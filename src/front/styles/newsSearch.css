@@ -28,16 +28,16 @@ option:hover {
 
 .search-button {
     padding: 10px 20px;
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
     border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .search-button:hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 @media (max-width: 600px) {
