@@ -22,19 +22,19 @@ export const Navbar = () => {
 
 				<div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
 					<Link to="/appointment" className="btn btn2 nav-link">
-						<span className="spn2">Appointment</span>
+						<span className="spn2">Consult Health</span>
 					</Link>
 					<Link to="/searchfood" className="btn btn2 nav-link">
-						<span className="spn2">Food Database</span>
+						<span className="spn2">Food Explorer</span>
 					</Link>
 					<Link to="/chatbot" className="btn btn2 nav-link">
-						<span className="spn2">Consultancy</span>
+						<span className="spn2">Assistant</span>
 					</Link>
 					<Link to="/blog" className="btn btn2 nav-link">
-						<span className="spn2">Blog</span>
+						<span className="spn2">News</span>
 					</Link>
 					<Link to="/exercises" className="btn btn2 nav-link">
-						<span className="spn2">Exercises</span>
+						<span className="spn2">Workout Library</span>
 					</Link>
 				</div>
 
