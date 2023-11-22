@@ -1,23 +1,418 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.landing-header {
+  color: #333;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.landing-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-.homeContainer {
-    height: 100vh;
-    --color: #E1E1E1;
-  background-color: #F3F3F3;
-  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
-      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
-  background-size: 55px 55px;
+.landing-text-section h1 {
+  font-size: 2.5em;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.landing-text-section p {
+  margin-bottom: 20px;
+}
+
+.landing-cta-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.landing-btn {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.landing-btn.primary {
+  background-color: #538A82;
+  color: white;
+  border-radius: 5px;
+}
+
+.landing-btn.secondary {
+  background-color: transparent;
+  color: #538A82;
+}
+
+.landing-bookkeeping-offer {
+  font-style: italic;
+}
+
+.landing-image-section {
+  position: relative;
+  max-width: 100%;
+  height: auto;
+
+}
+
+/* Estilos para tablets */
+@media (max-width: 900px) {
+  .landing-content-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
   }
-.homeContainer img {
+
+  .landing-image-section {
+    width: 100%;
+    order: -1;
+    margin-bottom: 20px;
+  }
+
+  .landing-text-section {
+    width: 100%;
+  }
+
+  .landing-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .landing-btn {
+    width: 100%;
+  }
+
+  .landing-text-section h1 {
+    font-size: 2em;
+  }
+}
+
+/* Estilos para móviles */
+@media (max-width: 600px) {
+  .landing-header {
+    padding: 10px;
+  }
+
+  .landing-content-wrapper {
+    padding: 0;
+  }
+
+  .landing-text-section h1 {
+    font-size: 1.5em;
+    line-height: 1.1;
+    margin-bottom: 15px;
+  }
+
+  .landing-text-section p,
+  .landing-bookkeeping-offer {
+    font-size: 0.9em;
+  }
+
+  .landing-cta-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .landing-btn {
+    padding: 8px 15px;
+  }
+
+  .landing-image-section img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* TESTIMONIALS */
+
+.testimonials {
+  background-color: #fff;
+  text-align: center;
+  padding: 90px 20px;
+}
+
+.testimonials h2 {
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.testimonials-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.testimonial {
+  max-width: 300px;
+}
+
+.testimonial blockquote {
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.testimonial-author {
+  text-align: left;
+}
+
+.testimonial-author img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.testimonial-author p {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  font-size: 14px;
+}
+
+.testimonial-author span {
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+
+/* BENEFICIOS */
+
+.benefits-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #CFCFD3;
+}
+
+.benefits-icon {
+  height: 4rem;
+}
+
+.benefits-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.benefits-button {
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  margin: 20px;
+  color: #568fa6;
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.benefits-button:before,
+.benefits-button:after {
+  content: "";
   position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #568fa6;
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+
+.benefits-button:before {
+  right: 0;
+  top: 0;
+  transition: all 0.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+
+.benefits-button:after {
+  left: 0;
+  bottom: 0;
+}
+
+.benefits-button span {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.benefits-button span:before,
+.benefits-button span:after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 0;
+  background-color: #568fa6;
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+
+.benefits-button span:before {
+  right: 0;
+  top: 0;
+  transition: all 0.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+
+.benefits-button span:after {
+  left: 0;
+  bottom: 0;
+}
+
+.benefits-button p {
+  padding: 0;
+  margin: 0;
+  transition: all 0.4s cubic-bezier(0.35, 0.1, 0.25, 1);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.benefits-button p:before,
+.benefits-button p:after {
+  position: absolute;
+  width: 100%;
+  transition: all 0.4s cubic-bezier(0.35, 0.1, 0.25, 1);
+  z-index: 1;
+  left: 0;
+}
+
+.benefits-button p:before {
+  content: attr(data-title);
   top: 50%;
-  left: 50%;
-  transform: translateX(-50%)translateY(-50%);
-  border-radius: 10px;
+  transform: translateY(-50%);
+}
+
+.benefits-button p:after {
+  content: attr(data-text);
+  top: 150%;
+  color: #568fa6;
+}
+
+.benefits-button:hover:before,
+.benefits-button:hover:after {
+  width: 100%;
+}
+
+.benefits-button:hover span {
+  z-index: 1;
+}
+
+.benefits-button:hover span:before,
+.benefits-button:hover span:after {
+  height: 100%;
+}
+
+.benefits-button:hover p:before {
+  top: -50%;
+  transform: rotate(5deg);
+}
+
+.benefits-button:hover p:after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.benefits-button.start {
+  background-color: #568fa6;
+  box-shadow: 0px 5px 10px -10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.benefits-button.start p:before {
+  top: -50%;
+  transform: rotate(5deg);
+}
+
+.benefits-button.start p:after {
+  color: white;
+  transition: all 0s ease;
+  content: attr(data-start);
+  top: 50%;
+  transform: translateY(-50%);
+  animation: start 0.3s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes start {
+  from {
+    top: -50%;
+  }
+}
+
+.benefits-button.start:hover:before,
+.benefits-button.start:hover:after {
+  display: none;
+}
+
+.benefits-button.start:hover span {
+  display: none;
+}
+
+.benefits-button:active {
+  outline: none;
+  border: none;
+}
+
+.benefits-button:focus {
+  outline: 0;
+}
+
+/* SECCIONES DETALLADAS */
+.expert-support-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  /* o el color de fondo que prefieras */
+}
+
+.support-image img {
+  max-width: 100%;
+  /* Esto limitará la imagen al ancho de su contenedor */
+  max-height: 400px;
+  /* Ajusta esta altura máxima según tus necesidades */
+  height: auto;
+  /* Esto mantendrá la relación de aspecto de la imagen */
+}
+
+.support-content {
+  max-width: 600px;
+  /* Ajusta este valor según el diseño que prefieras */
+}
+
+.support-content h2 {
+  font-size: 1.5em;
+  /* Ajusta el tamaño del texto según necesites */
+  margin-bottom: 20px;
+}
+
+.support-content p {
+  margin-bottom: 20px;
+  color: #666666;
+  /* Ajusta el color del texto según tu diseño */
+}
+
+.support-button {
+  padding: 10px 20px;
+  background-color: #0052cc;
+  /* Ajusta el color del botón según tu diseño */
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
 }
