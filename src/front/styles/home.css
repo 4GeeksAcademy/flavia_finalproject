@@ -379,39 +379,31 @@
   justify-content: space-between;
   padding: 40px 20px;
   background-color: #ffffff;
-  /* o el color de fondo que prefieras */
 }
 
 .support-image img {
   max-width: 100%;
-  /* Esto limitará la imagen al ancho de su contenedor */
   max-height: 400px;
-  /* Ajusta esta altura máxima según tus necesidades */
   height: auto;
-  /* Esto mantendrá la relación de aspecto de la imagen */
 }
 
 .support-content {
   max-width: 600px;
-  /* Ajusta este valor según el diseño que prefieras */
 }
 
 .support-content h2 {
   font-size: 1.5em;
-  /* Ajusta el tamaño del texto según necesites */
   margin-bottom: 20px;
 }
 
 .support-content p {
   margin-bottom: 20px;
   color: #666666;
-  /* Ajusta el color del texto según tu diseño */
 }
 
 .support-button {
   padding: 10px 20px;
   background-color: #0052cc;
-  /* Ajusta el color del botón según tu diseño */
   color: #ffffff;
   border: none;
   cursor: pointer;
