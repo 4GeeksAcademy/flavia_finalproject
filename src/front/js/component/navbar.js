@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../store/appContext';
 import '../../styles/navbar.css';
-import { FaBars } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaBars } from 'react-icons/fa'; 
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
