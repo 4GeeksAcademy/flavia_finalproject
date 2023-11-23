@@ -93,6 +93,15 @@ export const ChatBot = () => {
                             </div>
                         );
                     })}
+                    {typing && (
+                        <div className="message received">
+                                <div class="spinner">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                        </div>
+                    )}
                 </div>
                 <div className="input-area">
                     <input
