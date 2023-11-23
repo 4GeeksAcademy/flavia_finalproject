@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../store/appContext';
 import '../../styles/navbar.css';
-import { FaBars } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaBars } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
@@ -10,6 +11,15 @@ export const Navbar = () => {
 
 	const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
+	const navigate = useNavigate();
+
+	const handle_goToLogin = () => {
+		navigate("/login")
+	}
+
+	const handle_goToMyAccount = () => {
+		navigate("/my-account")
+	}
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-white">
 			<div className="container">
@@ -22,7 +32,7 @@ export const Navbar = () => {
 
 				<div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
 					<Link to="/appointment" className="btn btn2 nav-link">
-						<span className="spn2">Consult Health</span>
+						<span className="spn2">Consult</span>
 					</Link>
 					<Link to="/searchfood" className="btn btn2 nav-link">
 						<span className="spn2">Food Explorer</span>
@@ -40,11 +50,11 @@ export const Navbar = () => {
 
 				<div className="ml-auto">
 					{store.validated === true ? (
-						<Link to="/my-account" className="nav_btn nav-link">
+						<button type="button" className="nav_btn" onClick={handle_goToMyAccount}>
 							<i className="fa-regular fa-user"></i> My Account
-						</Link>
+						</button>
 					) : (
-						<button type="button" className="nav_btn" onClick={actions.showForm}>
+						<button type="button" className="nav_btn" onClick={handle_goToLogin}>
 							<i className="fa-regular fa-user"></i> Sign in
 						</button>
 					)}

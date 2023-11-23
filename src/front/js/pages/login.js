@@ -79,39 +79,41 @@ export const LogIn = () => {
 	return (
 		<>
 			{
-				dontHaveAccount ? <SignUp /> : <div className="login-box">
-					<div className="logTitle">
-						<h5 >Hello!</h5>
-						<p id="p"> Sign in to your account</p>
+				dontHaveAccount ? <SignUp /> :
+					<div className="loginInstance">
+						<div className="login-box">
+							<div className="logTitle">
+								<h5 >Hello!</h5>
+								<p id="p"> Sign in to your account</p>
+							</div>
+							<form onSubmit={handleLogIn}>
+								<div className="user-box">
+									<input required="" name="email" type="text" value={user.email} onChange={handleLog} />
+									<label>Email</label>
+								</div>
+								<div className="user-box">
+									<input required="" name="password" type="password" value={user.password} onChange={handleLog} />
+									<label>Password</label>
+								</div>
+								<button type="submit" className="login-button">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span>
+									Log in
+								</button>
+								<GoogleLogin
+									onSuccess={credentialResponse => {
+										handleGoogleSuccess(credentialResponse)
+									}}
+									onError={() => {
+										console.log('Login Failed');
+									}}
+								/>
+							</form>
+							<p>Don't have an account? <a className="a2" onClick={handleButtonSignUpThen}>Sign up!</a></p>
+						</div>
 					</div>
-					<form onSubmit={handleLogIn}>
-						<div className="user-box">
-							<input required="" name="email" type="text" value={user.email} onChange={handleLog} />
-							<label>Email</label>
-						</div>
-						<div className="user-box">
-							<input required="" name="password" type="password" value={user.password} onChange={handleLog} />
-							<label>Password</label>
-						</div>
-						<button type="submit" className="login-button">
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							Log in
-						</button>
-						<GoogleLogin
-							onSuccess={credentialResponse => {
-								handleGoogleSuccess(credentialResponse)
-							}}
-							onError={() => {
-								console.log('Login Failed');
-							}}
-						/>
-					</form>
-					<p>Don't have an account? <a className="a2" onClick={handleButtonSignUpThen}>Sign up!</a></p>
-				</div>
-
 			}
 		</>
 	);
