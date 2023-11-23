@@ -43,6 +43,7 @@
 .card-content h2 {
     font-size: 1em;
     margin: 0 0 10px 0;
+    font-weight: 600;
 }
 
 .card-content p {
