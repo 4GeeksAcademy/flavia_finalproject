@@ -96,6 +96,11 @@ button {
     height: 1.5em;
 }
 
+.navbar-collapse {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
 /* Media queries para manejar la visibilidad del menú colapsable */
 @media (max-width: 991.98px) {
     .navbar-collapse {

@@ -1,9 +1,9 @@
 .chat-container {
     background-color: #000;
     color: white;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Lato', sans-serif;
     max-width: 350px;
-    margin: auto;
+    margin: 10vh auto;
     border-radius: 8px;
     overflow: hidden;
     max-width: 800px;

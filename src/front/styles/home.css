@@ -1,3 +1,10 @@
+.landing-header,
+.testimonials,
+.benefits-section,
+.expert-support-section {
+  font-family: 'Lato', sans-serif;
+}
+
 .landing-header {
   color: #333;
   padding: 40px;

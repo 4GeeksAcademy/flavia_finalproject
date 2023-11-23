@@ -46,18 +46,17 @@ export const Navbar = () => {
 					<Link to="/exercises" className="btn btn2 nav-link">
 						<span className="spn2">Workout Library</span>
 					</Link>
-				</div>
-
-				<div className="ml-auto">
-					{store.validated === true ? (
-						<button type="button" className="nav_btn" onClick={handle_goToMyAccount}>
-							<i className="fa-regular fa-user"></i> My Account
-						</button>
-					) : (
-						<button type="button" className="nav_btn" onClick={handle_goToLogin}>
-							<i className="fa-regular fa-user"></i> Sign in
-						</button>
-					)}
+					<div className="ml-auto">
+						{store.validated === true ? (
+							<button type="button" className="nav_btn" onClick={handle_goToMyAccount}>
+								<i className="fa-regular fa-user"></i> My Account
+							</button>
+						) : (
+							<button type="button" className="nav_btn" onClick={handle_goToLogin}>
+								<i className="fa-regular fa-user"></i> Sign in
+							</button>
+						)}
+					</div>
 				</div>
 			</div>
 		</nav>
