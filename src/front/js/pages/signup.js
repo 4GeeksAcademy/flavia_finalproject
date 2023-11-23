@@ -83,42 +83,45 @@ export const SignUp = () => {
 	return (
 		<>
 			{
-				alreadyHave ? <LogIn /> : <div className="login-box">
-					<div className="logTitle">
-						<h5>Hello!</h5>
-						<p id="p" style={{ marginBottom: '2.5rem' }}> Create an account</p>
+				alreadyHave ? <LogIn /> :
+					<div className="loginInstance">
+						<div className="login-box">
+							<div className="logTitle">
+								<h5>Hello!</h5>
+								<p id="p" style={{ marginBottom: '2.5rem' }}> Create an account</p>
+							</div>
+							<form onSubmit={handleSignUp}>
+								<div className="user-box">
+									<input required="" name="full_name" type="text" value={newUser.full_name} onChange={handleRegister} />
+									<label>Full name</label>
+								</div>
+								<div className="user-box">
+									<input required="" name="email" type="text" value={newUser.email} onChange={handleRegister} />
+									<label>Email</label>
+								</div>
+								<div className="user-box">
+									<input required="" name="password" type="password" value={newUser.password} onChange={handleRegister} />
+									<label>Password</label>
+								</div>
+								<button type="submit" className="login-button">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span>
+									Register
+								</button>
+							</form>
+							<GoogleLogin
+								onSuccess={credentialResponse => {
+									handleGoogleSuccess(credentialResponse)
+								}}
+								onError={() => {
+									console.log('Login Failed');
+								}}
+							/>
+							<p>Already have an account? <a className="a2" onClick={handleAlreadyButton}>Log in!</a></p>
+						</div>
 					</div>
-					<form onSubmit={handleSignUp}>
-						<div className="user-box">
-							<input required="" name="full_name" type="text" value={newUser.full_name} onChange={handleRegister} />
-							<label>Full name</label>
-						</div>
-						<div className="user-box">
-							<input required="" name="email" type="text" value={newUser.email} onChange={handleRegister} />
-							<label>Email</label>
-						</div>
-						<div className="user-box">
-							<input required="" name="password" type="password" value={newUser.password} onChange={handleRegister} />
-							<label>Password</label>
-						</div>
-						<button type="submit" className="login-button">
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							Register
-						</button>
-					</form>
-					<GoogleLogin
-						onSuccess={credentialResponse => {
-							handleGoogleSuccess(credentialResponse)
-						}}
-						onError={() => {
-							console.log('Login Failed');
-						}}
-					/>
-					<p>Already have an account? <a className="a2" onClick={handleAlreadyButton}>Log in!</a></p>
-				</div>
 			}
 		</>
 	);

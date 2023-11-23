@@ -2,9 +2,35 @@ import React, { useContext } from "react";
 import { LogIn } from "./login.js";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context)
+	const navigate = useNavigate();
+
+	const handle_goToLogin = () => {
+		navigate("/login")
+	}
+
+	const handle_goToAppointment = () => {
+		navigate("/appointment")
+	}
+
+	const handle_goToFoodDatabase = () => {
+		navigate("/searchfood")
+	}
+
+	const handle_goToAssistant = () => {
+		navigate("/chatbot")
+	}
+
+	const handle_goToNews = () => {
+		navigate("/blog")
+	}
+
+	const handle_goToExercises = () => {
+		navigate("/exercises")
+	}
 	return (
 		<>
 			<header className="landing-header">
@@ -15,8 +41,8 @@ export const Home = () => {
 							Discover a healthier you with Better Together, offering easy access to professional nutritionists, AI-driven nutritional advice, and a comprehensive fitness library. Stay informed and empowered on your wellness journey.
 						</p>
 						<div className="landing-cta-buttons">
-							<button className="landing-btn primary">BEGIN TODAY</button>
-							<button className="landing-btn secondary">BOOK A CALL</button>
+							<button className="landing-btn primary" onClick={handle_goToLogin}>BEGIN TODAY</button>
+							<button className="landing-btn secondary" onClick={handle_goToAppointment}>BOOK A CALL</button>
 						</div>
 						<p className="landing-bookkeeping-offer">Join the Nutrition Revolution. Book with Our Nutritionists.</p>
 					</div>
@@ -63,7 +89,7 @@ export const Home = () => {
 					<h2>What you get with Better Together</h2>
 				</div>
 				<p>Elevate your well-being with Better Together. Access expert nutritionists, AI-driven guidance, and a fitness library. Achieve your health goals effortlessly.</p>
-				<button className="benefits-button"><span></span><p data-start="good luck!" data-text="start!" data-title="new life"></p></button>
+				<button className="benefits-button" onClick={handle_goToLogin}><span></span><p data-start="good luck!" data-text="start!" data-title="new life"></p></button>
 			</section>
 			<section className="expert-support-section">
 				<div className="support-image">
@@ -71,8 +97,48 @@ export const Home = () => {
 				</div>
 				<div className="support-content">
 					<h2>One-on-one expert support</h2>
-					<p>Bench gives you a dedicated bookkeeper supported by a team of knowledgeable small business experts. Get a direct line to your team on desktop or mobile—professional support is just a few swipes, taps, or clicks away.</p>
-					<button className="support-button">LEARN MORE</button>
+					<p>Access professional nutritionists and receive tailored advice on your diet and wellbeing. Easily connect with our experts from your computer or mobile, and begin transforming your health with just a few clicks.</p>
+					<button className="support-button" onClick={handle_goToAppointment}>LEARN MORE</button>
+				</div>
+			</section>
+			<section className="expert-support-section">
+				<div className="support-content">
+					<h2>Explore the World of Nutrition</h2>
+					<p>Discover our extensive database of dishes and ingredients, and get detailed nutritional information. Whether from your mobile or desktop device, the information you need to make informed food choices is at your fingertips.</p>
+					<button className="support-button" onClick={handle_goToFoodDatabase}>LEARN MORE</button>
+				</div>
+				<div className="support-image">
+					<img src="https://legumasalud.com/wp-content/uploads/2022/07/Pasta-bro-1536x1536.png" alt="Food Database" />
+				</div>
+			</section>
+			<section className="expert-support-section">
+				<div className="support-image">
+					<img src="https://legumasalud.com/wp-content/uploads/2022/07/Headache-bro-1536x1536.png" alt="Assistant" />
+				</div>
+				<div className="support-content">
+					<h2>Personalised Advice with AI</h2>
+					<p>Utilise our intelligent AI-based assistant for personalised nutrition and wellness advice. Accessible from any device, this assistant provides recommendations tailored to your health needs and goals.</p>
+					<button className="support-button" onClick={handle_goToAssistant}>LEARN MORE</button>
+				</div>
+			</section>
+			<section className="expert-support-section">
+				<div className="support-content">
+					<h2>Stay Informed on Health and Nutrition</h2>
+					<p>Our news section offers you the latest updates and research in the world of health. Enjoy easy and quick access to relevant and reliable information, helping you to stay up-to-date on nutrition and wellness topics.</p>
+					<button className="support-button" onClick={handle_goToNews}>LEARN MORE</button>
+				</div>
+				<div className="support-image">
+					<img src="https://legumasalud.com/wp-content/uploads/2023/01/Eating-disorder-bro-1024x1024.png" alt="News" />
+				</div>
+			</section>
+			<section className="expert-support-section">
+				<div className="support-image">
+					<img src="https://legumasalud.com/wp-content/uploads/2022/07/Boost-your-inmune-system-bro-1-1024x1024.png" alt="Workout library" />
+				</div>
+				<div className="support-content">
+					<h2>Your Library of Physical Activities</h2>
+					<p>Explore our library of exercise videos and tutorials, designed to complement your nutrition and wellness regimen. From beginners to advanced, find exercise routines that match your fitness goals and level, all from the comfort of your home.</p>
+					<button className="support-button" onClick={handle_goToExercises}>LEARN MORE</button>
 				</div>
 			</section>
 		</>

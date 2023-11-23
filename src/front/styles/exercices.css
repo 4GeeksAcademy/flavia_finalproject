@@ -5,6 +5,7 @@
     justify-content: center;
     margin: 0 auto;
     max-width: 800px;
+    font-family: 'Lato', sans-serif;
 }
 
 .video-card {
@@ -99,7 +100,7 @@
     display: flex;
     justify-content: center;
     padding: 20px 0;
-    margin-bottom: 5vh;
+    margin: 10vh auto;
 }
 
 .load-more-container {
@@ -182,4 +183,54 @@
 .plusButton:focus-visible>.plusIcon {
     fill: black;
     transform: rotate(180deg);
+}
+
+/* SPINNER */
+.spinner-container {
+    height: 100vh;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    --clr: rgb(0, 113, 128);
+    --gap: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.spinner span {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: var(--clr);
+    opacity: 0;
+}
+
+.spinner span:nth-child(1) {
+    animation: fade 1s ease-in-out infinite;
+}
+
+.spinner span:nth-child(2) {
+    animation: fade 1s ease-in-out 0.33s infinite;
+}
+
+.spinner span:nth-child(3) {
+    animation: fade 1s ease-in-out 0.66s infinite;
+}
+
+@keyframes fade {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0;
+    }
 }

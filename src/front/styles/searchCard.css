@@ -2,9 +2,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    padding: 8vh 5vw;
     margin: 0 auto;
     max-width: 1000px;
+    font-family: 'Lato', sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -43,6 +43,7 @@
 .card-content h2 {
     font-size: 1em;
     margin: 0 0 10px 0;
+    font-weight: 600;
 }
 
 .card-content p {

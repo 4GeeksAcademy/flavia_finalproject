@@ -3,8 +3,9 @@
     justify-content: center;
     align-items: center;
     gap: 5px;
-    margin: 20px auto;
+    margin: 10vh auto;
     padding: 0 15px;
+    font-family: 'Lato', sans-serif;
 }
 
 .input-field input[type="date"],

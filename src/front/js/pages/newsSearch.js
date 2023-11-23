@@ -44,7 +44,7 @@ export const NewsSearch = () => {
                 <button className="search-button" onClick={handle_fetchArticles}>Search</button>
             </div>
             <div className="cards-row">
-                {store.articles.map((article, index) => (
+                {store.articles.slice(0, 9).map((article, index) => (
                     <SearchCard key={article.title} title={article.title} url={article.url} author={article.author} />
                 ))}
             </div>
