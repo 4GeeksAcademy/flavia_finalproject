@@ -30,7 +30,6 @@ const injectContext = PassedComponent => {
 			 **/
 			state.actions.getMessage(); // <---- calling this function from the flux.js actions
 			state.actions.allFreelancesActives();
-			state.actions.searchVideos('full-body');
 			state.actions.fetchArticles('2023-11-01', '2023-11-13', 'popularity')
 		}, []);
 
