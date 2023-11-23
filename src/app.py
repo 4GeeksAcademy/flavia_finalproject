@@ -236,10 +236,10 @@ def edit_freelance(freelance_id):
 def send_confirmation_email(email):
     try:
         message = Mail(
-            from_email='palante.4geeks@gmail.com',
+            from_email='bettertogether.project.4geeks@gmail.com',
             to_emails=email,
-            subject='HOLAAAAAAA',
-            html_content='<strong>¡Gracias por tu compra!</strong>'
+            subject='Your Journey Towards Transformative Wellbeing Starts Now!',
+            html_content='<strong>Remember, every step you take is a victory, and we are here to celebrate and support you at every moment. Got questions or need to adjust anything? We are just a message away.</strong>'
         )
         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
         response = sg.send(message)
