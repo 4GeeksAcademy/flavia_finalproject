@@ -31,7 +31,13 @@ export const Exercises = () => {
                 <button className="video-search-button" onClick={handle_searchVideos}>Search</button>
             </div>
             {store.loading ? (
-                <p>Loading...</p> // Muestra el mensaje de carga
+                <div className='spinner-container'>
+                    <div class="spinner">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
             ) : (
                 <div className="videos-container">
                     {store.videos && store.videos.slice(0, visibleVideos).map(video => (
