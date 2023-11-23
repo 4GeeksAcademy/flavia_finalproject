@@ -10,13 +10,13 @@ export const UserAppointments = () => {
         actions.individualAllAppointments(accessToken);
     }, [accessToken]);
     return (
-        <>
-        <h4>hello from user appointments</h4>
+        <div className="my-appointments-container">
+        <h4 className="my-appointments">My appointments</h4>
             {
                 store.individual_appointments.map((item, index) => (
                     < UserAppointmentsCard jitsiRoomId={item.jitsi_room_id} user_type={store.user_type} freelance_full_name={item.freelance_data.full_name} user_full_name={item.user_data.full_name} user_email={item.user_data.email} freelance_email={item.freelance_data.email} full_date={item.full_date} />
                 ))
             }
-        </>
+        </div>
     );
 };
