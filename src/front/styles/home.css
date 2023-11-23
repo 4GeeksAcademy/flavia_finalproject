@@ -41,9 +41,17 @@
   border-radius: 5px;
 }
 
+.landing-btn.primary:hover {
+  background-color: #538a82b6;
+}
+
 .landing-btn.secondary {
   background-color: transparent;
   color: #538A82;
+}
+
+.landing-btn.secondary:hover {
+  color: #538a82b6;
 }
 
 .landing-bookkeeping-offer {
