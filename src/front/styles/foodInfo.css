@@ -34,7 +34,6 @@
 
 .food-info-container h2 {
     color: #333;
-    border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
     text-transform: capitalize;
 }
@@ -164,4 +163,47 @@
 
 .protein {
     background-color: #90EE90;
+}
+
+.food-info-title {
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #ddd;
+}
+
+.fav-food {
+    width: 9em;
+    height: 3em;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 6px 6px 12px #c5c5c5,
+        -6px -6px 12px #ffffff;
+    transition: color 0.5s ease;
+}
+
+.fav-food:hover {
+    color: white;
+}
+
+.fav-food::before {
+    content: '';
+    width: 0;
+    height: 3em;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #538A82 0%, #A0D8C8 100%);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+}
+
+.fav-food:hover::before {
+    width: 9em;
 }

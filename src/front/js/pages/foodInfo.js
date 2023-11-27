@@ -4,7 +4,7 @@ import "../../styles/foodInfo.css"
 import { MacroTable } from '../component/macroTable';
 
 export const FoodInfo = () => {
-    const { store } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const food_info = store.food_info || {};
 
     const ingredient = food_info.ingredients?.[0]?.parsed?.[0];
@@ -51,11 +51,14 @@ export const FoodInfo = () => {
     const carbsStart = fatPercentage;
     const proteinStart = carbsStart + carbsPercentage;
 
+    const handle_fav_food = (foodId, measureURI) => {
+        actions.addFavFood(foodId, measureURI)
+    }
 
     return (
         <div className="food-info-container">
             <div className="left-content">
-                <h2>{ingredient ? ingredient.food : 'No food found'}</h2>
+                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button onClick={handle_fav_food(ingredient.foodId, ingredient.measureURI)}><i class="fa-regular fa-heart"></i></button></div>
                 <div className="chart-container">
                     <div className="circle-chart" style={{
                         background: `conic-gradient(

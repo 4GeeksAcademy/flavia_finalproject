@@ -67,7 +67,7 @@
     padding: 10px;
     margin: 50px;
     justify-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 /* Estilos para pantallas medianas y pequeñas, dos columnas */
