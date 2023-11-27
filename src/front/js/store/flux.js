@@ -295,10 +295,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					setStore({ videos: data.videos, loading: false }); // Actualiza videos y desactiva el estado de carga
 				} else {
-					// Aquí deberías manejar el caso de que la respuesta no sea 'ok'
 					setStore({ loading: false }); // Desactiva el estado de carga incluso si hay un error
 				}
 			},
+			addFavFood: async (foodId, measureURI) => {
+				const response = await fetch(`${process.env.BACKEND_URL}/addFavFood/${foodId}/${measureURI}`)
+				const data = await response.json()
+				if (response.ok) {
+					toast.success(`Great! ${data.message}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(122, 157, 84)",
+						}
+					})
+				} else {
+					console.log('response', response)
+					toast.error(`Try again! ${data.msg}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(205, 92, 8)",
+						},
+					});
+				}
+			}
 		}
 	};
 };
