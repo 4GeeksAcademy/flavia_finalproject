@@ -298,8 +298,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ loading: false }); // Desactiva el estado de carga incluso si hay un error
 				}
 			},
-			addFavFood: async (foodId, measureURI) => {
-				const response = await fetch(`${process.env.BACKEND_URL}/addFavFood/${foodId}/${measureURI}`)
+			addFavFood: async (fav_food, token) => {
+				const options = {
+					method: 'POST',
+					headers: { "Content-Type": "application/json",
+					"Authorization": `Bearer ${token}` },
+					body: JSON.stringify(fav_food),
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}/addFavFood`, options)
 				const data = await response.json()
 				if (response.ok) {
 					toast.success(`Great! ${data.message}`, {
