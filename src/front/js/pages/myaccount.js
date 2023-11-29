@@ -50,7 +50,7 @@ export const MyAccount = () => {
                             <div className="optionMyAccount"><i class="fa-solid fa-dumbbell"></i>My workouts</div>
                             <div className="optionMyAccount"><i className="fa-regular fa-file-lines"></i><Link to="/user-appointments" style={{ color: 'black' }}>My appointments</Link></div>
                             <div className="optionMyAccount"><i class="fa-solid fa-book"></i>Read later</div>
-                            <div className="optionMyAccount"><i class="fa-solid fa-heart"></i>Favorite food</div>
+                            <div className="optionMyAccount"><i class="fa-solid fa-heart"></i><Link to="/user-fav-foods" style={{ color: 'black' }}>Favorite food</Link></div>
                             <div className="optionMyAccount"><i className="fa-solid fa-user-shield"></i>Data protection</div>
                         </div>
                         <button onClick={handleLogOut}>Log out</button>

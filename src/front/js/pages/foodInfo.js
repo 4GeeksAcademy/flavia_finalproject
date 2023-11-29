@@ -52,10 +52,12 @@ export const FoodInfo = () => {
     const proteinStart = carbsStart + carbsPercentage;
 
     const accessToken = sessionStorage.getItem('accessToken');
-    const handle_fav_food = (foodId, measureURI) => {
+    const handle_fav_food = (foodId, measureURI, food, calories) => {
         const fav_food = {
             'foodId': foodId,
-            'measureURI': measureURI
+            'measureURI': measureURI,
+            'foodName': food,
+            'calories': calories
         }
         actions.addFavFood(fav_food, accessToken)
     }
@@ -63,7 +65,7 @@ export const FoodInfo = () => {
     return (
         <div className="food-info-container">
             <div className="left-content">
-                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button onClick={() => { handle_fav_food(ingredient.foodId, ingredient.measureURI) }}>add to favorites</button></div>
+                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button onClick={() => { handle_fav_food(ingredient.foodId, ingredient.measureURI, ingredient.food, food_info.calories) }}>add to favorites</button></div>
                 <div className="chart-container">
                     <div className="circle-chart" style={{
                         background: `conic-gradient(

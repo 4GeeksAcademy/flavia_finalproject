@@ -19,7 +19,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			food_info: [],
 			articles: [],
 			videos: [],
-			loading: null
+			loading: null,
+			user_fav_foods: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -301,8 +302,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addFavFood: async (fav_food, token) => {
 				const options = {
 					method: 'POST',
-					headers: { "Content-Type": "application/json",
-					"Authorization": `Bearer ${token}` },
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${token}`
+					},
 					body: JSON.stringify(fav_food),
 				}
 				const response = await fetch(`${process.env.BACKEND_URL}/addFavFood`, options)
@@ -337,7 +340,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 					});
 				}
-			}
+			},
+			userFavFoods: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-fav-foods`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ user_fav_foods: data })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
 		}
 	};
 };
