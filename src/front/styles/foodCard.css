@@ -40,6 +40,7 @@
 .food-card-title {
     font-size: 1.5em;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .food-card-body {

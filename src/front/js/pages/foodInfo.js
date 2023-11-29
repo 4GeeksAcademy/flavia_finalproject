@@ -6,8 +6,8 @@ import { MacroTable } from '../component/macroTable';
 export const FoodInfo = () => {
     const { store, actions } = useContext(Context);
     const food_info = store.food_info || {};
-
     const ingredient = food_info.ingredients?.[0]?.parsed?.[0];
+    console.log(ingredient)
     const nutrients = food_info.totalNutrients || {};
     const healthLabels = food_info.healthLabels || [];
 
@@ -51,14 +51,21 @@ export const FoodInfo = () => {
     const carbsStart = fatPercentage;
     const proteinStart = carbsStart + carbsPercentage;
 
-    const handle_fav_food = (foodId, measureURI) => {
-        actions.addFavFood(foodId, measureURI)
+    const accessToken = sessionStorage.getItem('accessToken');
+    const handle_fav_food = (foodId, measureURI, food, calories) => {
+        const fav_food = {
+            'foodId': foodId,
+            'measureURI': measureURI,
+            'foodName': food,
+            'calories': calories
+        }
+        actions.addFavFood(fav_food, accessToken)
     }
 
     return (
         <div className="food-info-container">
             <div className="left-content">
-                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button onClick={handle_fav_food(ingredient.foodId, ingredient.measureURI)}><i class="fa-regular fa-heart"></i></button></div>
+                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button onClick={() => { handle_fav_food(ingredient.foodId, ingredient.measureURI, ingredient.food, food_info.calories) }}>add to favorites</button></div>
                 <div className="chart-container">
                     <div className="circle-chart" style={{
                         background: `conic-gradient(

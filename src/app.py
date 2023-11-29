@@ -19,7 +19,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Appointment, Order
+from api.models import db, User, Freelance, Appointment, Order, FavFoods
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -516,6 +516,47 @@ def search_youtube():
     querystring = {"q": query}
     response = requests.get(url, headers=headers, params=querystring)
     return jsonify(response.json())
+
+# Favoritos -------------------------------------------------------------------------------------------------
+@app.route('/addFavFood', methods=['POST'])
+@jwt_required()
+def handle_add_fav_food():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    print(user.id)
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'message': 'Body must be filled'}), 400
+    if 'foodId' not in body or not body['foodId']:
+                return jsonify({'message':'Missing foodId'}), 400
+    if 'measureURI' not in body or not body['measureURI']:
+                return jsonify({'message':'Missing measureURI'}), 400
+    if 'foodName' not in body or not body['foodName']:
+                return jsonify({'message':'Missing foodName'}), 400
+    if 'calories' not in body or not body['calories']:
+                return jsonify({'message':'Missing calories'}), 400
+    if FavFoods.query.filter_by(user_id=user.id, foodId=body['foodId']).first():
+            return jsonify({'msg': 'Food already in favorites'}), 400
+    
+    new_fav_food = FavFoods()
+    new_fav_food.user_id = user.id
+    new_fav_food.foodId = body['foodId']
+    new_fav_food.measureURI = body['measureURI']
+    new_fav_food.foodName = body['foodName']
+    new_fav_food.calories = body['calories']
+    db.session.add(new_fav_food)
+    db.session.commit()
+    return jsonify({'message': 'Fav food succesfully added'})
+
+@app.route('/my-fav-foods', methods=['GET'])
+@jwt_required()
+def handle_user_fav_foods():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    user_fav_foods = FavFoods.query.filter_by(user_id=user.id).all()
+    serialized_user_fav_foods = [favFood.serialize() for favFood in user_fav_foods]
+    return jsonify(serialized_user_fav_foods)
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
