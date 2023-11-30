@@ -517,7 +517,7 @@ def search_youtube():
     response = requests.get(url, headers=headers, params=querystring)
     return jsonify(response.json())
 
-# Favoritos -------------------------------------------------------------------------------------------------
+# FAV FOODS  -------------------------------------------------------------------------------------------------
 @app.route('/addFavFood', methods=['POST'])
 @jwt_required()
 def handle_add_fav_food():
@@ -556,6 +556,20 @@ def handle_user_fav_foods():
     user_fav_foods = FavFoods.query.filter_by(user_id=user.id).all()
     serialized_user_fav_foods = [favFood.serialize() for favFood in user_fav_foods]
     return jsonify(serialized_user_fav_foods)
+
+@app.route('/deleteFavFood/<string:foodId>', methods=['DELETE'])
+@jwt_required()
+def handle_delete_fav_food(foodId):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+
+    fav_food = FavFoods.query.filter_by(user_id=user.id, foodId=foodId).first()
+    if not fav_food:
+        return jsonify({'message': 'Food not found'}), 404
+
+    db.session.delete(fav_food)
+    db.session.commit()
+    return jsonify({'message': 'Fav food successfully deleted'}), 200
 
 
 # this only runs if `$ python src/main.py` is executed

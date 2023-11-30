@@ -10,6 +10,10 @@ export const UserFavFoods = () => {
         actions.userFavFoods(accessToken);
     }, [accessToken]);
 
+    const deleteFavFood = (foodId) => {
+        actions.handleDeleteFavFood(foodId);
+    }
+
     return (
         <div className='food-cards-container'>
             <h4 className='my-appointments'>My Favorite Foods</h4>
@@ -17,7 +21,7 @@ export const UserFavFoods = () => {
                 store.user_fav_foods.map((item, index) => (
                     <div className='food-card2'>
                         <FoodCard label={item.foodName} ENERC_KCAL={item.calories} foodId={item.foodId} measureURI={item.measureURI} />
-                        <button className='deleteFavFood'>
+                        <button className='deleteFavFood' onClick={() => deleteFavFood(item.foodId)}>
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>

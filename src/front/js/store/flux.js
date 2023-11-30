@@ -356,6 +356,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err)
 				}
 			},
+			handleDeleteFavFood: (foodId) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				fetch(`${process.env.BACKEND_URL}/deleteFavFood/${foodId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${accessToken}`
+					}
+				})
+					.then(resp => resp.json())
+					.then(data => {
+						console.log(data);
+						getActions().userFavFoods(accessToken);
+					})
+					.catch(error => console.error("Error:", error));
+			}
 		}
 	};
 };

@@ -14,14 +14,15 @@
     border-color: transparent;
     margin: 0;
     font-family: 'Lato', sans-serif;
+    height: fit-content;
 }
 
 .deleteFavFood {
     opacity: 0;
     position: absolute;
     top: 14px;
-    right: 50%; 
-    transform: translateX(50%); 
+    right: 50%;
+    transform: translateX(50%);
 }
 
 .food-card2:hover .deleteFavFood {
