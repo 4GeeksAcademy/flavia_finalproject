@@ -14,4 +14,10 @@
     background-color: #c9c9c9;
     border-radius: 15px;
     box-shadow: inset 8px 8px 10px #c3c3c3, inset -8px -8px 10px #cfcfcf;
+    display: flex;
+    flex-direction: column;
+}
+
+.deleteFavWorkout {
+    padding: 2vh;
 }

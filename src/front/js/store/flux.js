@@ -431,6 +431,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(err)
 				}
 			},
+			handleDeleteFavWorkout: (videoId) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				fetch(`${process.env.BACKEND_URL}/deleteFavWorkout/${videoId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${accessToken}`
+					}
+				})
+					.then(resp => resp.json())
+					.then(data => {
+						console.log(data);
+						getActions().userFavWorkouts(accessToken);
+					})
+					.catch(error => console.error("Error:", error));
+			},
 		}
 	};
 };

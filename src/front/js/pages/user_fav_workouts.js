@@ -11,6 +11,10 @@ export const UserFavWorkouts = () => {
         actions.userFavWorkouts(accessToken);
     }, [accessToken]);
 
+    const deleteFavWorkout = (videoId) => {
+        actions.handleDeleteFavWorkout(videoId);
+    }
+
     return (
         <div className="videos-container2">
             <h4 className='my-appointments'>My Favorite Workouts</h4>
@@ -21,6 +25,9 @@ export const UserFavWorkouts = () => {
                             <LiteYouTubeEmbed
                                 id={item.videoId}
                             />
+                            <button className='deleteFavWorkout' onClick={() => deleteFavWorkout(item.videoId)}>
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                 ))

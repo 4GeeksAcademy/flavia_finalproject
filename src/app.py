@@ -601,6 +601,20 @@ def handle_user_fav_workouts():
     serialized_user_fav_workouts = [favWorkout.serialize() for favWorkout in user_fav_workouts]
     return jsonify(serialized_user_fav_workouts)
 
+@app.route('/deleteFavWorkout/<string:videoId>', methods=['DELETE'])
+@jwt_required()
+def handle_delete_fav_workout(videoId):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+
+    fav_workout = FavWorkouts.query.filter_by(user_id=user.id, videoId=videoId).first()
+    if not fav_workout:
+        return jsonify({'message': 'Workout not found'}), 404
+    
+    db.session.delete(fav_workout)
+    db.session.commit()
+    return jsonify({'message': 'Fav workout successfully deleted'}), 200
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
