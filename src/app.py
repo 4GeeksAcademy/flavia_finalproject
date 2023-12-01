@@ -19,7 +19,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Appointment, Order, FavFoods
+from api.models import db, User, Freelance, Appointment, Order, FavFoods, FavWorkouts
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -523,7 +523,6 @@ def search_youtube():
 def handle_add_fav_food():
     email = get_jwt_identity()
     user = User.query.filter_by(email=email).first()
-    print(user.id)
     body = request.get_json(silent=True)
     if body is None:
         return jsonify({'message': 'Body must be filled'}), 400
@@ -571,6 +570,50 @@ def handle_delete_fav_food(foodId):
     db.session.commit()
     return jsonify({'message': 'Fav food successfully deleted'}), 200
 
+#FAV WORKOUTS----------------------------------------------------------------------------------------------------
+@app.route('/addFavWorkout', methods=['POST'])
+@jwt_required()
+def handle_add_fav_workout():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    print(user.id)
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'message': 'Body must be filled'}), 400
+    if 'videoId' not in body or not body['videoId']:
+                return jsonify({'message':'Missing videoId'}), 400
+    if FavWorkouts.query.filter_by(user_id=user.id, videoId=body['videoId']).first():
+            return jsonify({'msg': 'video already in favorites'}), 400
+    
+    new_fav_video = FavWorkouts()
+    new_fav_video.user_id = user.id
+    new_fav_video.videoId = body['videoId']
+    db.session.add(new_fav_video)
+    db.session.commit()
+    return jsonify({'message': 'Fav workout succesfully added'})
+
+@app.route('/my-fav-workouts', methods=['GET'])
+@jwt_required()
+def handle_user_fav_workouts():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    user_fav_workouts = FavWorkouts.query.filter_by(user_id=user.id).all()
+    serialized_user_fav_workouts = [favWorkout.serialize() for favWorkout in user_fav_workouts]
+    return jsonify(serialized_user_fav_workouts)
+
+@app.route('/deleteFavWorkout/<string:videoId>', methods=['DELETE'])
+@jwt_required()
+def handle_delete_fav_workout(videoId):
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+
+    fav_workout = FavWorkouts.query.filter_by(user_id=user.id, videoId=videoId).first()
+    if not fav_workout:
+        return jsonify({'message': 'Workout not found'}), 404
+    
+    db.session.delete(fav_workout)
+    db.session.commit()
+    return jsonify({'message': 'Fav workout successfully deleted'}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

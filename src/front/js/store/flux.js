@@ -20,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			articles: [],
 			videos: [],
 			loading: null,
-			user_fav_foods: []
+			user_fav_foods: [],
+			user_fav_workouts: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -371,7 +372,81 @@ const getState = ({ getStore, getActions, setStore }) => {
 						getActions().userFavFoods(accessToken);
 					})
 					.catch(error => console.error("Error:", error));
-			}
+			},
+			addFavWorkout: async (videoId) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				const options = {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${accessToken}`
+					},
+					body: JSON.stringify(videoId),
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}/addFavWorkout`, options)
+				const data = await response.json()
+				if (response.ok) {
+					toast.success(`Great! ${data.message}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(122, 157, 84)",
+						}
+					})
+				} else {
+					console.log('response', response)
+					toast.error(`Try again! ${data.msg}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(205, 92, 8)",
+						},
+					});
+				}
+			},
+			userFavWorkouts: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-fav-workouts`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ user_fav_workouts: data })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			handleDeleteFavWorkout: (videoId) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				fetch(`${process.env.BACKEND_URL}/deleteFavWorkout/${videoId}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${accessToken}`
+					}
+				})
+					.then(resp => resp.json())
+					.then(data => {
+						console.log(data);
+						getActions().userFavWorkouts(accessToken);
+					})
+					.catch(error => console.error("Error:", error));
+			},
 		}
 	};
 };

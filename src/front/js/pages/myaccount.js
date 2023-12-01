@@ -47,7 +47,7 @@ export const MyAccount = () => {
                     <div className="myAccountMain">
                         <div className="containerMyAccount">
                             <div className="optionMyAccount"><i className="fa-solid fa-circle-user"></i>Your personal data</div>
-                            <div className="optionMyAccount"><i class="fa-solid fa-dumbbell"></i>My workouts</div>
+                            <div className="optionMyAccount"><i class="fa-solid fa-dumbbell"></i><Link to="/user-fav-workouts" style={{ color: 'black' }}>My workouts</Link></div>
                             <div className="optionMyAccount"><i className="fa-regular fa-file-lines"></i><Link to="/user-appointments" style={{ color: 'black' }}>My appointments</Link></div>
                             <div className="optionMyAccount"><i class="fa-solid fa-book"></i>Read later</div>
                             <div className="optionMyAccount"><i class="fa-solid fa-heart"></i><Link to="/user-fav-foods" style={{ color: 'black' }}>Favorite food</Link></div>

@@ -19,6 +19,12 @@ export const Exercises = () => {
         setVisibleVideos(prev => prev + 4); // Añade 4 videos más a la visualización
     };
 
+    const handle_fav_workout = (videoId) => {
+        const video_Id = {
+            'videoId': videoId
+        }
+        actions.addFavWorkout(video_Id);
+    }
 
     return (
         <div>
@@ -52,7 +58,7 @@ export const Exercises = () => {
                             <p className="video-card-body">
                                 {video.description}
                             </p>
-                            <p className="video-footer">Done by <span className="by-name">{video.channel.handle}</span></p>
+                            <p className="video-footer">Done by <span className="by-name">{video.channel.handle}</span><button onClick={() => { handle_fav_workout(video.id) }}>save</button></p>
                         </div>
                     ))}
                 </div>
