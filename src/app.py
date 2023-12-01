@@ -592,6 +592,15 @@ def handle_add_fav_workout():
     db.session.commit()
     return jsonify({'message': 'Fav workout succesfully added'})
 
+@app.route('/my-fav-workouts', methods=['GET'])
+@jwt_required()
+def handle_user_fav_workouts():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    user_fav_workouts = FavWorkouts.query.filter_by(user_id=user.id).all()
+    serialized_user_fav_workouts = [favWorkout.serialize() for favWorkout in user_fav_workouts]
+    return jsonify(serialized_user_fav_workouts)
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))

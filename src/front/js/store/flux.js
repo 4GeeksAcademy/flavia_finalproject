@@ -20,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			articles: [],
 			videos: [],
 			loading: null,
-			user_fav_foods: []
+			user_fav_foods: [],
+			user_fav_workouts: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -413,6 +414,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 							backgroundColor: "rgb(205, 92, 8)",
 						},
 					});
+				}
+			},
+			userFavWorkouts: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-fav-workouts`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ user_fav_workouts: data })
+					}
+				} catch (err) {
+					console.log(err)
 				}
 			},
 		}
