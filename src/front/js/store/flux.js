@@ -371,7 +371,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 						getActions().userFavFoods(accessToken);
 					})
 					.catch(error => console.error("Error:", error));
-			}
+			},
+			addFavWorkout: async (videoId) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				const options = {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${accessToken}`
+					},
+					body: JSON.stringify(videoId),
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}/addFavWorkout`, options)
+				const data = await response.json()
+				if (response.ok) {
+					toast.success(`Great! ${data.message}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(122, 157, 84)",
+						}
+					})
+				} else {
+					console.log('response', response)
+					toast.error(`Try again! ${data.msg}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(205, 92, 8)",
+						},
+					});
+				}
+			},
 		}
 	};
 };
