@@ -21,7 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			videos: [],
 			loading: null,
 			user_fav_foods: [],
-			user_fav_workouts: []
+			user_fav_workouts: [],
+			user_fav_articles: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -444,6 +445,80 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(data => {
 						console.log(data);
 						getActions().userFavWorkouts(accessToken);
+					})
+					.catch(error => console.error("Error:", error));
+			},
+			addFavArticle: async (fav_article, token) => {
+				const options = {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${token}`
+					},
+					body: JSON.stringify(fav_article),
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}/addFavArticle`, options)
+				const data = await response.json()
+				if (response.ok) {
+					toast.success(`Great! ${data.message}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(122, 157, 84)",
+						}
+					})
+				} else {
+					console.log('response', response)
+					toast.error(`Try again! ${data.msg}`, {
+						position: "bottom-center",
+						autoClose: 2000,
+						hideProgressBar: true,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						style: {
+							backgroundColor: "rgb(205, 92, 8)",
+						},
+					});
+				}
+			},
+			userFavArticles: async (token) => {
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Authorization': `Bearer ${token}` }
+					}
+					const response = await fetch(`${process.env.BACKEND_URL}/my-fav-articles`, options)
+					const data = await response.json()
+					if (response.ok) {
+						setStore({ user_fav_articles: data })
+					}
+				} catch (err) {
+					console.log(err)
+				}
+			},
+			handleDeleteFavArticle: (fav_article) => {
+				const accessToken = sessionStorage.getItem('accessToken');
+				fetch(`${process.env.BACKEND_URL}/deleteFavArticle`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${accessToken}`
+					},
+					body: JSON.stringify(fav_article)
+				})
+					.then(resp => resp.json())
+					.then(data => {
+						console.log(data);
+						getActions().userFavArticles(accessToken);
 					})
 					.catch(error => console.error("Error:", error));
 			},

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from "../store/appContext";
 import "../../styles/searchCard.css"
 
 export const SearchCard = ({ title, url, author }) => {
+    const { store, actions } = useContext(Context)
 
     const imageUrls = [
         "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -11,6 +13,17 @@ export const SearchCard = ({ title, url, author }) => {
     const [imageUrl] = useState(
         imageUrls[Math.floor(Math.random() * imageUrls.length)]
     );
+
+    const accessToken = sessionStorage.getItem('accessToken');
+    const handle_fav_article = (title, author, url, imageUrl) => {
+        const fav_article = {
+            'title': title,
+            'author': author,
+            'url': url,
+            'imageUrl': imageUrl
+        }
+        actions.addFavArticle(fav_article, accessToken)
+    }
 
     return (
         <div className="card">
@@ -26,8 +39,10 @@ export const SearchCard = ({ title, url, author }) => {
                 <p>Author: {author}</p>
             </div>
             <div className="card-action">
+                <button onClick={() => { handle_fav_article(title, author, url, imageUrl) }}>save</button>
                 <a href={url} target="_blank" className="action-link">+</a>
             </div>
+
         </div>
     )
 }
