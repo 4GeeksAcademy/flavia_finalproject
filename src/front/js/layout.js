@@ -17,6 +17,7 @@ import { NewsSearch } from "./pages/newsSearch";
 import { Exercises } from "./pages/exercises";
 import { UserFavFoods } from "./pages/user_fav_foods";
 import { UserFavWorkouts } from "./pages/user_fav_workouts";
+import { UserFavArticles } from "./pages/user_fav_articles";
 
 import injectContext from "./store/appContext";
 
@@ -59,6 +60,7 @@ const Layout = () => {
                             <Route element={<Exercises />} path="/exercises" />
                             <Route element={<UserFavFoods />} path="/user-fav-foods" />
                             <Route element={<UserFavWorkouts />} path="/user-fav-workouts" />
+                            <Route element={<UserFavArticles />} path="/user-fav-articles" />
                             <Route path="*" element={<h1>Not found!</h1>} />
                         </Routes>
                         <Footer />

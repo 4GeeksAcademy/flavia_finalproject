@@ -19,7 +19,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Freelance, Appointment, Order, FavFoods, FavWorkouts
+from api.models import db, User, Freelance, Appointment, Order, FavFoods, FavWorkouts, FavArticles
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -576,7 +576,6 @@ def handle_delete_fav_food(foodId):
 def handle_add_fav_workout():
     email = get_jwt_identity()
     user = User.query.filter_by(email=email).first()
-    print(user.id)
     body = request.get_json(silent=True)
     if body is None:
         return jsonify({'message': 'Body must be filled'}), 400
@@ -614,6 +613,65 @@ def handle_delete_fav_workout(videoId):
     db.session.delete(fav_workout)
     db.session.commit()
     return jsonify({'message': 'Fav workout successfully deleted'}), 200
+
+#FAV ARTICLES------------------------------------------------------------------------------------------------------------------------------
+@app.route('/addFavArticle', methods=['POST'])
+@jwt_required()
+def handle_add_fav_article():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'message': 'Body must be filled'}), 400
+    if 'title' not in body or not body['title']:
+                return jsonify({'message':'Missing title'}), 400
+    if 'author' not in body or not body['author']:
+                return jsonify({'message':'Missing author'}), 400
+    if 'url' not in body or not body['url']:
+                return jsonify({'message':'Missing url'}), 400
+    if FavArticles.query.filter_by(user_id=user.id, title=body['title'], author=body['author'], url=body['url']).first():
+            return jsonify({'msg': 'video already in favorites'}), 400
+    
+    new_fav_article = FavArticles()
+    new_fav_article.user_id = user.id
+    new_fav_article.title = body['title']
+    new_fav_article.author = body['author']
+    new_fav_article.url = body['url']
+    new_fav_article.imageUrl = body['imageUrl']
+    db.session.add(new_fav_article)
+    db.session.commit()
+    return jsonify({'message': 'Fav article succesfully added'})
+
+@app.route('/my-fav-articles', methods=['GET'])
+@jwt_required()
+def handle_user_fav_articles():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    user_fav_articles = FavArticles.query.filter_by(user_id=user.id).all()
+    serialized_user_fav_articles = [favArticle.serialize() for favArticle in user_fav_articles]
+    return jsonify(serialized_user_fav_articles)
+
+@app.route('/deleteFavArticle', methods=['DELETE'])
+@jwt_required()
+def handle_delete_fav_article():
+    email = get_jwt_identity()
+    user = User.query.filter_by(email=email).first()
+    body = request.get_json(silent=True)
+    if body is None:
+        return jsonify({'message': 'Body must be filled'}), 400
+    if 'title' not in body or not body['title']:
+                return jsonify({'message':'Missing title'}), 400
+    if 'author' not in body or not body['author']:
+                return jsonify({'message':'Missing author'}), 400
+    if 'url' not in body or not body['url']:
+                return jsonify({'message':'Missing url'}), 400
+    fav_article = FavArticles.query.filter_by(user_id=user.id, title=body['title'], author=body['author'], url=body['url']).first()
+    if not fav_article:
+        return jsonify({'message': 'Article not found'}), 404
+    
+    db.session.delete(fav_article)
+    db.session.commit()
+    return jsonify({'message': 'Fav article successfully deleted'}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

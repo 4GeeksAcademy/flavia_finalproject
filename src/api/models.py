@@ -120,3 +120,25 @@ class FavWorkouts(db.Model):
             "videoId": self.videoId,
         }
 
+class FavArticles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_data = db.relationship(User)
+    title = db.Column(db.String(100), unique=False, nullable=False)
+    author = db.Column(db.String(80), unique=False, nullable=False)
+    url = db.Column(db.String(200), unique=False, nullable=False)
+    imageUrl = db.Column(db.String(200), unique=False, nullable=True)
+
+    def __repr__(self):
+        return 'Fav article {}'.format(self.title)
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_data": self.user_data.serialize(),
+            "title": self.title,
+            "author": self.author,
+            "url": self.url,
+            "imageUrl": self.imageUrl
+        }
+
