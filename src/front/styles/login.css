@@ -185,6 +185,11 @@
   }
 }
 
+.login-box p {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
 .login-box p:last-child {
   color: #aaa;
   font-size: 14px;
