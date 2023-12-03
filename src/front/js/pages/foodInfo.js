@@ -65,7 +65,7 @@ export const FoodInfo = () => {
     return (
         <div className="food-info-container">
             <div className="left-content">
-                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button className='favButton' onClick={() => { handle_fav_food(ingredient.foodId, ingredient.measureURI, ingredient.food, food_info.calories) }}><i class="fa-solid fa-heart"></i></button></div>
+                <div className='food-info-title'><h2>{ingredient ? ingredient.food : 'No food found'}</h2> <button className='favButton' onClick={() => { handle_fav_food(ingredient.foodId, ingredient.measureURI, ingredient.food, food_info.calories) }}>Save <i class="fa-solid fa-heart"></i></button></div>
                 <div className="chart-container">
                     <div className="circle-chart" style={{
                         background: `conic-gradient(
