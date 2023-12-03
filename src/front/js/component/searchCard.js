@@ -39,7 +39,7 @@ export const SearchCard = ({ title, url, author }) => {
                 <p>Author: {author}</p>
             </div>
             <div className="card-action">
-                <button onClick={() => { handle_fav_article(title, author, url, imageUrl) }}>save</button>
+                <button className='favButton' onClick={() => { handle_fav_article(title, author, url, imageUrl) }}>Save <i class="fa-solid fa-heart"></i></button>
                 <a href={url} target="_blank" className="action-link">+</a>
             </div>
 

@@ -58,7 +58,7 @@ export const Exercises = () => {
                             <p className="video-card-body">
                                 {video.description}
                             </p>
-                            <p className="video-footer">Done by <span className="by-name">{video.channel.handle}</span><button onClick={() => { handle_fav_workout(video.id) }}>save</button></p>
+                            <p className="video-footer">Done by <span className="by-name">{video.channel.handle}</span><button className='favButton' onClick={() => { handle_fav_workout(video.id) }}>Save <i class="fa-solid fa-heart"></i></button></p>
                         </div>
                     ))}
                 </div>

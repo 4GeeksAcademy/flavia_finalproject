@@ -207,3 +207,11 @@
 .fav-food:hover::before {
     width: 9em;
 }
+
+.favButton {
+    padding: 0 1.5vw;
+}
+
+.favButton:hover i {
+    color: red
+}
